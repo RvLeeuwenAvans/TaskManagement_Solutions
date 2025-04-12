@@ -13,55 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/TaskApi/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/TaskAPI.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/TaskAPI.http" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/appsettings.Development.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/Microsoft.OpenApi.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/TaskAPI.deps.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/TaskAPI.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/TaskAPI.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/TaskAPI.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/TaskAPI.runtimeconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/TaskAPI.staticwebassets.endpoints.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/appsettings.Development.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/bin/Debug/net9.0/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.AssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.AssemblyInfoInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.GlobalUsings.g.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.MvcApplicationPartsAssemblyInfo.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.assets.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.csproj.AssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.csproj.Up2Date" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.genruntimeconfig.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/TaskAPI.sourcelink.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/apphost.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/ref/TaskAPI.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/refint/TaskAPI.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/staticwebassets.build.endpoints.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/staticwebassets.build.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/staticwebassets/msbuild.build.TaskAPI.props" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.TaskAPI.props" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.TaskAPI.props" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/TaskAPI.csproj.nuget.dgspec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/TaskAPI.csproj.nuget.g.props" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/TaskAPI.csproj.nuget.g.targets" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/project.assets.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/project.nuget.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/project.packagespec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskAPI/obj/rider.project.restore.info" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +25,11 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="14-api-skeleton-opzetten" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
