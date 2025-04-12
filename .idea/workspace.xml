@@ -5,6 +5,8 @@
     <projectFile profileName="https">TaskAPI/TaskAPI.csproj</projectFile>
     <projectFile profileName="http">TaskApi/TaskApi.csproj</projectFile>
     <projectFile profileName="https">TaskApi/TaskApi.csproj</projectFile>
+    <projectFile profileName="http">TaskManagement.API/TaskManagement.API.csproj</projectFile>
+    <projectFile profileName="https">TaskManagement.API/TaskManagement.API.csproj</projectFile>
     <projectFile profileName="http">WebApplication1/WebApplication1.csproj</projectFile>
     <projectFile profileName="https">WebApplication1/WebApplication1.csproj</projectFile>
   </component>
@@ -12,9 +14,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TaskApi/.gitignore" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="add git ignore">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.API/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/TaskApi.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/TaskApi.http" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/TaskApi.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/TaskApi.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/TaskApi.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/TaskApi.GlobalUsings.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/TaskApi.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/Debug/net9.0/TaskApi.csproj.AssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/TaskApi.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/TaskApi.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/TaskApi.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/project.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/project.packagespec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskApi/obj/rider.project.restore.info" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +50,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="14-api-skeleton-opzetten" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -78,21 +101,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.TaskAPI: http.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.TaskAPI: http.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "18-api-setup-skeleton",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.TaskAPI: http">
     <configuration name="TaskAPI: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/TaskAPI/TaskAPI.csproj" />
@@ -154,6 +182,36 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TaskManagement.API: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/TaskManagement.API/TaskManagement.API.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="http" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="TaskManagement.API: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/TaskManagement.API/TaskManagement.API.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="https" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -191,7 +249,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744451258783</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add git ignore">
+      <option name="closed" value="true" />
+      <created>1744461191505</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744461191505</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,9 +290,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="add git ignore" />
     <MESSAGE value="add solution git ignore" />
     <MESSAGE value="setup skeleton API" />
-    <option name="LAST_COMMIT_MESSAGE" value="setup skeleton API" />
+    <MESSAGE value="add git ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="add git ignore" />
   </component>
 </project>
