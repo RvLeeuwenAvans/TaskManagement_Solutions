@@ -80,11 +80,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskAPI\\TaskAPI.csproj",
-      "projectName": "TaskAPI",
-      "projectPath": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskAPI\\TaskAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskApi\\TaskApi.csproj",
+      "projectName": "TaskApi",
+      "projectPath": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskApi\\TaskApi.csproj",
       "packagesPath": "C:\\Users\\Ridwan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskAPI\\obj\\",
+      "outputPath": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ridwan\\AppData\\Roaming\\NuGet\\NuGet.Config"
