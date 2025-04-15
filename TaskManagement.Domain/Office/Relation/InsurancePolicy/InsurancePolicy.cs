@@ -15,6 +15,10 @@ public class InsurancePolicy
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public int PolicyNumber { get; init; }
     
+    [Required]
+    [MaxLength(100)]
+    public required string Type { get; set; }
+    
     // Parent Foreign key attributes:
     [Required]
     public Guid RelationId { get; init; }
