@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using TaskManagement.API.Plumbing;
+using TaskManagement.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.ConfigureDefaultServices();
+builder.Services.ConfigureDefaultServices(builder.Configuration);
 
 var app = builder.Build();
 
