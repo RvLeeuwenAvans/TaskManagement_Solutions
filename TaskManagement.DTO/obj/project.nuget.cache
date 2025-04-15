@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9Ejsh5fFlgI=",
+  "dgSpecHash": "wLH1iRHIdj0=",
   "success": true,
   "projectFilePath": "C:\\Users\\Ridwan\\RiderProjects\\TaskManagement_API_CMS\\TaskManagement.DTO\\TaskManagement.DTO.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Ridwan\\.nuget\\packages\\microsoft.net.sdk.compilers.toolset\\9.0.200\\microsoft.net.sdk.compilers.toolset.9.0.200.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

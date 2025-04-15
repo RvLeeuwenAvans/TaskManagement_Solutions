@@ -20,6 +20,10 @@ public class DamageClaim
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public required int DamageNumberSub { get; init; }
     
+    [Required]
+    [MaxLength(100)]
+    public required string Type { get; set; }
+    
     // Parent Foreign key attributes:
     [Required]
     public Guid RelationId { get; init; }

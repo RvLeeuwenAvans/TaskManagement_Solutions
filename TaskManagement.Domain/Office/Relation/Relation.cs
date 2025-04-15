@@ -17,9 +17,17 @@ public class Relation
     [MaxLength(50)]
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public int RelationNumber { get; init; }
-
+    
+    [Required]
+    [MaxLength(50)]
+    public required string FirstName { get; set; }
+    
+    [Required]
+    [MaxLength(50)]
+    public required string LastName { get; set; }
+    
     // Parent Foreign key attributes:
-    [Required(ErrorMessage = "Relation needs to be managed by an office")]
+    [Required]
     public Guid OfficeId { get; init; }
 
     [ForeignKey("OfficeId")] public virtual required Office Office { get; init; }
