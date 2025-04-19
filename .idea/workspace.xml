@@ -14,13 +14,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Add Note Logic: same as previous commits">
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IRelationRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/RelationMappingProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/RelationService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/Validators/RelationCreateDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/Validators/RelationUpdateDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/RelationRepository.cs" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="added validators, service, repo for Relation">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IDamageClaimRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/DamageClaimMappingProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/DamageClaimService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/DamageClaim/Validators/DamageClaimCreateDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/DamageClaim/Validators/DamageClaimUpdateDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/DamageClaimRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" afterDir="false" />
@@ -125,7 +125,7 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeCreateValidator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeUpdateValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/bin/Debug/net9.0/TaskManagement.DTO.deps.json" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Office.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/DamageClaim/DamageClaim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/InsurancePolicy/InsurancePolicy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -140,6 +140,7 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/UserTaskRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/TaskManagementDatabaseContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Ridwan/RiderProjects/TaskManagement_API_CMS/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/bin/Debug/net9.0/TaskManagement.Infrastructure.deps.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/obj/Debug/net9.0/TaskManagement.Infrastructure.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -317,7 +318,7 @@
       <workItem from="1744742308836" duration="3048000" />
       <workItem from="1745063120890" duration="41000" />
       <workItem from="1745063174141" duration="6120000" />
-      <workItem from="1745069416020" duration="2960000" />
+      <workItem from="1745069416020" duration="3553000" />
     </task>
     <task id="LOCAL-00001" summary="add git ignore">
       <option name="closed" value="true" />
@@ -407,7 +408,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745072426532</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="added validators, service, repo for Relation">
+      <option name="closed" value="true" />
+      <created>1745073013025</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745073013025</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +459,8 @@
     <MESSAGE value="create remaining Office logic; repo, validators, service" />
     <MESSAGE value="Create service, validation and repo logic for userTask" />
     <MESSAGE value="Add Note Logic: same as previous commits" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Note Logic: same as previous commits" />
+    <MESSAGE value="added validators, service, repo for Relation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added validators, service, repo for Relation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
