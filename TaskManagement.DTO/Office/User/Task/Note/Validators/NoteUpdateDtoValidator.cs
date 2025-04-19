@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using TaskManagement.DTO.Office.User.Task.Note;
 
-namespace TaskManagement.Application.Validators;
+namespace TaskManagement.DTO.Office.User.Task.Note.Validators;
 
 public class NoteUpdateDtoValidator : AbstractValidator<NoteUpdateDto>
 {

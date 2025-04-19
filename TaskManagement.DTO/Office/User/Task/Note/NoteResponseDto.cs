@@ -1,7 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.User.Task.Note;
 
-public record NoteResponseDto
-{
+public record NoteResponseDto {
     public Guid Id { get; init; }
     public Guid TaskId { get; init; }
     

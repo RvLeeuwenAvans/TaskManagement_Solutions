@@ -8,13 +8,8 @@ public class RelationMappingProfile : Profile
 {
     public RelationMappingProfile()
     {
-        // Map from Relation to RelationResponseDto
         CreateMap<Relation, RelationResponseDto>();
-
-        // Map from RelationCreateDto to Relation
         CreateMap<RelationCreateDto, Relation>();
-
-        // Map from RelationUpdateDto to Relation
         CreateMap<RelationUpdateDto, Relation>()
             .ForMember(dest => dest.FirstName, opt =>
                 opt.Condition(src => !string.IsNullOrWhiteSpace(src.FirstName)))
