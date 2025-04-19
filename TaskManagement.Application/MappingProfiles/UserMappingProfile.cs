@@ -12,9 +12,7 @@ public class UserMappingProfile : Profile
         CreateMap<UserCreateDto, User>();
         CreateMap<UserUpdateDto, User>()
             .ForAllMembers(
-                opts => opts.Condition(
-                    (src, dest, srcMember) => srcMember != null
-                )
-            );
+                opts => 
+                    opts.Condition((src, dest, srcMember) => srcMember != null));
     }
 }

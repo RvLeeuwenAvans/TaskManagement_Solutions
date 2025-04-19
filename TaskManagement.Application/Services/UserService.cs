@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.User;
@@ -6,7 +7,12 @@ using TaskManagement.DTO.Office.User;
 
 namespace TaskManagement.Application.Services;
 
-public class UserService(IUserRepository userRepository, IMapper mapper)
+public class UserService(
+    IUserRepository userRepository,
+    IMapper mapper,
+    IValidator<UserCreateDto> createValidator,
+    IValidator<UserUpdateDto> updateValidator
+)
 {
     public async Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
     {
@@ -26,6 +32,10 @@ public class UserService(IUserRepository userRepository, IMapper mapper)
 
     public async Task<UserResponseDto> CreateUserAsync(UserCreateDto dto)
     {
+        var validationResult = await createValidator.ValidateAsync(dto);
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+
         var user = mapper.Map<User>(dto);
         await userRepository.AddAsync(user);
         return mapper.Map<UserResponseDto>(user);
@@ -33,6 +43,10 @@ public class UserService(IUserRepository userRepository, IMapper mapper)
 
     public async Task<bool> UpdateUserAsync(UserUpdateDto dto)
     {
+        var validationResult = await updateValidator.ValidateAsync(dto);
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+
         var user = await userRepository.GetByIdAsync(dto.Id);
         if (user is null)
             return false;

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaskManagement.DTO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3ceaa0c5c23728a3b44a5169281833c27a32d9c7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f5b375f7b618355a31e16672b3ecf99a72e2241")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaskManagement.DTO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaskManagement.DTO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
