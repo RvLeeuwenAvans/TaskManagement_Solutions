@@ -12,11 +12,13 @@ public static class ApplicationService
         services.AddAutoMapper(typeof(OfficeMappingProfile));
         services.AddAutoMapper(typeof(UserTaskMappingProfile));
         services.AddAutoMapper(typeof(NoteMappingProfile));
-
+        services.AddAutoMapper(typeof(RelationMappingProfile));
+        
         services.AddScoped<OfficeService>();
         services.AddScoped<UserService>();
         services.AddScoped<UserTaskService>();
         services.AddScoped<NoteService>();
+        services.AddScoped<RelationService>();
         
         return services;
     }
