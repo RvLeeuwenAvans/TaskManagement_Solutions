@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Interfaces;
 using TaskManagement.Application.Interfaces.Repositories;
+using TaskManagement.Application.Services;
 using TaskManagement.Infrastructure.Persistence;
 using TaskManagement.Infrastructure.Persistence.Repositories;
 
@@ -10,7 +11,7 @@ namespace TaskManagement.Infrastructure.Plumbing;
 
 public static class InfrastructureService
 {
-    public static IServiceCollection ConfigureDefaults(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureInfraDefaults(this IServiceCollection services, IConfiguration configuration)
     {
         // Add DB context with MariaDB provider
         services.AddDbContext<TaskManagementDatabaseContext>(options =>
@@ -22,8 +23,9 @@ public static class InfrastructureService
         );
         
         services.AddScoped<IDbContext, TaskManagementDatabaseContext>();
+        services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-
+        
         return services;
     }
 }

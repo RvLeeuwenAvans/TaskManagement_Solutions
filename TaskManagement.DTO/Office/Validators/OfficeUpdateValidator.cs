@@ -1,27 +1,16 @@
 ﻿using FluentValidation;
-using TaskManagement.DTO.Office.User;
 
 namespace TaskManagement.DTO.Office.Validators;
 
-public class UserUpdateDtoValidator : AbstractValidator<UserUpdateDto>
+public class OfficeUpdateDtoValidator : AbstractValidator<OfficeUpdateDto>
 {
-    public UserUpdateDtoValidator()
+    public OfficeUpdateDtoValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("User ID is required.");
+            .NotEmpty();
 
-        When(x => x.FirstName is not null, () =>
-        {
-            RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .MaximumLength(50);
-        });
-
-        When(x => x.LastName is not null, () =>
-        {
-            RuleFor(x => x.LastName)
-                .NotEmpty()
-                .MaximumLength(50);
-        });
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .MaximumLength(100);
     }
 }

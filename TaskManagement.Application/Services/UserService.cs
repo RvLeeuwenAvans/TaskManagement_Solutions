@@ -11,8 +11,7 @@ public class UserService(
     IUserRepository userRepository,
     IMapper mapper,
     IValidator<UserCreateDto> createValidator,
-    IValidator<UserUpdateDto> updateValidator
-)
+    IValidator<UserUpdateDto> updateValidator)
 {
     public async Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
     {

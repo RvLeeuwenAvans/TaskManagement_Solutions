@@ -14,26 +14,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Create User: Repo, Mapping and Service">
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/OfficeMappingProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/User/Validators/UserCreateValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/User/Validators/UserUpdateValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeCreateValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeUpdateValidator.cs" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Added validators for User; and started creating logic for Office DTO">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IOfficeRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/OfficeService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/OfficeRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.API/TaskManagement.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.API/TaskManagement.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/UserMappingProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/UserMappingProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.Application/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/TaskManagement.DTO.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/TaskManagement.DTO.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/TaskManagement.DTO.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/TaskManagement.DTO.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeUpdateValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeUpdateValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +72,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/24dd1164ba47541cb1d3eb011e638e16953dbea3ae3f4dc208c3bbf3e96298a/ServiceCollectionServiceExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/Controllers/WeatherForecastController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -302,7 +293,7 @@
       <workItem from="1744707596705" duration="23937000" />
       <workItem from="1744742308836" duration="3048000" />
       <workItem from="1745063120890" duration="41000" />
-      <workItem from="1745063174141" duration="4655000" />
+      <workItem from="1745063174141" duration="5239000" />
     </task>
     <task id="LOCAL-00001" summary="add git ignore">
       <option name="closed" value="true" />
@@ -360,7 +351,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745066103961</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added validators for User; and started creating logic for Office DTO">
+      <option name="closed" value="true" />
+      <created>1745067969196</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745067969196</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -399,7 +398,8 @@
     <MESSAGE value="Add new git ignores" />
     <MESSAGE value="Fix type" />
     <MESSAGE value="Create User: Repo, Mapping and Service" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create User: Repo, Mapping and Service" />
+    <MESSAGE value="Added validators for User; and started creating logic for Office DTO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added validators for User; and started creating logic for Office DTO" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
