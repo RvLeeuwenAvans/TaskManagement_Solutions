@@ -14,13 +14,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="added validators, service, repo for Relation">
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IDamageClaimRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/DamageClaimMappingProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/DamageClaimService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/DamageClaim/Validators/DamageClaimCreateDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/DamageClaim/Validators/DamageClaimUpdateDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/DamageClaimRepository.cs" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Same as last commit but for DamageClaim entity">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IInsurancePolicyRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/InsurancePolicyMappingProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/InsurancePolicyService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/InsurancePolicy/Validators/InsurancePolicyCreateDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/Relation/InsurancePolicy/Validators/InsurancePolicyUpdateValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/InsurancePolicyRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" afterDir="false" />
@@ -318,7 +318,7 @@
       <workItem from="1744742308836" duration="3048000" />
       <workItem from="1745063120890" duration="41000" />
       <workItem from="1745063174141" duration="6120000" />
-      <workItem from="1745069416020" duration="3553000" />
+      <workItem from="1745069416020" duration="4863000" />
     </task>
     <task id="LOCAL-00001" summary="add git ignore">
       <option name="closed" value="true" />
@@ -416,7 +416,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745073013025</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Same as last commit but for DamageClaim entity">
+      <option name="closed" value="true" />
+      <created>1745073560200</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745073560200</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -460,7 +468,8 @@
     <MESSAGE value="Create service, validation and repo logic for userTask" />
     <MESSAGE value="Add Note Logic: same as previous commits" />
     <MESSAGE value="added validators, service, repo for Relation" />
-    <option name="LAST_COMMIT_MESSAGE" value="added validators, service, repo for Relation" />
+    <MESSAGE value="Same as last commit but for DamageClaim entity" />
+    <option name="LAST_COMMIT_MESSAGE" value="Same as last commit but for DamageClaim entity" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -14,6 +14,7 @@ public static class ApplicationService
         services.AddAutoMapper(typeof(NoteMappingProfile));
         services.AddAutoMapper(typeof(RelationMappingProfile));
         services.AddAutoMapper(typeof(DamageClaimMappingProfile));
+        services.AddAutoMapper(typeof(InsurancePolicyMappingProfile));
         
         services.AddScoped<OfficeService>();
         services.AddScoped<UserService>();
@@ -21,6 +22,7 @@ public static class ApplicationService
         services.AddScoped<NoteService>();
         services.AddScoped<RelationService>();
         services.AddScoped<DamageClaimService>();
+        services.AddScoped<InsurancePolicyService>();
         
         return services;
     }

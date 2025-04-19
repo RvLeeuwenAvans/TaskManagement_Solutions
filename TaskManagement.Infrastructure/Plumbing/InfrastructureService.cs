@@ -28,6 +28,7 @@ public static class InfrastructureService
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRelationRepository, RelationRepository>();
         services.AddScoped<IDamageClaimRepository, DamageClaimRepository>();
+        services.AddScoped<IInsurancePolicyRepository, InsurancePolicyRepository>();
 
         return services;
     }
