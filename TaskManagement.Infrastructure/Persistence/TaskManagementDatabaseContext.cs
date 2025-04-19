@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagement.Appplication.Interfaces;
+using TaskManagement.Application.Interfaces;
 using TaskManagement.Domain;
 using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;

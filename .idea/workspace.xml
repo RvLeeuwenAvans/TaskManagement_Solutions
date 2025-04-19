@@ -14,11 +14,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Add new git ignores">
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/.gitignore" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/TaskManagement.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Application/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Appplication/Interfaces/IDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/IDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Appplication/TaskManagement.Appplication.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/TaskManagement.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/TaskManagement.Infrastructure.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +38,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="20-api-database-integration-domain-architecture" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,8 +75,12 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/Controllers/WeatherForecastController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Appplication/Interfaces/IDbContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Appplication/bin/Debug/net9.0/TaskManagement.Appplication.deps.json" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/WeatherForecast.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Interfaces/IDbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/OfficeCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/OfficeResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/OfficeUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -91,6 +102,7 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Office.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/DamageClaim/DamageClaim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/InsurancePolicy/InsurancePolicy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -99,6 +111,7 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/UserTask.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/User.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/TaskManagementDatabaseContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -120,7 +133,7 @@
     &quot;.NET Project.API.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;24-api-setup-api-repositories-services&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -272,6 +285,8 @@
       <workItem from="1744477264680" duration="6602000" />
       <workItem from="1744707596705" duration="23937000" />
       <workItem from="1744742308836" duration="3048000" />
+      <workItem from="1745063120890" duration="41000" />
+      <workItem from="1745063174141" duration="340000" />
     </task>
     <task id="LOCAL-00001" summary="add git ignore">
       <option name="closed" value="true" />

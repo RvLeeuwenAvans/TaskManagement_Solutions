@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TaskManagement.Domain;
 using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;
@@ -9,7 +8,7 @@ using TaskManagement.Domain.Office.User;
 using TaskManagement.Domain.Office.User.Task;
 using TaskManagement.Domain.Office.User.Task.Note;
 
-namespace TaskManagement.Appplication.Interfaces;
+namespace TaskManagement.Application.Interfaces;
 
 public interface IDbContext
 {
