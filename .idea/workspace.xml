@@ -14,14 +14,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IUserTaskRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/UserTaskMappingProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/UserTaskService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Validators/UserTaskCreateDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Validators/UserTaskUpdateDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/UserTaskRepository.cs" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Create service, validation and repo logic for userTask">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/INoteRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/NoteMappingProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/NoteService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/Validators/NoteCreateDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/Validators/NoteUpdateDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/NoteRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,21 +77,26 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/24dd1164ba47541cb1d3eb011e638e16953dbea3ae3f4dc208c3bbf3e96298a/ServiceCollectionServiceExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/Controllers/WeatherForecastController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.API/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/Plumbing/ServiceDefaults.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/WeatherForecast.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.API/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Interfaces/IDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/INoteRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IOfficeRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IUserRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IUserTaskRepository.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/NoteMappingProfile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/OfficeMappingProfile.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/UserTaskMappingProfile.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Services/NoteService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Services/OfficeService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Services/UserService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Services/UserTaskService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Services/UserService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/Services/UserTaskService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Application/bin/Debug/net9.0/TaskManagement.Application.deps.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/OfficeCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/OfficeResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/OfficeUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -102,32 +112,38 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/NoteCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/NoteResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/NoteUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/UserTaskCreateDto.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/UserTaskResponseDto.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/UserTaskUpdateDto.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Validators/UserTaskCreateDtoValidator.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Validators/UserTaskUpdateDtoValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/Validators/NoteCreateDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Note/Validators/NoteUpdateDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/UserTaskCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/UserTaskResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/UserTaskUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Validators/UserTaskCreateDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Task/Validators/UserTaskUpdateDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Validators/UserCreateValidator.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Validators/UserUpdateValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Validators/UserCreateValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/Validators/UserUpdateValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeCreateValidator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/Validators/OfficeUpdateValidator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/bin/Debug/net9.0/TaskManagement.DTO.deps.json" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Office.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/DamageClaim/DamageClaim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/InsurancePolicy/InsurancePolicy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/Relation.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/LinkedObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/LinkedObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/Note/Note.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/UserTask.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/UserTask.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/User.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/obj/Debug/net9.0/TaskManagement.Domain.GlobalUsings.g.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/NoteRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/OfficeRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/UserTaskRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/TaskManagementDatabaseContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/bin/Debug/net9.0/TaskManagement.Infrastructure.deps.json" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/obj/Debug/net9.0/TaskManagement.Infrastructure.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -156,7 +172,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -303,7 +319,7 @@
       <workItem from="1744742308836" duration="3048000" />
       <workItem from="1745063120890" duration="41000" />
       <workItem from="1745063174141" duration="6120000" />
-      <workItem from="1745069416020" duration="1469000" />
+      <workItem from="1745069416020" duration="2403000" />
     </task>
     <task id="LOCAL-00001" summary="add git ignore">
       <option name="closed" value="true" />
@@ -377,7 +393,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745068606145</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Create service, validation and repo logic for userTask">
+      <option name="closed" value="true" />
+      <created>1745071676733</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1745071676733</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -418,7 +442,8 @@
     <MESSAGE value="Create User: Repo, Mapping and Service" />
     <MESSAGE value="Added validators for User; and started creating logic for Office DTO" />
     <MESSAGE value="create remaining Office logic; repo, validators, service" />
-    <option name="LAST_COMMIT_MESSAGE" value="create remaining Office logic; repo, validators, service" />
+    <MESSAGE value="Create service, validation and repo logic for userTask" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create service, validation and repo logic for userTask" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

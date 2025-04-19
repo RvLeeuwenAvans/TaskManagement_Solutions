@@ -22,6 +22,7 @@ public static class InfrastructureService
             ).EnableSensitiveDataLogging().LogTo(Console.WriteLine)
         );
         
+        services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<IDbContext, TaskManagementDatabaseContext>();
         services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

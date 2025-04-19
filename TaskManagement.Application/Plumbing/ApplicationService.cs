@@ -10,9 +10,13 @@ public static class ApplicationService
     {
         services.AddAutoMapper(typeof(UserMappingProfile));
         services.AddAutoMapper(typeof(OfficeMappingProfile));
+        services.AddAutoMapper(typeof(UserTaskMappingProfile));
+        services.AddAutoMapper(typeof(NoteMappingProfile));
 
         services.AddScoped<OfficeService>();
         services.AddScoped<UserService>();
+        services.AddScoped<UserTaskService>();
+        services.AddScoped<NoteService>();
         
         return services;
     }
