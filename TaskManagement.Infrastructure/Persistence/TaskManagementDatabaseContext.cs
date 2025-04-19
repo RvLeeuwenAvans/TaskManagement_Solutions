@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces;
-using TaskManagement.Domain;
 using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;
 using TaskManagement.Domain.Office.Relation.DamageClaim;
 using TaskManagement.Domain.Office.Relation.InsurancePolicy;
 using TaskManagement.Domain.Office.User;
 using TaskManagement.Domain.Office.User.Task;
+using TaskManagement.Domain.Office.User.Task.LinkedObject;
 using TaskManagement.Domain.Office.User.Task.Note;
 
 

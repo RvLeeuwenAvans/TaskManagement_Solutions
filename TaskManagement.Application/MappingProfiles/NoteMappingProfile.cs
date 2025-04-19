@@ -11,6 +11,7 @@ public class NoteMappingProfile : Profile
         CreateMap<Note, NoteResponseDto>();
         CreateMap<NoteCreateDto, Note>();
         CreateMap<NoteUpdateDto, Note>()
-            .ForMember(dest => dest.Content, opt => opt.Condition(src => !string.IsNullOrWhiteSpace(src.Content)));
+            .ForMember(dest => dest.Content, opt => 
+                opt.Condition(src => !string.IsNullOrWhiteSpace(src.Content)));
     }
 }
