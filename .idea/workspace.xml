@@ -14,18 +14,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/TaskManagement.Application.csproj" afterDir="false" />
+    <list default="true" id="8eeee720-9e6f-479c-9508-ccf2876e9c83" name="Changes" comment="Fix type">
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/Repositories/IUserRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/MappingProfiles/UserMappingProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Plumbing/ApplicationService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Application/Services/UserService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/Repositories/UserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.Application/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.Appplication/Interfaces/IDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/Interfaces/IDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.Appplication/TaskManagement.Appplication.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.API/TaskManagement.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.API/TaskManagement.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Application/TaskManagement.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Application/TaskManagement.Application.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.DTO/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/TaskManagement.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/TaskManagement.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +103,9 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/Office/User/UserUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Ridwan/RiderProjects/TaskManagement_API_CMS/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Ridwan/RiderProjects/TaskManagement_API_CMS/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TaskManagement.DTO/obj/Debug/net9.0/TaskManagement.DTO.AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Office.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/DamageClaim/DamageClaim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/Relation/InsurancePolicy/InsurancePolicy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -111,6 +114,7 @@
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/Task/UserTask.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Domain/Office/User/User.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Persistence/TaskManagementDatabaseContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Ridwan/RiderProjects/TaskManagement_API_CMS/TaskManagement.Infrastructure/Persistence/TaskManagementDatabaseContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TaskManagement.Infrastructure/Plumbing/InfrastructureService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -286,7 +290,7 @@
       <workItem from="1744707596705" duration="23937000" />
       <workItem from="1744742308836" duration="3048000" />
       <workItem from="1745063120890" duration="41000" />
-      <workItem from="1745063174141" duration="340000" />
+      <workItem from="1745063174141" duration="2747000" />
     </task>
     <task id="LOCAL-00001" summary="add git ignore">
       <option name="closed" value="true" />
@@ -328,7 +332,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744747561758</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fix type">
+      <option name="closed" value="true" />
+      <created>1745063552485</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745063552485</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +377,8 @@
     <MESSAGE value="setup skeleton API" />
     <MESSAGE value="add git ignore" />
     <MESSAGE value="Add new git ignores" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="Fix type" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix type" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

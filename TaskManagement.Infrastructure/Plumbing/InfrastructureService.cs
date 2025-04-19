@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaskManagement.Application.Interfaces;
+using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Infrastructure.Persistence;
+using TaskManagement.Infrastructure.Persistence.Repositories;
 
 namespace TaskManagement.Infrastructure.Plumbing;
 
@@ -18,6 +21,9 @@ public static class InfrastructureService
             ).EnableSensitiveDataLogging().LogTo(Console.WriteLine)
         );
         
+        services.AddScoped<IDbContext, TaskManagementDatabaseContext>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
         return services;
     }
 }
