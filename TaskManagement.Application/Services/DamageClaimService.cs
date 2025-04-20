@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.Relation.DamageClaim;
 using TaskManagement.DTO.Office.Relation.DamageClaim;
@@ -13,10 +12,12 @@ namespace TaskManagement.Application.Services
         IValidator<DamageClaimCreateDto> createValidator,
         IValidator<DamageClaimUpdateDto> updateValidator)
     {
-        public async Task<List<DamageClaimResponseDto>> GetAllDamageClaimsAsync()
+        public Task<List<DamageClaimResponseDto>> GetAllDamageClaimsAsync()
         {
-            var damageClaims = await damageClaimRepository.GetAll().ToListAsync();
-            return mapper.Map<List<DamageClaimResponseDto>>(damageClaims);
+            var damageClaims = damageClaimRepository.GetAll().ToList();
+            var response = mapper.Map<List<DamageClaimResponseDto>>(damageClaims);
+
+            return Task.FromResult(response);
         }
 
         public async Task<DamageClaimResponseDto?> GetDamageClaimByIdAsync(Guid id)

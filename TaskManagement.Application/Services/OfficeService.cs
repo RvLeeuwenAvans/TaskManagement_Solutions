@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office;
 using TaskManagement.DTO.Office;
@@ -13,10 +12,12 @@ public class OfficeService(
     IValidator<OfficeCreateDto> createValidator,
     IValidator<OfficeUpdateDto> updateValidator)
 {
-    public async Task<List<OfficeResponseDto>> GetAllOfficesAsync()
+    public Task<List<OfficeResponseDto>> GetAllOfficesAsync()
     {
-        var offices = await officeRepository.GetAll().ToListAsync();
-        return mapper.Map<List<OfficeResponseDto>>(offices);
+        var offices = officeRepository.GetAll().ToList();
+        var response = mapper.Map<List<OfficeResponseDto>>(offices);
+        
+        return Task.FromResult(response);
     }
 
     public async Task<OfficeResponseDto?> GetOfficeByIdAsync(Guid id)
