@@ -55,7 +55,7 @@ public class OfficeServiceTests
             .Returns(dtos);
 
         // Act
-        var result = await _service.GetAllOfficesAsync();
+        var result = await _service.GetAllOffices();
 
         // Assert
         result.Should().BeEquivalentTo(dtos);
@@ -79,7 +79,7 @@ public class OfficeServiceTests
             .Returns(dtos);
 
         // Act
-        var result = await _service.GetAllOfficesAsync();
+        var result = await _service.GetAllOffices();
 
         // Assert
         result.Should().BeEmpty();

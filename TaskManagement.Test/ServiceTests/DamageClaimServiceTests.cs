@@ -31,13 +31,20 @@ public class DamageClaimServiceTests
     #region GetAllDamageClaimsAsync Tests
 
     [Fact]
-    public async Task GetAllDamageClaimsAsync_ReturnsMappedDtos()
+    public async Task GetDamageClaimsByOffice_ReturnsMappedDtos()
     {
         // Arrange
+        var officeId = Guid.NewGuid();
         var claims = new List<DamageClaim>
         {
-            TestHelpers.CreateTestDamageClaim(type: "Water Damage"),
-            TestHelpers.CreateTestDamageClaim(type: "Fire Damage")
+            TestHelpers.CreateTestDamageClaim(
+                type: "Water Damage",
+                relation: TestHelpers.CreateTestRelation()
+            ),
+            TestHelpers.CreateTestDamageClaim(
+                type: "Fire Damage",
+                relation: TestHelpers.CreateTestRelation()
+            )
         };
 
         var dtos = claims.Select(c => new DamageClaimResponseDto
@@ -52,43 +59,47 @@ public class DamageClaimServiceTests
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(claims.AsQueryable());
-        
+
         _mapperMock
-            .Setup(m => m.Map<List<DamageClaimResponseDto>>(claims))
+            .Setup(m => m.Map<List<DamageClaimResponseDto>>(It.Is<List<DamageClaim>>(l =>
+                l.All(c => c.Relation.OfficeId == officeId))))
             .Returns(dtos);
 
         // Act
-        var result = await _service.GetAllDamageClaimsAsync();
+        var result = await _service.GetDamageClaimsByOffice(officeId);
 
         // Assert
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(dtos);
-        
+
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<DamageClaimResponseDto>>(claims), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<DamageClaimResponseDto>>(
+                It.Is<List<DamageClaim>>(l => l.All(c => c.Relation.OfficeId == officeId))),
+            Times.Once);
     }
 
     [Fact]
-    public async Task GetAllDamageClaimsAsync_EmptyCollection_ReturnsEmptyList()
+    public async Task GetDamageClaimsByOffice_EmptyCollection_ReturnsEmptyList()
     {
         // Arrange
+        var officeId = Guid.NewGuid();
         var claims = new List<DamageClaim>();
         var dtos = new List<DamageClaimResponseDto>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(claims.AsQueryable());
-        
+    
         _mapperMock
             .Setup(m => m.Map<List<DamageClaimResponseDto>>(claims))
             .Returns(dtos);
 
         // Act
-        var result = await _service.GetAllDamageClaimsAsync();
+        var result = await _service.GetDamageClaimsByOffice(officeId);
 
         // Assert
         result.Should().BeEmpty();
-        
+    
         _repoMock.Verify(r => r.GetAll(), Times.Once);
         _mapperMock.Verify(m => m.Map<List<DamageClaimResponseDto>>(claims), Times.Once);
     }
@@ -115,7 +126,7 @@ public class DamageClaimServiceTests
         _repoMock
             .Setup(r => r.GetByIdAsync(claim.Id))
             .ReturnsAsync(claim);
-        
+
         _mapperMock
             .Setup(m => m.Map<DamageClaimResponseDto>(claim))
             .Returns(dto);
@@ -126,7 +137,7 @@ public class DamageClaimServiceTests
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(dto);
-        
+
         _repoMock.Verify(r => r.GetByIdAsync(claim.Id), Times.Once);
         _mapperMock.Verify(m => m.Map<DamageClaimResponseDto>(claim), Times.Once);
     }
@@ -136,7 +147,7 @@ public class DamageClaimServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        
+
         _repoMock
             .Setup(r => r.GetByIdAsync(id))
             .ReturnsAsync((DamageClaim?)null);
@@ -146,7 +157,7 @@ public class DamageClaimServiceTests
 
         // Assert
         result.Should().BeNull();
-        
+
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
         _mapperMock.Verify(m => m.Map<DamageClaimResponseDto>(It.IsAny<DamageClaim>()), Times.Never);
     }
@@ -185,15 +196,15 @@ public class DamageClaimServiceTests
         _createValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
-        
+
         _mapperMock
             .Setup(m => m.Map<DamageClaim>(dto))
             .Returns(claim);
-        
+
         _repoMock
             .Setup(r => r.AddAsync(It.IsAny<DamageClaim>()))
             .Returns(Task.CompletedTask);
-        
+
         _mapperMock
             .Setup(m => m.Map<DamageClaimResponseDto>(It.IsAny<DamageClaim>()))
             .Returns(response);
@@ -205,7 +216,7 @@ public class DamageClaimServiceTests
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(response);
         result.Type.Should().Be(damageType);
-        
+
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<DamageClaim>(dto), Times.Once);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<DamageClaim>()), Times.Once);
@@ -219,12 +230,12 @@ public class DamageClaimServiceTests
         var dto = new DamageClaimCreateDto
         {
             RelationId = Guid.NewGuid(),
-            Type = ""  // Empty type will fail validation
+            Type = "" // Empty type will fail validation
         };
 
-        var failures = new List<ValidationFailure> 
-        { 
-            new("Type", "Type is required") 
+        var failures = new List<ValidationFailure>
+        {
+            new("Type", "Type is required")
         };
 
         _createValidatorMock
@@ -236,7 +247,7 @@ public class DamageClaimServiceTests
 
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
-        
+
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<DamageClaim>(It.IsAny<DamageClaimCreateDto>()), Times.Never);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<DamageClaim>()), Times.Never);
@@ -251,10 +262,10 @@ public class DamageClaimServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new DamageClaimUpdateDto 
-        { 
-            Id = id, 
-            Type = "Updated Type" 
+        var dto = new DamageClaimUpdateDto
+        {
+            Id = id,
+            Type = "Updated Type"
         };
 
         var existing = TestHelpers.CreateTestDamageClaim(id: id, type: "Old Type");
@@ -262,14 +273,14 @@ public class DamageClaimServiceTests
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
-        
+
         _repoMock
             .Setup(r => r.GetByIdAsync(id))
             .ReturnsAsync(existing);
-        
+
         _mapperMock
             .Setup(m => m.Map(dto, existing));
-        
+
         _repoMock
             .Setup(r => r.UpdateAsync(existing))
             .Returns(Task.CompletedTask);
@@ -279,7 +290,7 @@ public class DamageClaimServiceTests
 
         // Assert
         result.Should().BeTrue();
-        
+
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
         _mapperMock.Verify(m => m.Map(dto, existing), Times.Once);
@@ -300,7 +311,7 @@ public class DamageClaimServiceTests
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
-        
+
         _repoMock
             .Setup(r => r.GetByIdAsync(id))
             .ReturnsAsync((DamageClaim?)null);
@@ -310,7 +321,7 @@ public class DamageClaimServiceTests
 
         // Assert
         result.Should().BeFalse();
-        
+
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
         _mapperMock.Verify(m => m.Map(It.IsAny<DamageClaimUpdateDto>(), It.IsAny<DamageClaim>()), Times.Never);
@@ -324,12 +335,12 @@ public class DamageClaimServiceTests
         var dto = new DamageClaimUpdateDto
         {
             Id = Guid.NewGuid(),
-            Type = ""  // Invalid empty type
+            Type = "" // Invalid empty type
         };
 
-        var failures = new List<ValidationFailure> 
-        { 
-            new("Type", "Type cannot be empty") 
+        var failures = new List<ValidationFailure>
+        {
+            new("Type", "Type cannot be empty")
         };
 
         _updateValidatorMock
@@ -341,7 +352,7 @@ public class DamageClaimServiceTests
 
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
-        
+
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(It.IsAny<Guid>()), Times.Never);
         _mapperMock.Verify(m => m.Map(It.IsAny<DamageClaimUpdateDto>(), It.IsAny<DamageClaim>()), Times.Never);
@@ -361,7 +372,7 @@ public class DamageClaimServiceTests
         _repoMock
             .Setup(r => r.GetByIdAsync(claim.Id))
             .ReturnsAsync(claim);
-        
+
         _repoMock
             .Setup(r => r.DeleteAsync(claim.Id))
             .Returns(Task.CompletedTask);
@@ -371,7 +382,7 @@ public class DamageClaimServiceTests
 
         // Assert
         result.Should().BeTrue();
-        
+
         _repoMock.Verify(r => r.GetByIdAsync(claim.Id), Times.Once);
         _repoMock.Verify(r => r.DeleteAsync(claim.Id), Times.Once);
     }
@@ -381,7 +392,7 @@ public class DamageClaimServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        
+
         _repoMock
             .Setup(r => r.GetByIdAsync(id))
             .ReturnsAsync((DamageClaim?)null);
@@ -391,7 +402,7 @@ public class DamageClaimServiceTests
 
         // Assert
         result.Should().BeFalse();
-        
+
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
         _repoMock.Verify(r => r.DeleteAsync(It.IsAny<Guid>()), Times.Never);
     }

@@ -1,7 +1,11 @@
 ﻿using System;
+using Moq;
 using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;
 using TaskManagement.Domain.Office.Relation.DamageClaim;
+using TaskManagement.Domain.Office.Relation.InsurancePolicy;
+using TaskManagement.Domain.Office.User.Task;
+using TaskManagement.Domain.Office.User.Task.Note;
 
 namespace TaskManagement.Test.ServiceTests.Helpers;
 
@@ -47,6 +51,38 @@ public static class TestHelpers
             DamageNumberSub = damageNumberSub,
             RelationId = relation.Id,
             Relation = relation
+        };
+    }
+    
+    public static InsurancePolicy CreateTestInsurancePolicy(
+        Guid? id = null,
+        string type = "Car Insurance",
+        int policyNumber = 12345,
+        Relation? relation = null)
+    {
+        relation ??= CreateTestRelation();
+
+        return new InsurancePolicy
+        {
+            Id = id ?? Guid.NewGuid(),
+            Type = type,
+            PolicyNumber = policyNumber,
+            RelationId = relation.Id,
+            Relation = relation
+        };
+    }
+    
+    public static Note CreateTestNote(
+        Guid? id = null,
+        string content = "Test Note",
+        Guid? taskId = null)
+    {
+        return new Note
+        {
+            Id = id ?? Guid.NewGuid(),
+            Content = content,
+            TaskId = taskId ?? Guid.NewGuid(),
+            UserTask = Mock.Of<UserTask>()
         };
     }
 }
