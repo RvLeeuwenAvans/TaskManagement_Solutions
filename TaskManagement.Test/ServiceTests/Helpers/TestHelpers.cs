@@ -1,9 +1,9 @@
-﻿using System;
-using Moq;
+﻿using Moq;
 using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;
 using TaskManagement.Domain.Office.Relation.DamageClaim;
 using TaskManagement.Domain.Office.Relation.InsurancePolicy;
+using TaskManagement.Domain.Office.User;
 using TaskManagement.Domain.Office.User.Task;
 using TaskManagement.Domain.Office.User.Task.Note;
 
@@ -53,7 +53,7 @@ public static class TestHelpers
             Relation = relation
         };
     }
-    
+
     public static InsurancePolicy CreateTestInsurancePolicy(
         Guid? id = null,
         string type = "Car Insurance",
@@ -71,18 +71,55 @@ public static class TestHelpers
             Relation = relation
         };
     }
-    
+
     public static Note CreateTestNote(
         Guid? id = null,
         string content = "Test Note",
         Guid? taskId = null)
     {
+        var testTask = CreateTestUserTask(taskId);
+
         return new Note
         {
             Id = id ?? Guid.NewGuid(),
             Content = content,
-            TaskId = taskId ?? Guid.NewGuid(),
-            UserTask = Mock.Of<UserTask>()
+            TaskId = testTask.Id,
+            UserTask = testTask
+        };
+    }
+
+    public static UserTask CreateTestUserTask(
+        Guid? id = null,
+        string title = "Test Task",
+        string? description = null,
+        Guid? userId = null)
+    {
+        var testUser = CreateTestUser(userId);
+
+        return new UserTask
+        {
+            Id = id ?? Guid.NewGuid(),
+            Title = title,
+            Description = description,
+            UserId = testUser.Id,
+            User = testUser
+        };
+    }
+
+    public static User CreateTestUser(
+        Guid? id = null,
+        string? firstName = null,
+        string? lastName = null)
+    {
+        var testOffice = CreateTestOffice();
+
+        return new User
+        {
+            Id = id ?? Guid.NewGuid(),
+            FirstName = firstName ?? "Test",
+            LastName = lastName ?? "User",
+            OfficeId = testOffice.Id,
+            Office = testOffice
         };
     }
 }
