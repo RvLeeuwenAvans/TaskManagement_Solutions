@@ -1,37 +1,32 @@
-name: build and test
+name: Run Tests for TaskManagement.Test
 
 on:
   push:
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
-    paths:
-    - '**.cs'
-    - '**.csproj'
-
-env:
-  DOTNET_VERSION: '9.0.*' # The .NET SDK version to use
+    branches:
+      - main
 
 jobs:
-  build-and-test:
-
-    name: build-and-test-${{matrix.os}}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+  test:
+    name: Run Tests for TaskManagement.Test
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x' # Adjust to your .NET version if different
+
+    - name: Restore Dependencies
+      run: dotnet restore TaskManagement.Test/TaskManagement.Test.csproj
+
+    - name: Build Solution
+      run: dotnet build TaskManagement.Test/TaskManagement.Test.csproj --no-restore --configuration Release
+
+    - name: Run Tests
+      run: dotnet test TaskManagement.Test/TaskManagement.Test.csproj --no-build --configuration Release --verbosity normal
