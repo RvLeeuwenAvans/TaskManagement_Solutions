@@ -2,8 +2,7 @@
 
 namespace TaskManagement.DTO.Office.User.Task;
 
-public record UserTaskCreateDto
-{
+public record UserTaskCreateDto {
     public Guid UserId { get; init; }
     
     public required string Title { get; init; }

@@ -31,6 +31,6 @@ public class UserTask
     public Guid? LinkedObjectId { get; set; }
     
     [ForeignKey("LinkedObjectId")]
-    public virtual LinkedObject? LinkedObject { get; set; }
+    public virtual LinkedObject.LinkedObject? LinkedObject { get; set; }
 
 }

@@ -2,8 +2,7 @@
 
 namespace TaskManagement.DTO.Office.User;
 
-public record UserResponseDto
-{
+public record UserResponseDto {
     public Guid Id { get; init; }
     public Guid OfficeId { get; init; }
     

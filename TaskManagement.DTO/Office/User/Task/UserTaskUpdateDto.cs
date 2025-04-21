@@ -1,7 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.User.Task;
 
-public record UserTaskUpdateDto
-{
+public record UserTaskUpdateDto {
     public Guid Id { get; init; }
     
     public string? Title { get; init; }
