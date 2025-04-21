@@ -1,6 +1,6 @@
 name: Run TaskManagement.Tests
 
-on: push
+on:
   workflow_dispatch:
   push:
     branches: [ main ]
