@@ -18,24 +18,26 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x' # Update if you're using a different version
+          dotnet-version: '8.0.x'
 
-      - name: Restore test project dependencies
-        run: dotnet restore TaskManagement.Tests/TaskManagement.Tests.csproj
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: TaskManagement.Tests
 
-      - name: Build test project
-        run: dotnet build TaskManagement.Tests/TaskManagement.Tests.csproj --no-restore
+      - name: Build project
+        run: dotnet build --no-restore
+        working-directory: TaskManagement.Tests
 
-      - name: Run tests and generate .trx report
+      - name: Run tests
         run: |
           mkdir -p TestResults
-          dotnet test TaskManagement.Tests/TaskManagement.Tests.csproj \
-            --no-build \
+          dotnet test --no-build \
             --logger "trx;LogFileName=test-results.trx" \
             --results-directory ./TestResults
+        working-directory: TaskManagement.Tests
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: ./TestResults
+          path: TaskManagement.Tests/TestResults
