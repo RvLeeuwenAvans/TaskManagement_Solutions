@@ -12,19 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x' # Change this to your project's version if needed
+          dotnet-version: '8.0.x' # Update if you're using a different version
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Restore test project dependencies
+        run: dotnet restore TaskManagement.Tests/TaskManagement.Tests.csproj
 
-      - name: Build solution
-        run: dotnet build --no-restore
+      - name: Build test project
+        run: dotnet build TaskManagement.Tests/TaskManagement.Tests.csproj --no-restore
 
       - name: Run tests and generate .trx report
         run: |
@@ -34,7 +34,7 @@ jobs:
             --logger "trx;LogFileName=test-results.trx" \
             --results-directory ./TestResults
 
-      - name: Upload test results (.trx)
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: test-results
