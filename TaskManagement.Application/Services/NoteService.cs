@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.User.Task.Note;
 using TaskManagement.DTO.Office.User.Task.Note;
@@ -13,10 +12,15 @@ public class NoteService(
     IValidator<NoteCreateDto> createValidator,
     IValidator<NoteUpdateDto> updateValidator)
 {
-    public async Task<List<NoteResponseDto>> GetAllNotesAsync()
+    public Task<List<NoteResponseDto>> GetNotesByTask(Guid taskId)
     {
-        var notes = await noteRepository.GetAll().ToListAsync();
-        return mapper.Map<List<NoteResponseDto>>(notes);
+        var notes = noteRepository.GetAll()
+            .Where(n => n.TaskId == taskId)
+            .ToList();
+
+        var response = mapper.Map<List<NoteResponseDto>>(notes);
+        
+        return Task.FromResult(response);
     }
 
     public async Task<NoteResponseDto?> GetNoteByIdAsync(Guid id)

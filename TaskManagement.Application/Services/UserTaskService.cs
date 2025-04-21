@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.User.Task;
 using TaskManagement.DTO.Office.User.Task;
@@ -13,10 +12,15 @@ public class UserTaskService(
     IValidator<UserTaskCreateDto> createValidator,
     IValidator<UserTaskUpdateDto> updateValidator)
 {
-    public async Task<List<UserTaskResponseDto>> GetAllTasksAsync()
+    public Task<List<UserTaskResponseDto>> GetTasksByUser(Guid userId)
     {
-        var tasks = await taskRepository.GetAll().ToListAsync();
-        return mapper.Map<List<UserTaskResponseDto>>(tasks);
+        var tasks = taskRepository.GetAll()
+            .Where(t => t.UserId == userId)
+            .ToList();
+        
+        var response = mapper.Map<List<UserTaskResponseDto>>(tasks);
+
+        return Task.FromResult(response);
     }
 
     public async Task<UserTaskResponseDto?> GetTaskByIdAsync(Guid id)

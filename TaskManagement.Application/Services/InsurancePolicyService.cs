@@ -13,10 +13,15 @@ public class InsurancePolicyService(
     IValidator<InsurancePolicyCreateDto> createValidator,
     IValidator<InsurancePolicyUpdateDto> updateValidator)
 {
-    public async Task<List<InsurancePolicyResponseDto>> GetAllInsurancePoliciesAsync()
+    public Task<List<InsurancePolicyResponseDto>> GetInsurancePoliciesByOffice(Guid officeId)
     {
-        var insurancePolicies = await insurancePolicyRepository.GetAll().ToListAsync();
-        return mapper.Map<List<InsurancePolicyResponseDto>>(insurancePolicies);
+        var insurancePolicies = insurancePolicyRepository.GetAll()
+            .Where(ip => ip.Relation.OfficeId == officeId)
+            .ToList();
+
+        var response = mapper.Map<List<InsurancePolicyResponseDto>>(insurancePolicies);
+        
+        return Task.FromResult(response);
     }
 
     public async Task<InsurancePolicyResponseDto?> GetInsurancePolicyByIdAsync(Guid id)

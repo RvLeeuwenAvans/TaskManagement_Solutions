@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.Relation;
 using TaskManagement.DTO.Office.Relation;
@@ -13,10 +12,15 @@ public class RelationService(
     IValidator<RelationCreateDto> createValidator,
     IValidator<RelationUpdateDto> updateValidator)
 {
-    public async Task<List<RelationResponseDto>> GetAllRelationsAsync()
+    public Task<List<RelationResponseDto>> GetRelationsByOffice(Guid officeId)
     {
-        var relations = await relationRepository.GetAll().ToListAsync();
-        return mapper.Map<List<RelationResponseDto>>(relations);
+        var relations = relationRepository.GetAll()
+            .Where(r => r.OfficeId == officeId)
+            .ToList();
+
+        var response = mapper.Map<List<RelationResponseDto>>(relations);
+
+        return Task.FromResult(response);
     }
 
     public async Task<RelationResponseDto?> GetRelationByIdAsync(Guid id)

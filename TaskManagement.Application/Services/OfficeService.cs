@@ -12,7 +12,7 @@ public class OfficeService(
     IValidator<OfficeCreateDto> createValidator,
     IValidator<OfficeUpdateDto> updateValidator)
 {
-    public Task<List<OfficeResponseDto>> GetAllOfficesAsync()
+    public Task<List<OfficeResponseDto>> GetAllOffices()
     {
         var offices = officeRepository.GetAll().ToList();
         var response = mapper.Map<List<OfficeResponseDto>>(offices);

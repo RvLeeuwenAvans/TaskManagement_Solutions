@@ -12,9 +12,12 @@ public class DamageClaimService(
     IValidator<DamageClaimCreateDto> createValidator,
     IValidator<DamageClaimUpdateDto> updateValidator)
 {
-    public Task<List<DamageClaimResponseDto>> GetAllDamageClaimsAsync()
+    public Task<List<DamageClaimResponseDto>> GetDamageClaimsByOffice(Guid officeId)
     {
-        var damageClaims = damageClaimRepository.GetAll().ToList();
+        var damageClaims = damageClaimRepository.GetAll()
+            .Where(dc => dc.Relation.OfficeId == officeId)
+            .ToList();
+
         var response = mapper.Map<List<DamageClaimResponseDto>>(damageClaims);
 
         return Task.FromResult(response);

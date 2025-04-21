@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.User;
 using TaskManagement.DTO.Office.User;
@@ -13,14 +12,16 @@ public class UserService(
     IValidator<UserCreateDto> createValidator,
     IValidator<UserUpdateDto> updateValidator)
 {
-    public async Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
+    public Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
     {
-        var users = await userRepository
+        var users = userRepository
             .GetAll()
             .Where(u => u.OfficeId == officeId)
-            .ToListAsync();
+            .ToList();
+        
+        var response = mapper.Map<List<UserResponseDto>>(users);
 
-        return mapper.Map<List<UserResponseDto>>(users);
+        return Task.FromResult(response);
     }
 
     public async Task<UserResponseDto?> GetUserByIdAsync(Guid id)
