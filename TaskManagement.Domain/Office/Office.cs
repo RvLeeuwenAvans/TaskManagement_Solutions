@@ -18,10 +18,9 @@ public class Office
     public required string Name { get; set; }
     
     // non mutable; generated in database; to simulate existing logic.
-    [Required]
     [MaxLength(50)]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public int OfficeCode { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int OfficeCode { get; private set; }
         
     // Child Foreign key attributes:
     public virtual ICollection<User.User> Users { get; set; } = new List<User.User>();
