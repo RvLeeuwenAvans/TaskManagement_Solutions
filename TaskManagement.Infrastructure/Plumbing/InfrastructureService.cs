@@ -26,6 +26,7 @@ public static class InfrastructureService
         services.AddScoped<IDbContext, TaskManagementDatabaseContext>();
         services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserTaskRepository, UserTaskRepository>();
         services.AddScoped<IRelationRepository, RelationRepository>();
         services.AddScoped<IDamageClaimRepository, DamageClaimRepository>();
         services.AddScoped<IInsurancePolicyRepository, InsurancePolicyRepository>();
