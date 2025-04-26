@@ -22,38 +22,6 @@ namespace TaskManagement.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagement.Domain.LinkedObject", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("DamageClaimId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("InsuranceId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("RelationId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DamageClaimId");
-
-                    b.HasIndex("InsuranceId");
-
-                    b.HasIndex("RelationId");
-
-                    b.HasIndex("TaskId")
-                        .IsUnique();
-
-                    b.ToTable("LinkedObjects");
-                });
-
             modelBuilder.Entity("TaskManagement.Domain.Office.Office", b =>
                 {
                     b.Property<Guid>("Id")
@@ -66,9 +34,11 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<int>("OfficeCode")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("OfficeCode"));
 
                     b.HasKey("Id");
 
@@ -169,6 +139,38 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.ToTable("Relations");
                 });
 
+            modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DamageClaimId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("InsuranceId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("RelationId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DamageClaimId");
+
+                    b.HasIndex("InsuranceId");
+
+                    b.HasIndex("RelationId");
+
+                    b.HasIndex("TaskId")
+                        .IsUnique();
+
+                    b.ToTable("LinkedObjects");
+                });
+
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.Note.Note", b =>
                 {
                     b.Property<Guid>("Id")
@@ -249,35 +251,6 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TaskManagement.Domain.LinkedObject", b =>
-                {
-                    b.HasOne("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", "DamageClaim")
-                        .WithMany()
-                        .HasForeignKey("DamageClaimId");
-
-                    b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
-                        .WithMany()
-                        .HasForeignKey("InsuranceId");
-
-                    b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
-                        .WithMany()
-                        .HasForeignKey("RelationId");
-
-                    b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
-                        .WithOne()
-                        .HasForeignKey("TaskManagement.Domain.LinkedObject", "TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DamageClaim");
-
-                    b.Navigation("InsurancePolicy");
-
-                    b.Navigation("Relation");
-
-                    b.Navigation("UserTask");
-                });
-
             modelBuilder.Entity("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", b =>
                 {
                     b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
@@ -311,6 +284,35 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Navigation("Office");
                 });
 
+            modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", b =>
+                {
+                    b.HasOne("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", "DamageClaim")
+                        .WithMany()
+                        .HasForeignKey("DamageClaimId");
+
+                    b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
+                        .WithMany()
+                        .HasForeignKey("InsuranceId");
+
+                    b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
+                        .WithMany()
+                        .HasForeignKey("RelationId");
+
+                    b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
+                        .WithOne()
+                        .HasForeignKey("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", "TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DamageClaim");
+
+                    b.Navigation("InsurancePolicy");
+
+                    b.Navigation("Relation");
+
+                    b.Navigation("UserTask");
+                });
+
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.Note.Note", b =>
                 {
                     b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
@@ -324,7 +326,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.UserTask", b =>
                 {
-                    b.HasOne("TaskManagement.Domain.LinkedObject", "LinkedObject")
+                    b.HasOne("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", "LinkedObject")
                         .WithMany()
                         .HasForeignKey("LinkedObjectId");
 
