@@ -1,6 +1,4 @@
-using Microsoft.EntityFrameworkCore;
 using TaskManagement.API.Plumbing;
-using TaskManagement.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
