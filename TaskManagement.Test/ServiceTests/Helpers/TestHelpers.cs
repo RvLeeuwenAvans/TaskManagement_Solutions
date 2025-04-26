@@ -1,5 +1,4 @@
-﻿using Moq;
-using TaskManagement.Domain.Office;
+﻿using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;
 using TaskManagement.Domain.Office.Relation.DamageClaim;
 using TaskManagement.Domain.Office.Relation.InsurancePolicy;
@@ -17,7 +16,6 @@ public static class TestHelpers
         {
             Id = id ?? Guid.NewGuid(),
             Name = name,
-            OfficeCode = 1000
         };
     }
 
@@ -113,6 +111,8 @@ public static class TestHelpers
     {
         var testOffice = CreateTestOffice();
 
+        // todo: create static hasher to call here and in
+        // todo: set up the cascades propperly; delete all userobjects and office objects when parent gets deleted.
         return new User
         {
             Id = id ?? Guid.NewGuid(),

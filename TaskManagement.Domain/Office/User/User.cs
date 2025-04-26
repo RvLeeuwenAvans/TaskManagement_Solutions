@@ -19,6 +19,11 @@ public class User
     [MaxLength(50)]
     public required string LastName { get; set; }
     
+    [Required]
+    [MaxLength(50)]
+    // todo: write hash in service layer
+    public required string Password { get; set; }
+    
     // Parent Foreign key attributes:
     [Required]
     public required Guid OfficeId { get; init; }
