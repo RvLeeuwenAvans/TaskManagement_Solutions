@@ -2,6 +2,7 @@
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Application.Services;
@@ -17,6 +18,7 @@ public class UserServiceTests
     private readonly Mock<IMapper> _mapperMock = new();
     private readonly Mock<IValidator<UserCreateDto>> _createValidatorMock = new();
     private readonly Mock<IValidator<UserUpdateDto>> _updateValidatorMock = new();
+    private readonly Mock<IPasswordHasher<User>> _passwordHasherMock = new();
     private readonly UserService _service;
 
     public UserServiceTests()
@@ -25,7 +27,8 @@ public class UserServiceTests
             _repoMock.Object,
             _mapperMock.Object,
             _createValidatorMock.Object,
-            _updateValidatorMock.Object);
+            _updateValidatorMock.Object,
+            _passwordHasherMock.Object);
     }
 
     #region GetUsersByOffice Tests
@@ -161,12 +164,15 @@ public class UserServiceTests
         {
             FirstName = firstName,
             LastName = lastName,
-            OfficeId = Guid.NewGuid()
+            OfficeId = Guid.NewGuid(),
+            Password = "<PASSWORD>",
         };
 
         var user = TestHelpers.CreateTestUser(
             firstName: firstName,
             lastName: lastName);
+
+        var hashedPassword = "hashedPassword123";
 
         var response = new UserResponseDto
         {
@@ -184,6 +190,10 @@ public class UserServiceTests
             .Setup(m => m.Map<User>(dto))
             .Returns(user);
 
+        _passwordHasherMock
+            .Setup(h => h.HashPassword(user, dto.Password))
+            .Returns(hashedPassword);
+
         _mapperMock
             .Setup(m => m.Map<UserResponseDto>(user))
             .Returns(response);
@@ -195,6 +205,8 @@ public class UserServiceTests
         result.Should().BeEquivalentTo(response);
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<User>(dto), Times.Once);
+        _passwordHasherMock.Verify(h => h.HashPassword(user, dto.Password), Times.Once);
+        user.Password.Should().Be(hashedPassword);
         _repoMock.Verify(r => r.AddAsync(user), Times.Once);
         _mapperMock.Verify(m => m.Map<UserResponseDto>(user), Times.Once);
     }
@@ -203,7 +215,7 @@ public class UserServiceTests
     public async Task CreateUserAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new UserCreateDto { FirstName = "", LastName = "" };
+        var dto = new UserCreateDto { FirstName = "", LastName = "", Password = "<Password>" };
         var failures = new List<ValidationFailure>
         {
             new("FirstName", "FirstName is required"),
@@ -229,7 +241,7 @@ public class UserServiceTests
     #region UpdateUserAsync Tests
 
     [Fact]
-    public async Task UpdateUserAsync_WhenFound_UpdatesAndReturnsTrue()
+    public async Task UpdateUserAsync_WithPassword_HashesNewPassword()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -237,10 +249,12 @@ public class UserServiceTests
         {
             Id = id,
             FirstName = "Updated",
-            LastName = "Person"
+            LastName = "Person",
+            Password = "newPassword123"
         };
 
         var existing = TestHelpers.CreateTestUser(id: id);
+        var hashedPassword = "hashedNewPassword456";
 
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
@@ -250,6 +264,10 @@ public class UserServiceTests
             .Setup(r => r.GetByIdAsync(id))
             .ReturnsAsync(existing);
 
+        _passwordHasherMock
+            .Setup(h => h.HashPassword(existing, dto.Password))
+            .Returns(hashedPassword);
+
         // Act
         var result = await _service.UpdateUserAsync(dto);
 
@@ -258,6 +276,8 @@ public class UserServiceTests
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
         _mapperMock.Verify(m => m.Map(dto, existing), Times.Once);
+        _passwordHasherMock.Verify(h => h.HashPassword(existing, dto.Password), Times.Once);
+        existing.Password.Should().Be(hashedPassword);
         _repoMock.Verify(r => r.UpdateAsync(existing), Times.Once);
     }
 

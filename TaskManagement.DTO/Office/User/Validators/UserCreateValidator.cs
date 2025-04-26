@@ -14,6 +14,10 @@ public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
             .NotEmpty().WithMessage("Last name is required.")
             .MaximumLength(50);
 
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage("Password is required.")
+            .MaximumLength(50);
+
         RuleFor(x => x.OfficeId)
             .NotEmpty().WithMessage("Office ID is required.");
     }

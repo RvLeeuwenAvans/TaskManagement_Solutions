@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.User;
 using TaskManagement.DTO.Office.User;
@@ -10,7 +11,8 @@ public class UserService(
     IUserRepository userRepository,
     IMapper mapper,
     IValidator<UserCreateDto> createValidator,
-    IValidator<UserUpdateDto> updateValidator)
+    IValidator<UserUpdateDto> updateValidator,
+    IPasswordHasher<User> passwordHasher)
 {
     public Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
     {
@@ -18,7 +20,7 @@ public class UserService(
             .GetAll()
             .Where(u => u.OfficeId == officeId)
             .ToList();
-        
+
         var response = mapper.Map<List<UserResponseDto>>(users);
 
         return Task.FromResult(response);
@@ -37,6 +39,8 @@ public class UserService(
             throw new ValidationException(validationResult.Errors);
 
         var user = mapper.Map<User>(dto);
+        user.Password = HashPassword(user, dto.Password);
+
         await userRepository.AddAsync(user);
         return mapper.Map<UserResponseDto>(user);
     }
@@ -52,6 +56,10 @@ public class UserService(
             return false;
 
         mapper.Map(dto, user);
+
+        if (dto.Password != null)
+            user.Password = HashPassword(user, dto.Password);
+
         await userRepository.UpdateAsync(user);
         return true;
     }
@@ -64,5 +72,16 @@ public class UserService(
 
         await userRepository.DeleteAsync(id);
         return true;
+    }
+
+    public bool VerifyPassword(User user, string hashedPassword, string enteredPassword)
+    {
+        var result = passwordHasher.VerifyHashedPassword(user, hashedPassword, enteredPassword);
+        return result == PasswordVerificationResult.Success;
+    }
+    
+    private string HashPassword(User user, string password)
+    {
+        return passwordHasher.HashPassword(user, password);
     }
 }

@@ -27,7 +27,6 @@ public static class TestHelpers
             FirstName = firstName ?? "John",
             LastName = lastName ?? "Doe",
             OfficeId = Guid.NewGuid(),
-            RelationNumber = 42,
             Office = CreateTestOffice()
         };
     }
@@ -45,8 +44,6 @@ public static class TestHelpers
         {
             Id = id ?? Guid.NewGuid(),
             Type = type,
-            DamageNumber = damageNumber,
-            DamageNumberSub = damageNumberSub,
             RelationId = relation.Id,
             Relation = relation
         };
@@ -64,7 +61,6 @@ public static class TestHelpers
         {
             Id = id ?? Guid.NewGuid(),
             Type = type,
-            PolicyNumber = policyNumber,
             RelationId = relation.Id,
             Relation = relation
         };
@@ -107,7 +103,8 @@ public static class TestHelpers
     public static User CreateTestUser(
         Guid? id = null,
         string? firstName = null,
-        string? lastName = null)
+        string? lastName = null,
+        string? password = null)
     {
         var testOffice = CreateTestOffice();
 
@@ -118,6 +115,7 @@ public static class TestHelpers
             Id = id ?? Guid.NewGuid(),
             FirstName = firstName ?? "Test",
             LastName = lastName ?? "User",
+            Password = password ?? "<PASSWORD>",
             OfficeId = testOffice.Id,
             Office = testOffice
         };

@@ -22,5 +22,12 @@ public class UserUpdateDtoValidator : AbstractValidator<UserUpdateDto>
                 .NotEmpty()
                 .MaximumLength(50);
         });
+
+        When(x => x.Password is not null, () =>
+        {
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .MaximumLength(50);
+        });
     }
 }
