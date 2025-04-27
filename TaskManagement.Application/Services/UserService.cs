@@ -14,7 +14,7 @@ public class UserService(
     IValidator<UserUpdateDto> updateValidator,
     IPasswordHasher<User> passwordHasher)
 {
-    public Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
+  public Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
     {
         var users = userRepository
             .GetAll()
@@ -79,9 +79,15 @@ public class UserService(
         var result = passwordHasher.VerifyHashedPassword(user, hashedPassword, enteredPassword);
         return result == PasswordVerificationResult.Success;
     }
-    
+
     private string HashPassword(User user, string password)
     {
         return passwordHasher.HashPassword(user, password);
+    }
+    
+    internal Task<User?> GetUserByEmail(string email)
+    {
+        var user = userRepository.GetAll().FirstOrDefault(u => u.Email == email);
+        return Task.FromResult(user);
     }
 }

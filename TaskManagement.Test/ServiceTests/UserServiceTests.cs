@@ -49,7 +49,8 @@ public class UserServiceTests
             Id = u.Id,
             FirstName = u.FirstName,
             LastName = u.LastName,
-            OfficeId = u.OfficeId
+            OfficeId = u.OfficeId,
+            Email = u.Email
         }).ToList();
 
         _repoMock
@@ -110,7 +111,8 @@ public class UserServiceTests
             Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            OfficeId = user.OfficeId
+            OfficeId = user.OfficeId,
+            Email = user.Email
         };
 
         _repoMock
@@ -166,6 +168,7 @@ public class UserServiceTests
             LastName = lastName,
             OfficeId = Guid.NewGuid(),
             Password = "<PASSWORD>",
+            Email = $"{firstName.ToLower()}.{lastName.ToLower()}@test.com"
         };
 
         var user = TestHelpers.CreateTestUser(
@@ -179,7 +182,8 @@ public class UserServiceTests
             Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            OfficeId = user.OfficeId
+            OfficeId = user.OfficeId,
+            Email = user.Email
         };
 
         _createValidatorMock
@@ -215,7 +219,13 @@ public class UserServiceTests
     public async Task CreateUserAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new UserCreateDto { FirstName = "", LastName = "", Password = "<Password>" };
+        var dto = new UserCreateDto
+        {
+            FirstName = "",
+            LastName = "",
+            Password = "<Password>",
+            Email = "test@email.com"
+        };
         var failures = new List<ValidationFailure>
         {
             new("FirstName", "FirstName is required"),
@@ -250,7 +260,8 @@ public class UserServiceTests
             Id = id,
             FirstName = "Updated",
             LastName = "Person",
-            Password = "newPassword123"
+            Password = "newPassword123",
+            Email = "updated.person@example.com"
         };
 
         var existing = TestHelpers.CreateTestUser(id: id);

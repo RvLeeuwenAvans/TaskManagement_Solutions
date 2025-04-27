@@ -100,21 +100,22 @@ public static class TestHelpers
         };
     }
 
+    // todo: set up the cascades propperly; delete all userobjects and office objects when parent gets deleted.
     public static User CreateTestUser(
         Guid? id = null,
         string? firstName = null,
         string? lastName = null,
+        string? email = null,
         string? password = null)
     {
         var testOffice = CreateTestOffice();
 
-        // todo: create static hasher to call here and in
-        // todo: set up the cascades propperly; delete all userobjects and office objects when parent gets deleted.
         return new User
         {
             Id = id ?? Guid.NewGuid(),
             FirstName = firstName ?? "Test",
             LastName = lastName ?? "User",
+            Email = email ?? "test.user@example.com",
             Password = password ?? "<PASSWORD>",
             OfficeId = testOffice.Id,
             Office = testOffice
