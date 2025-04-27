@@ -5,6 +5,7 @@ using TaskManagement.Application.Interfaces;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Infrastructure.Persistence;
 using TaskManagement.Infrastructure.Persistence.Repositories;
+using TaskManagement.Infrastructure.Persistence.Seeders;
 
 namespace TaskManagement.Infrastructure.Plumbing;
 
@@ -26,11 +27,18 @@ public static class InfrastructureService
         services.AddScoped<IDbContext, TaskManagementDatabaseContext>();
         services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserTaskRepository, UserTaskRepository>();
         services.AddScoped<IRelationRepository, RelationRepository>();
         services.AddScoped<IDamageClaimRepository, DamageClaimRepository>();
         services.AddScoped<IInsurancePolicyRepository, InsurancePolicyRepository>();
         services.AddScoped<ILinkedObjectRepository, LinkedObjectRepository>();
 
         return services;
+    }
+
+    public static async void SeedDatabase(this IServiceCollection services)
+    {
+            var context = services.BuildServiceProvider().GetRequiredService<TaskManagementDatabaseContext>();
+            await DatabaseSeeder.SeedAsync(context);
     }
 }

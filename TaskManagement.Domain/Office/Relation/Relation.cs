@@ -13,10 +13,9 @@ public class Relation
     [Key] public Guid Id { get; init; } = Guid.NewGuid();
 
     // non mutable; generated in database; to simulate existing logic.
-    [Required]
     [MaxLength(50)]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public int RelationNumber { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int RelationNumber { get; private set; } = new Random().Next(1, 1000);
     
     [Required]
     [MaxLength(50)]

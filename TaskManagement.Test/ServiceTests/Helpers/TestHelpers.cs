@@ -1,5 +1,4 @@
-﻿using Moq;
-using TaskManagement.Domain.Office;
+﻿using TaskManagement.Domain.Office;
 using TaskManagement.Domain.Office.Relation;
 using TaskManagement.Domain.Office.Relation.DamageClaim;
 using TaskManagement.Domain.Office.Relation.InsurancePolicy;
@@ -17,7 +16,6 @@ public static class TestHelpers
         {
             Id = id ?? Guid.NewGuid(),
             Name = name,
-            OfficeCode = 1000
         };
     }
 
@@ -29,7 +27,6 @@ public static class TestHelpers
             FirstName = firstName ?? "John",
             LastName = lastName ?? "Doe",
             OfficeId = Guid.NewGuid(),
-            RelationNumber = 42,
             Office = CreateTestOffice()
         };
     }
@@ -47,8 +44,6 @@ public static class TestHelpers
         {
             Id = id ?? Guid.NewGuid(),
             Type = type,
-            DamageNumber = damageNumber,
-            DamageNumberSub = damageNumberSub,
             RelationId = relation.Id,
             Relation = relation
         };
@@ -66,7 +61,6 @@ public static class TestHelpers
         {
             Id = id ?? Guid.NewGuid(),
             Type = type,
-            PolicyNumber = policyNumber,
             RelationId = relation.Id,
             Relation = relation
         };
@@ -106,10 +100,13 @@ public static class TestHelpers
         };
     }
 
+    // todo: set up the cascades propperly; delete all userobjects and office objects when parent gets deleted.
     public static User CreateTestUser(
         Guid? id = null,
         string? firstName = null,
-        string? lastName = null)
+        string? lastName = null,
+        string? email = null,
+        string? password = null)
     {
         var testOffice = CreateTestOffice();
 
@@ -118,6 +115,8 @@ public static class TestHelpers
             Id = id ?? Guid.NewGuid(),
             FirstName = firstName ?? "Test",
             LastName = lastName ?? "User",
+            Email = email ?? "test.user@example.com",
+            Password = password ?? "<PASSWORD>",
             OfficeId = testOffice.Id,
             Office = testOffice
         };

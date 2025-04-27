@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.MappingProfiles;
 using TaskManagement.Application.Services;
+using TaskManagement.Domain.Office.User;
 using TaskManagement.DTO.Office;
 using TaskManagement.DTO.Office.Relation;
 using TaskManagement.DTO.Office.Relation.DamageClaim;
@@ -33,6 +35,9 @@ public static class ApplicationService
         services.AddAutoMapper(typeof(DamageClaimMappingProfile));
         services.AddAutoMapper(typeof(InsurancePolicyMappingProfile));
         services.AddAutoMapper(typeof(LinkedObjectMappingProfile));
+        
+        //DI Auth First; then other services.
+        services.AddScoped<TokenService>();
 
         services.AddScoped<IValidator<UserCreateDto>, UserCreateDtoValidator>();
         services.AddScoped<IValidator<UserUpdateDto>, UserUpdateDtoValidator>();
@@ -58,6 +63,8 @@ public static class ApplicationService
         services.AddScoped<IValidator<LinkedObjectCreateDto>, LinkedObjectCreateDtoValidator>();
         services.AddScoped<IValidator<LinkedObjectUpdateDto>, LinkedObjectUpdateDtoValidator>();
 
+        services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+        
         services.AddScoped<OfficeService>();
         services.AddScoped<UserService>();
         services.AddScoped<UserTaskService>();

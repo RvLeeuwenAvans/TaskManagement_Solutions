@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskManagement.Domain.Office.User;
 
+[Index(nameof(Email), IsUnique = true)]
 // virtual members are used by entityFramework to lazy-load relationships the entities.
 [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
 public class User
@@ -18,6 +20,13 @@ public class User
     [Required]
     [MaxLength(50)]
     public required string LastName { get; set; }
+    
+    [Required]
+    public required string Password { get; set; }
+    
+    [Required]
+    [MaxLength(50)]
+    public required string Email { get; set; }
     
     // Parent Foreign key attributes:
     [Required]
