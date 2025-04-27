@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Services;
 using TaskManagement.DTO.Office.Relation.DamageClaim;
 
 namespace TaskManagement.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class DamageClaimController(DamageClaimService damageClaimService) : ControllerBase

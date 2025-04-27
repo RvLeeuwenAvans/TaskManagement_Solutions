@@ -10,6 +10,38 @@
     }
   ],
   "paths": {
+    "/api/Authentication/user": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/DamageClaim/office/{id}": {
       "get": {
         "tags": [
@@ -980,6 +1012,21 @@
   },
   "components": {
     "schemas": {
+      "AuthenticationDto": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
       "DamageClaimCreateDto": {
         "required": [
           "type"
@@ -1131,7 +1178,9 @@
       "UserCreateDto": {
         "required": [
           "firstName",
-          "lastName"
+          "lastName",
+          "email",
+          "password"
         ],
         "type": "object",
         "properties": {
@@ -1143,6 +1192,12 @@
             "type": "string"
           },
           "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           }
         }
@@ -1212,12 +1267,23 @@
           "lastName": {
             "type": "string",
             "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
           }
         }
       }
     }
   },
   "tags": [
+    {
+      "name": "Authentication"
+    },
     {
       "name": "DamageClaim"
     },
