@@ -12,8 +12,8 @@ using TaskManagement.Infrastructure.Persistence;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementDatabaseContext))]
-    [Migration("20250415200347_ModelChangesDueToNewDTOObjects")]
-    partial class ModelChangesDueToNewDTOObjects
+    [Migration("20250427140859_initial_create")]
+    partial class initial_create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,123 @@ namespace TaskManagement.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagement.Domain.LinkedObject", b =>
+            modelBuilder.Entity("TaskManagement.Domain.Office.Office", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("OfficeCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfficeCode")
+                        .IsUnique();
+
+                    b.ToTable("Offices");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("DamageNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("int");
+
+                    b.Property<int>("DamageNumberSub")
+                        .HasMaxLength(50)
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("RelationId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DamageNumber")
+                        .IsUnique();
+
+                    b.HasIndex("RelationId");
+
+                    b.ToTable("DamageClaims");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("PolicyNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("RelationId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PolicyNumber")
+                        .IsUnique();
+
+                    b.HasIndex("RelationId");
+
+                    b.ToTable("InsurancePolicies");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.Relation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<Guid>("OfficeId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("RelationNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfficeId");
+
+                    b.HasIndex("RelationNumber")
+                        .IsUnique();
+
+                    b.ToTable("Relations");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,121 +171,6 @@ namespace TaskManagement.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("LinkedObjects");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Office.Office", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("OfficeCode")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OfficeCode")
-                        .IsUnique();
-
-                    b.ToTable("Offices");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("DamageNumber")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.Property<int>("DamageNumberSub")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("RelationId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RelationId");
-
-                    b.ToTable("DamageClaims");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("PolicyNumber")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("RelationId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RelationId");
-
-                    b.ToTable("InsurancePolicies");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.Relation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<Guid>("OfficeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("RelationNumber")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OfficeId");
-
-                    b.HasIndex("RelationNumber")
-                        .IsUnique();
-
-                    b.ToTable("Relations");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.Note.Note", b =>
@@ -232,6 +233,11 @@ namespace TaskManagement.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -245,40 +251,18 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<Guid>("OfficeId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("OfficeId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.LinkedObject", b =>
-                {
-                    b.HasOne("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", "DamageClaim")
-                        .WithMany()
-                        .HasForeignKey("DamageClaimId");
-
-                    b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
-                        .WithMany()
-                        .HasForeignKey("InsuranceId");
-
-                    b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
-                        .WithMany()
-                        .HasForeignKey("RelationId");
-
-                    b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
-                        .WithOne()
-                        .HasForeignKey("TaskManagement.Domain.LinkedObject", "TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DamageClaim");
-
-                    b.Navigation("InsurancePolicy");
-
-                    b.Navigation("Relation");
-
-                    b.Navigation("UserTask");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", b =>
@@ -314,6 +298,35 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Navigation("Office");
                 });
 
+            modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", b =>
+                {
+                    b.HasOne("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", "DamageClaim")
+                        .WithMany()
+                        .HasForeignKey("DamageClaimId");
+
+                    b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
+                        .WithMany()
+                        .HasForeignKey("InsuranceId");
+
+                    b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
+                        .WithMany()
+                        .HasForeignKey("RelationId");
+
+                    b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
+                        .WithOne()
+                        .HasForeignKey("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", "TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DamageClaim");
+
+                    b.Navigation("InsurancePolicy");
+
+                    b.Navigation("Relation");
+
+                    b.Navigation("UserTask");
+                });
+
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.Note.Note", b =>
                 {
                     b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
@@ -327,7 +340,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.UserTask", b =>
                 {
-                    b.HasOne("TaskManagement.Domain.LinkedObject", "LinkedObject")
+                    b.HasOne("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", "LinkedObject")
                         .WithMany()
                         .HasForeignKey("LinkedObjectId");
 

@@ -34,11 +34,8 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<int>("OfficeCode")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
                         .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("OfficeCode"));
 
                     b.HasKey("Id");
 
@@ -55,12 +52,10 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<int>("DamageNumber")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.Property<int>("DamageNumberSub")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasMaxLength(50)
                         .HasColumnType("int");
 
@@ -73,6 +68,9 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DamageNumber")
+                        .IsUnique();
 
                     b.HasIndex("RelationId");
 
@@ -86,7 +84,6 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<int>("PolicyNumber")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasMaxLength(50)
                         .HasColumnType("int");
 
@@ -99,6 +96,9 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PolicyNumber")
+                        .IsUnique();
 
                     b.HasIndex("RelationId");
 
@@ -125,7 +125,6 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<int>("RelationNumber")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasMaxLength(50)
                         .HasColumnType("int");
 
@@ -231,6 +230,11 @@ namespace TaskManagement.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -244,7 +248,14 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<Guid>("OfficeId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("OfficeId");
 
