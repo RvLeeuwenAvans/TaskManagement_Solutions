@@ -19,8 +19,8 @@ public class Office
     
     // non mutable; generated in database; to simulate existing logic.
     [MaxLength(50)]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int OfficeCode { get; private set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int OfficeCode { get; private set; } = new Random().Next(1, 1000);
         
     // Child Foreign key attributes:
     public virtual ICollection<User.User> Users { get; set; } = new List<User.User>();

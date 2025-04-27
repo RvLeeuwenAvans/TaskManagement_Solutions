@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 namespace TaskManagement.Domain.Office.Relation.DamageClaim;
 
 [Index(nameof(DamageNumber), IsUnique = true)]
-[Index(nameof(DamageNumberSub), IsUnique = true)]
 // virtual members are used by entityFramework to lazy-load relationships the entities.
 [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
 public class DamageClaim
@@ -16,13 +15,13 @@ public class DamageClaim
     
     // non mutable; generated in database; to simulate existing logic.
     [MaxLength(50)]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int DamageNumber { get;  private set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int DamageNumber { get;  private set; } = new Random().Next(1, 1000);
     
     // non mutable; generated in database; to simulate existing logic.
     [MaxLength(50)]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int DamageNumberSub { get; private set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int DamageNumberSub { get; set; } = new Random().Next(1, 1000);
     
     [Required]
     [MaxLength(100)]
@@ -34,5 +33,4 @@ public class DamageClaim
     
     [ForeignKey("RelationId")]
     public virtual required Relation Relation { get; init; }
-
 }

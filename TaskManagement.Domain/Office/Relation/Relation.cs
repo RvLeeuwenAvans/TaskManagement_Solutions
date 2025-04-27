@@ -14,8 +14,8 @@ public class Relation
 
     // non mutable; generated in database; to simulate existing logic.
     [MaxLength(50)]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int RelationNumber { get; private set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int RelationNumber { get; private set; } = new Random().Next(1, 1000);
     
     [Required]
     [MaxLength(50)]
