@@ -9,12 +9,12 @@ public class UserTaskRepository(IDbContext context) : IUserTaskRepository
 {
     public IQueryable<UserTask> GetAll()
     {
-        return context.Tasks.AsQueryable();
+        return context.Tasks.Include(task => task.User).AsQueryable();
     }
 
     public async Task<UserTask?> GetByIdAsync(Guid id)
     {
-        return await context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+        return await context.Tasks.Include(task => task.User).FirstOrDefaultAsync(t => t.Id == id);
     }
 
     public async Task AddAsync(UserTask task)
