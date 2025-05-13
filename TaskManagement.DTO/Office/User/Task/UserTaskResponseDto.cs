@@ -1,4 +1,6 @@
-﻿namespace TaskManagement.DTO.Office.User.Task;
+﻿using TaskManagement.DTO.Office.User.Task.LinkedObject;
+
+namespace TaskManagement.DTO.Office.User.Task;
 
 public record UserTaskResponseDto {
     public required Guid Id { get; init; }
@@ -11,5 +13,5 @@ public record UserTaskResponseDto {
     public required string Title { get; init; }
     public string? Description { get; init; }
 
-    public Guid? LinkedObjectId { get; init; }
+    public LinkedObjectResponseDto? LinkedObject { get; set; }
 }

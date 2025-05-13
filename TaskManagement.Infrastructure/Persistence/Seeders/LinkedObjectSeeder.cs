@@ -10,12 +10,26 @@ public static class LinkedObjectSeeder
         {
             var linkedObjects = new List<LinkedObject>
             {
-                new() { UserTask = context.Tasks.First(), Relation = context.Relations.First() },
-                new() { UserTask = context.Tasks.First(), DamageClaim = context.DamageClaims.First() }
+                new()
+                {
+                    UserTask = context.Tasks.OrderBy(t => t.Id).First(),
+                    Relation = context.Relations.OrderBy(r => r.Id).First()
+                },
+                new()
+                {
+                    UserTask = context.Tasks.OrderByDescending(t => t.Id).First(),
+                    DamageClaim = context.DamageClaims.OrderBy(d => d.Id).First()
+                }
             };
 
             await context.LinkedObjects.AddRangeAsync(linkedObjects);
             await context.SaveChangesAsync();
+
+            context.Tasks.OrderBy(t => t.Id).First().LinkedObjectId = linkedObjects.First().Id;
+            context.Tasks.OrderByDescending(t => t.Id).First().LinkedObjectId = linkedObjects.Last().Id;
+
+            await context.SaveChangesAsync();
         }
     }
+
 }

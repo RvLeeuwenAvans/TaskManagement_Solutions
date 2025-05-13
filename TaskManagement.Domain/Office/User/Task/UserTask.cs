@@ -37,5 +37,4 @@ public class UserTask
     
     [ForeignKey("LinkedObjectId")]
     public virtual LinkedObject.LinkedObject? LinkedObject { get; set; }
-
 }
