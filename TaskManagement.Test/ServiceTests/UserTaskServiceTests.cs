@@ -6,6 +6,7 @@ using Moq;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Application.Services;
 using TaskManagement.Domain.Office.User.Task;
+using TaskManagement.DTO.Office.User;
 using TaskManagement.DTO.Office.User.Task;
 using TaskManagement.Test.ServiceTests.Helpers;
 
@@ -46,7 +47,15 @@ public class UserTaskServiceTests
             Id = t.Id,
             Title = t.Title,
             Description = t.Description,
-            UserId = t.UserId
+            User = new UserResponseDto
+            {
+                Id = t.User.Id,
+                FirstName = t.User.FirstName,
+                LastName = t.User.LastName,
+                Email = t.User.Email,
+            },
+            DueDate = t.DueDate,
+            CreatorName = t.CreatorName
         }).ToList();
 
         _repoMock
@@ -107,7 +116,15 @@ public class UserTaskServiceTests
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
-            UserId = task.UserId
+            User = new UserResponseDto
+            {
+                Id = task.User.Id,
+                FirstName = task.User.FirstName,
+                LastName = task.User.LastName,
+                Email = task.User.Email,
+            },
+            DueDate = task.DueDate,
+            CreatorName = task.CreatorName
         };
 
         _repoMock
@@ -161,7 +178,9 @@ public class UserTaskServiceTests
         {
             Title = title,
             Description = description,
-            UserId = Guid.NewGuid()
+            UserId = Guid.NewGuid(),
+            DueDate = DateTime.Now.AddDays(1),
+            CreatorName = "Henk de maker van alles"
         };
 
         var task = TestHelpers.CreateTestUserTask(title: title, description: description, userId: dto.UserId);
@@ -170,7 +189,15 @@ public class UserTaskServiceTests
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
-            UserId = task.UserId
+            User = new UserResponseDto
+            {
+                Id = task.User.Id,
+                FirstName = task.User.FirstName,
+                LastName = task.User.LastName,
+                Email = task.User.Email,
+            },
+            DueDate = task.DueDate,
+            CreatorName = task.CreatorName
         };
 
         _createValidatorMock
@@ -200,7 +227,14 @@ public class UserTaskServiceTests
     public async Task CreateTaskAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new UserTaskCreateDto { Title = "", UserId = Guid.NewGuid() };
+        var dto = new UserTaskCreateDto
+        {
+            Title = "",
+            UserId = Guid.NewGuid(),
+            DueDate = DateTime.Now.AddDays(1),
+            CreatorName = "Henk de maker van alles"
+        };
+
         var failures = new List<ValidationFailure>
         {
             new("Title", "Title is required")

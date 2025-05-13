@@ -86,7 +86,9 @@ public static class TestHelpers
         Guid? id = null,
         string title = "Test Task",
         string? description = null,
-        Guid? userId = null)
+        Guid? userId = null,
+        string? creatorName = null,
+        DateTime? dueDate = null)
     {
         var testUser = CreateTestUser(userId);
 
@@ -96,7 +98,10 @@ public static class TestHelpers
             Title = title,
             Description = description,
             UserId = testUser.Id,
-            User = testUser
+            User = testUser,
+            CreatorName = creatorName ?? "Test Creator",
+            LinkedObjectId = null,
+            DueDate = dueDate ?? DateTime.UtcNow.AddDays(1)
         };
     }
 

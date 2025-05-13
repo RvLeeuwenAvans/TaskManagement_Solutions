@@ -9,6 +9,13 @@ public class UserTaskCreateDtoValidator : AbstractValidator<UserTaskCreateDto>
         RuleFor(x => x.UserId)
             .NotEmpty();
 
+        RuleFor(x => x.CreatorName)
+            .NotEmpty();
+
+        RuleFor(x => x.DueDate)
+            .NotEmpty()
+            .GreaterThan(DateTime.UtcNow).WithMessage("Due date must be in the future.");
+
         RuleFor(x => x.Title)
             .NotEmpty()
             .MaximumLength(50);

@@ -11,8 +11,8 @@ public static class UserTaskSeeder
             var user = context.Users.First();
             var tasks = new List<UserTask>
             {
-                new() { Title = "Task 1", Description = "Description 1", UserId = user.Id, User = user},
-                new() { Title = "Task 2", Description = "Description 2", UserId = user.Id, User = user }
+                new() { Title = "Task 1", Description = "Description 1", UserId = user.Id, User = user, CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(1) },
+                new() { Title = "Task 2", Description = "Description 2", UserId = user.Id, User = user, CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(1) }
             };
 
             await context.Tasks.AddRangeAsync(tasks);

@@ -11,15 +11,20 @@ public class UserTask
     [Key]
     public Guid Id { get; init; } = Guid.NewGuid();
     
+    public required DateTime DueDate { get; set; }
+    
     [MaxLength(50)]
-    [Required(ErrorMessage = "Task needs a title")]
     public required string Title { get; set; }
     
     [MaxLength(255)]
     public string? Description { get; set; }
     
+    [Required]
+    [MaxLength(50)]
+    // not a FK, cause a the creator of a task might not exist anymore. And Only the name is relevant.
+    public required string CreatorName { get; set; }
+    
     // Parent Foreign key attributes:
-    [Required(ErrorMessage = "Task needs to be assigned to a user")]
     public required Guid UserId { get; set; }
     
     [ForeignKey("UserId")]
