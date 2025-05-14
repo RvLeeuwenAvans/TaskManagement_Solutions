@@ -1,26 +1,42 @@
-﻿namespace TaskManagement.MobileApp.Views.Pages;
+﻿using TaskManagement.MobileApp.ViewModels;
+
+namespace TaskManagement.MobileApp.Views.Pages;
 
 public partial class MainPage : ContentPage
 {
+    private readonly MainPageViewModel _viewModel;
+
     public MainPage()
     {
         InitializeComponent();
+        _viewModel = new MainPageViewModel();
+        BindingContext = _viewModel;
     }
-    
+
     /**
-     * The tabs on the main page ore not actually tabs but filters; but to mock tab behavior, we show/hide the underline.
-     */
+    * The tabs on the main page ore not actually tabs but filters; but to mock tab behavior, we show/hide the underline.
+    */
     private void OnTabClicked(object sender, EventArgs e)
     {
+        // Reset all underlines
         AllUnderline.IsVisible = false;
         TodayUnderline.IsVisible = false;
         WeekUnderline.IsVisible = false;
 
-        if (sender == AllButton)
-            AllUnderline.IsVisible = true;
-        else if (sender == TodayButton)
-            TodayUnderline.IsVisible = true;
-        else if (sender == WeekButton)
-            WeekUnderline.IsVisible = true;
+        string filter = sender switch
+        {
+            Button { Text: "Alle" } => ShowUnderline(AllUnderline, "All"),
+            Button { Text: "Vandaag" } => ShowUnderline(TodayUnderline, "Today"),
+            Button { Text: "Week" } => ShowUnderline(WeekUnderline, "Week"),
+            _ => "All"
+        };
+
+        _viewModel.FilterTasks(filter);
+    }
+
+    private static string ShowUnderline(BoxView underline, string filter)
+    {
+        underline.IsVisible = true;
+        return filter;
     }
 }

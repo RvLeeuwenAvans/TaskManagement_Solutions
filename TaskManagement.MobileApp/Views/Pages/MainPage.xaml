@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
+             xmlns:models="clr-namespace:TaskManagement.MobileApp.Models"
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage">
 
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="#005930">
@@ -59,41 +60,18 @@
             <ScrollView>
                 <!-- padding needs to correspond with the boxview below; so items at the bottom don't get overlapped. -->
                 <VerticalStackLayout Padding="0,0,0,100">
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
-                    <views:TaskCardView 
-                        IconLetter="H"
-                        Title="Foto toevoegen"
-                        Subtitle="Relatie: Henk van den Rooijboom"
-                        DateText="16-7-2023" />
+                    <CollectionView ItemsSource="{Binding FilteredTaskCards}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <views:TaskCardView
+                                    x:DataType="models:TaskCardModel"
+                                    IconLetter="{Binding CreatorInitial}"
+                                    Title="{Binding Title}"
+                                    Subtitle="{Binding Subtitle}"
+                                    DateText="{Binding DueDate, StringFormat='{0:dd-MM-yyyy}'}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
                 <!-- Add your list or other content here -->
             </ScrollView>

@@ -8,16 +8,16 @@ public partial class TaskCardView : ContentView
     }
 
     public static readonly BindableProperty IconLetterProperty = BindableProperty.Create(
-        nameof(IconLetter), typeof(string), typeof(TaskCardView), "");
+        nameof(IconLetter), typeof(string), typeof(TaskCardView));
     
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-        nameof(Title), typeof(string), typeof(TaskCardView), "");
+        nameof(Title), typeof(string), typeof(TaskCardView));
     
     public static readonly BindableProperty SubtitleProperty = BindableProperty.Create(
-        nameof(Subtitle), typeof(string), typeof(TaskCardView), "");
+        nameof(Subtitle), typeof(string), typeof(TaskCardView));
     
     public static readonly BindableProperty DateTextProperty = BindableProperty.Create(
-        nameof(DateText), typeof(string), typeof(TaskCardView), "");
+        nameof(DateText), typeof(string), typeof(TaskCardView));
 
     public string IconLetter
     {
