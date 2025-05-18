@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Services;
-using TaskManagement.DTO.Office.User;
+using TaskManagement.DTO.Office.User.Authentication;
 
 namespace TaskManagement.API.Controllers;
 
@@ -17,6 +17,6 @@ public class AuthenticationController(TokenService tokenService) : ControllerBas
         if (token == null)
             return Unauthorized("Invalid credentials");
 
-        return Ok(new { Token = token });
+        return Ok(token);
     }
 }
