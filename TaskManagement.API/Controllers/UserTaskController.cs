@@ -4,7 +4,7 @@ using TaskManagement.Application.Services;
 using TaskManagement.DTO.Office.User.Task;
 
 namespace TaskManagement.API.Controllers;
-
+//todo: for all controllers; document responses so OPENAPI can generate docs; and cast all non success to right response type eg, (500 range).
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
