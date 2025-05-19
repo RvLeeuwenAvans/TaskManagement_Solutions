@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagement.Domain.Office.User;
+using TaskManagement.DTO.Office.User.Authentication;
 
 namespace TaskManagement.Application.Services;
 
@@ -20,16 +21,16 @@ public class TokenService(UserService userService, IConfiguration configuration)
 
     private readonly int _expiryMinutes = int.Parse(configuration["Jwt:TokenExpiryMinutes"] ?? "60");
 
-    public async Task<string?> AuthenticateUserAsync(string email, string password)
+    public async Task<AuthenticationResponseDto?> AuthenticateUserAsync(string email, string password)
     {
         var user = await userService.GetUserByEmail(email);
 
-        return user is null ? null :
-            userService.VerifyPassword(user, user.Password, password) ? GenerateToken(user) :
-            null;
+        return user != null && userService.VerifyPassword(user, user.Password, password)
+            ? new AuthenticationResponseDto { Token = GenerateToken(user) }
+            : null;
     }
 
-    private string? GenerateToken(User user)
+    private string GenerateToken(User user)
     {
         var claims = new[]
         {

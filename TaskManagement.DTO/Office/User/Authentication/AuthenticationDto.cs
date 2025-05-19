@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.DTO.Office.User;
+﻿namespace TaskManagement.DTO.Office.User.Authentication;
 
 public record AuthenticationDto
 {
