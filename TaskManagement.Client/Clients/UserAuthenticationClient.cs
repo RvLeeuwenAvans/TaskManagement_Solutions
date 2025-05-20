@@ -2,7 +2,7 @@
 
 namespace TaskManagement.Client.Clients;
 
-public class AuthenticationClient(HttpClient httpClient, ApiClientConfig config) : BaseClient(httpClient, config)
+public class UserAuthenticationClient(HttpClient httpClient, ApiClientConfig config) : BaseClient(httpClient, config)
 {
     /**
     *  Logs in with provided credentials and sets the JWT token.
