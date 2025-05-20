@@ -1,4 +1,4 @@
-﻿using TaskManagement.DTO.Office.Relation.InsurancePolicy;
+using TaskManagement.DTO.Office.Relation.InsurancePolicy;
 
 namespace TaskManagement.Client.Clients;
 

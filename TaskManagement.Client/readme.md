@@ -1,4 +1,4 @@
-﻿# TaskManagement.Client
+# TaskManagement.Client
 
 A .NET client library for interacting with the TaskManagement API.
 

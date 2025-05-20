@@ -1,4 +1,4 @@
-﻿using TaskManagement.DTO.Office.User;
+using TaskManagement.DTO.Office.User;
 
 namespace TaskManagement.Client.Clients;
 

@@ -1,11 +1,11 @@
-﻿namespace TaskManagement.Client;
+namespace TaskManagement.Client;
 
 public class ApiClientConfig
 {
-    public string BaseUrl { get; init; } = string.Empty;
+    public required string BaseUrl { get; set; }
     
     /**
      * dev only, only used to set an admin token.
      */
-    public string? AuthToken { get; init; }
+    public string? AuthToken { get; set; }
 }
