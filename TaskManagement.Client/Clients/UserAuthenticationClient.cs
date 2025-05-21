@@ -7,7 +7,7 @@ public class UserAuthenticationClient(HttpClient httpClient, ApiClientConfig con
     /**
     *  Logs in with provided credentials and sets the JWT token.
     **/
-    public async Task AuthenticateUserAsync(string email, string password)
+    public async Task<string> AuthenticateUserAsync(string email, string password)
     {
         var request = new AuthenticationDto
         {
@@ -19,6 +19,8 @@ public class UserAuthenticationClient(HttpClient httpClient, ApiClientConfig con
             await PostAsync<AuthenticationDto, AuthenticationResponseDto>("Authentication/user", request);
 
         SetAuthToken(response.Token);
+        
+        return response.Token;
     }
 
     /**

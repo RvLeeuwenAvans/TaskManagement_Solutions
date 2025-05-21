@@ -9,7 +9,6 @@ public static class TaskManagementClientService
     public static IServiceCollection RegisterClients(this IServiceCollection services)
     {
         services.AddSingleton<HttpClient>();
-        services.AddSingleton<ApiClientConfig>();
         
         services.AddTransient<UserAuthenticationClient>();
         

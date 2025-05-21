@@ -40,7 +40,8 @@ public abstract class BaseClient
     protected async Task<TResponse> PostAsync<TRequest, TResponse>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync(endpoint, request, JsonOptions, cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await DeserializeOrThrowAsync<TResponse>(response.Content, endpoint, cancellationToken);
     }
@@ -86,7 +87,7 @@ public abstract class BaseClient
     {
         var result = await content.ReadFromJsonAsync<T>(JsonOptions, cancellationToken);
         if (result is not null) return result;
-        
+
         var rawBody = await content.ReadAsStringAsync(cancellationToken);
         throw new InvalidOperationException(
             $"Deserialization failed for '{typeof(T).Name}' from '{requestUri}'. " +

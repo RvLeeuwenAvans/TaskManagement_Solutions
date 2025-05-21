@@ -1,4 +1,5 @@
-﻿using TaskManagement.MobileApp.ViewModels;
+﻿using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels;
 
 namespace TaskManagement.MobileApp.Views.Pages;
 
@@ -6,10 +7,10 @@ public partial class MainPage : ContentPage
 {
     private readonly MainPageViewModel _viewModel;
 
-    public MainPage()
+    public MainPage(TaskService taskService)
     {
         InitializeComponent();
-        _viewModel = new MainPageViewModel();
+        _viewModel = new MainPageViewModel(taskService);
         BindingContext = _viewModel;
     }
 

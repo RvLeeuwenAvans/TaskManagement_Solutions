@@ -17,7 +17,7 @@ public class TaskCardModelBuilder
         return new TaskCardModelBuilder(taskItem);
     }
 
-    public TaskCardModel BuildTaskCard()
+    public TaskCardModel Build()
     {
         return new TaskCardModel(
             _taskItem.User.FirstName.ToCharArray().First(),

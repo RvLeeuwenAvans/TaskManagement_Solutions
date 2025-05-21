@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
              xmlns:models="clr-namespace:TaskManagement.MobileApp.Models"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage">
 
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="#005930">
@@ -60,7 +61,7 @@
             <ScrollView>
                 <!-- padding needs to correspond with the boxview below; so items at the bottom don't get overlapped. -->
                 <VerticalStackLayout Padding="0,0,0,100">
-                    <CollectionView ItemsSource="{Binding FilteredTaskCards}">
+                    <CollectionView ItemsSource="{Binding FilteredTaskCards}" x:DataType="viewModels:MainPageViewModel">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <views:TaskCardView
