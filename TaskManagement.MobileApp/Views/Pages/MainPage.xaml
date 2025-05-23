@@ -58,7 +58,25 @@
         </Grid>
         <!-- Content -->
         <Grid Grid.Row="2" BackgroundColor="#EAEAEA">
-            <ScrollView>
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
+                HorizontalOptions="Center" VerticalOptions="Center" x:DataType="viewModels:MainPageViewModel">
+                <ActivityIndicator IsRunning="True" />
+                <Label Text="Loading tasks..." />
+            </StackLayout>
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Empty}"
+                HorizontalOptions="Center" VerticalOptions="Center" x:DataType="viewModels:MainPageViewModel">
+                <Label Text="No tasks found." />
+            </StackLayout>
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Error}"
+                HorizontalOptions="Center" VerticalOptions="Center" x:DataType="viewModels:MainPageViewModel">
+                <Label Text="An error occurred while loading tasks." TextColor="Red" />
+            </StackLayout>
+            <ScrollView
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Success}"
+                x:DataType="viewModels:MainPageViewModel">
                 <!-- padding needs to correspond with the boxview below; so items at the bottom don't get overlapped. -->
                 <VerticalStackLayout Padding="0,0,0,100">
                     <CollectionView ItemsSource="{Binding FilteredTaskCards}" x:DataType="viewModels:MainPageViewModel">

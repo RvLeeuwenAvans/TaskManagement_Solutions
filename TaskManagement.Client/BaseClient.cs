@@ -89,11 +89,8 @@ public abstract class BaseClient
     {
         var result = await content.ReadFromJsonAsync<T>(jsonOptions, cancellationToken)
             .ConfigureAwait(false);
-        if (result is not null) return result;
 
-        var rawBody = await content.ReadAsStringAsync(cancellationToken);
-        throw new InvalidOperationException(
-            $"Deserialization failed for '{typeof(T).Name}' from '{requestUri}'. " +
-            $"Raw response: '{rawBody}'");
+        return result ?? throw new InvalidOperationException(
+            $"Deserialization failed for '{typeof(T).Name}' from '{requestUri}'.");
     }
 }
