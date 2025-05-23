@@ -32,7 +32,8 @@ public abstract class BaseClient
 
     protected async Task<T> GetAsync<T>(string endpoint, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync(endpoint, cancellationToken);
+        var response = await _httpClient.GetAsync(endpoint, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await DeserializeOrThrowAsync<T>(response.Content, endpoint, cancellationToken);
     }
@@ -49,7 +50,8 @@ public abstract class BaseClient
     protected async Task<TResponse> PostAsync<TResponse>(
         string endpoint, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsync(endpoint, null, cancellationToken);
+        var response = await _httpClient.PostAsync(endpoint, null, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await DeserializeOrThrowAsync<TResponse>(response.Content, endpoint, cancellationToken);
     }
@@ -57,14 +59,16 @@ public abstract class BaseClient
     protected async Task PostAsync<TRequest>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync(endpoint, request, JsonOptions, cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
 
     protected async Task<TResponse> PutAsync<TRequest, TResponse>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PutAsJsonAsync(endpoint, request, JsonOptions, cancellationToken);
+        var response = await _httpClient.PutAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await DeserializeOrThrowAsync<TResponse>(response.Content, endpoint, cancellationToken);
     }
@@ -72,20 +76,23 @@ public abstract class BaseClient
     protected async Task PutAsync<TRequest>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PutAsJsonAsync(endpoint, request, JsonOptions, cancellationToken);
+        var response = await _httpClient.PutAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
 
     protected async Task DeleteAsync(string endpoint, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.DeleteAsync(endpoint, cancellationToken);
+        var response = await _httpClient.DeleteAsync(endpoint, cancellationToken)
+            .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
 
     private static async Task<T> DeserializeOrThrowAsync<T>(
         HttpContent content, string requestUri, CancellationToken cancellationToken)
     {
-        var result = await content.ReadFromJsonAsync<T>(JsonOptions, cancellationToken);
+        var result = await content.ReadFromJsonAsync<T>(JsonOptions, cancellationToken)
+            .ConfigureAwait(false);
         if (result is not null) return result;
 
         var rawBody = await content.ReadAsStringAsync(cancellationToken);
