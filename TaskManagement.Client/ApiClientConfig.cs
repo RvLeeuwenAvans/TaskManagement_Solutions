@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace TaskManagement.Client;
 
 public class ApiClientConfig
@@ -8,4 +10,10 @@ public class ApiClientConfig
      * dev only, only used to set an admin token.
      */
     public string? AuthToken { get; set; }
+    
+    public JsonSerializerOptions JsonOptions { get; set; } = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        WriteIndented = false
+    };
 }

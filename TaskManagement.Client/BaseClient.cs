@@ -8,12 +8,7 @@ public abstract class BaseClient
 {
     private readonly HttpClient _httpClient;
 
-    // todo: make this configurable.
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNameCaseInsensitive = true,
-        WriteIndented = false
-    };
+    private readonly JsonSerializerOptions _jsonOptions;
 
     protected BaseClient(HttpClient httpClient, ApiClientConfig config)
     {
@@ -21,6 +16,7 @@ public abstract class BaseClient
         ArgumentNullException.ThrowIfNull(config);
 
         _httpClient = httpClient;
+        _jsonOptions = config.JsonOptions;
 
         _httpClient.BaseAddress = new Uri(config.BaseUrl);
         SetAuthToken(config.AuthToken);
@@ -35,16 +31,16 @@ public abstract class BaseClient
         var response = await _httpClient.GetAsync(endpoint, cancellationToken)
             .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await DeserializeOrThrowAsync<T>(response.Content, endpoint, cancellationToken);
+        return await DeserializeOrThrowAsync<T>(_jsonOptions, response.Content, endpoint, cancellationToken);
     }
 
     protected async Task<TResponse> PostAsync<TRequest, TResponse>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+        var response = await _httpClient.PostAsJsonAsync(endpoint, request, _jsonOptions, cancellationToken)
             .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await DeserializeOrThrowAsync<TResponse>(response.Content, endpoint, cancellationToken);
+        return await DeserializeOrThrowAsync<TResponse>(_jsonOptions, response.Content, endpoint, cancellationToken);
     }
 
     protected async Task<TResponse> PostAsync<TResponse>(
@@ -53,13 +49,13 @@ public abstract class BaseClient
         var response = await _httpClient.PostAsync(endpoint, null, cancellationToken)
             .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await DeserializeOrThrowAsync<TResponse>(response.Content, endpoint, cancellationToken);
+        return await DeserializeOrThrowAsync<TResponse>(_jsonOptions, response.Content, endpoint, cancellationToken);
     }
 
     protected async Task PostAsync<TRequest>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+        var response = await _httpClient.PostAsJsonAsync(endpoint, request, _jsonOptions, cancellationToken)
             .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
@@ -67,16 +63,16 @@ public abstract class BaseClient
     protected async Task<TResponse> PutAsync<TRequest, TResponse>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PutAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+        var response = await _httpClient.PutAsJsonAsync(endpoint, request, _jsonOptions, cancellationToken)
             .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await DeserializeOrThrowAsync<TResponse>(response.Content, endpoint, cancellationToken);
+        return await DeserializeOrThrowAsync<TResponse>(_jsonOptions, response.Content, endpoint, cancellationToken);
     }
 
     protected async Task PutAsync<TRequest>(
         string endpoint, TRequest request, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PutAsJsonAsync(endpoint, request, JsonOptions, cancellationToken)
+        var response = await _httpClient.PutAsJsonAsync(endpoint, request, _jsonOptions, cancellationToken)
             .ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
@@ -89,9 +85,9 @@ public abstract class BaseClient
     }
 
     private static async Task<T> DeserializeOrThrowAsync<T>(
-        HttpContent content, string requestUri, CancellationToken cancellationToken)
+        JsonSerializerOptions jsonOptions, HttpContent content, string requestUri, CancellationToken cancellationToken)
     {
-        var result = await content.ReadFromJsonAsync<T>(JsonOptions, cancellationToken)
+        var result = await content.ReadFromJsonAsync<T>(jsonOptions, cancellationToken)
             .ConfigureAwait(false);
         if (result is not null) return result;
 
