@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
-      <ProjectReference Include="..\TaskManagement.DTO\TaskManagement.DTO.csproj" />
+      <ProjectReference Include="..\..\Shared\TaskManagement.DTO\TaskManagement.DTO.csproj" />
     </ItemGroup>
 
 </Project>

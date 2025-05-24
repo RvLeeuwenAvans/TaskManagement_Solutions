@@ -82,8 +82,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TaskManagement.Client\TaskManagement.Client.csproj" />
-      <ProjectReference Include="..\TaskManagement.DTO\TaskManagement.DTO.csproj" />
+      <ProjectReference Include="..\..\Client\TaskManagement.Client\TaskManagement.Client.csproj" />
+      <ProjectReference Include="..\..\Shared\TaskManagement.DTO\TaskManagement.DTO.csproj" />
     </ItemGroup>
 
     <ItemGroup>
