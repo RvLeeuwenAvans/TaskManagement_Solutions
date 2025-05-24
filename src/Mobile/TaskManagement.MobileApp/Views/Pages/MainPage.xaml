@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
+             xmlns:models="clr-namespace:TaskManagement.MobileApp.Models"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
+             x:Class="TaskManagement.MobileApp.Views.Pages.MainPage">
+
+    <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="#005930">
+        <!-- Header -->
+        <Label Text="Kantoornaam"
+               BackgroundColor="#009951"
+               TextColor="White"
+               FontSize="26"
+               FontAttributes="Bold"
+               HorizontalOptions="FillAndExpand"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center"
+               Padding="15" />
+        <!-- Filter subheader -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <!-- Tabs -->
+            <HorizontalStackLayout Grid.Column="0"
+                                   x:Name="FilterTabs"
+                                   Spacing="20"
+                                   Padding="10,0">
+                <VerticalStackLayout>
+                    <Button Text="Alle" Clicked="OnTabClicked" x:Name="AllButton"
+                            BackgroundColor="Transparent" TextColor="White" />
+                    <BoxView x:Name="AllUnderline" HeightRequest="2" BackgroundColor="White" IsVisible="True" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Button Text="Vandaag" Clicked="OnTabClicked" x:Name="TodayButton"
+                            BackgroundColor="Transparent" TextColor="White" />
+                    <BoxView x:Name="TodayUnderline" HeightRequest="2" BackgroundColor="White" IsVisible="False" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Button Text="Week" Clicked="OnTabClicked" x:Name="WeekButton"
+                            BackgroundColor="Transparent" TextColor="White" />
+                    <BoxView x:Name="WeekUnderline" HeightRequest="2" BackgroundColor="White" IsVisible="False" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+            <!-- Filter Button -->
+            <ImageButton Grid.Column="1"
+                         Source="filter_icon.png"
+                         BackgroundColor="Transparent"
+                         HeightRequest="5"
+                         WidthRequest="5"
+                         Scale="0.7"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center" />
+        </Grid>
+        <!-- Content -->
+        <Grid Grid.Row="2" BackgroundColor="#EAEAEA">
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
+                HorizontalOptions="Center" VerticalOptions="Center" x:DataType="viewModels:MainPageViewModel">
+                <ActivityIndicator IsRunning="True" />
+                <Label Text="Loading tasks..." />
+            </StackLayout>
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Empty}"
+                HorizontalOptions="Center" VerticalOptions="Center" x:DataType="viewModels:MainPageViewModel">
+                <Label Text="No tasks found." />
+            </StackLayout>
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Error}"
+                HorizontalOptions="Center" VerticalOptions="Center" x:DataType="viewModels:MainPageViewModel">
+                <Label Text="An error occurred while loading tasks." TextColor="Red" />
+            </StackLayout>
+            <ScrollView
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Success}"
+                x:DataType="viewModels:MainPageViewModel">
+                <!-- padding needs to correspond with the boxview below; so items at the bottom don't get overlapped. -->
+                <VerticalStackLayout Padding="0,0,0,100">
+                    <CollectionView ItemsSource="{Binding FilteredTaskCards}" x:DataType="viewModels:MainPageViewModel">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <views:TaskCardView
+                                    x:DataType="models:TaskCardModel"
+                                    IconLetter="{Binding CreatorInitial}"
+                                    Title="{Binding Title}"
+                                    Subtitle="{Binding Subtitle}"
+                                    DateText="{Binding DueDate, StringFormat='{0:dd-MM-yyyy}'}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+                <!-- Add your list or other content here -->
+            </ScrollView>
+
+            <BoxView HeightRequest="100"
+                     BackgroundColor="#EAEAEA"
+                     Opacity="0.7"
+                     VerticalOptions="End"
+                     HorizontalOptions="Fill" />
+
+            <Border BackgroundColor="Transparent"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 35"
+                    Margin="0,0,16,16"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Shadow="{Shadow Brush=#22000000, Offset='0,2', Radius=8}">
+
+                <Button
+                    Text="+"
+                    FontSize="40"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="#009951"
+                    WidthRequest="70"
+                    HeightRequest="70"
+                    CornerRadius="35"
+                    Padding="0,-2,0,0"
+                    x:Name="AddButton" />
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>
