@@ -23,10 +23,10 @@ jobs:
         dotnet-version: '9.0.x' # Adjust to your .NET version if different
 
     - name: Restore Dependencies
-      run: dotnet restore /src/API/TaskManagement.Test/TaskManagement.Test.csproj
+      run: dotnet restore src/API/TaskManagement.Test/TaskManagement.Test.csproj
 
     - name: Build Solution
-      run: dotnet build /src/API/TaskManagement.Test/TaskManagement.Test.csproj --no-restore --configuration Release
+      run: dotnet build src/API/TaskManagement.Test/TaskManagement.Test.csproj --no-restore --configuration Release
 
     - name: Run Tests
-      run: dotnet test /src/API/TaskManagement.Test/TaskManagement.Test.csproj --no-build --configuration Release --verbosity normal
+      run: dotnet test src/API/TaskManagement.Test/TaskManagement.Test.csproj --no-build --configuration Release --verbosity normal
