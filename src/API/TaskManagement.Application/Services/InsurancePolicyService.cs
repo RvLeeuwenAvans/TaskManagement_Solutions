@@ -10,27 +10,27 @@ namespace TaskManagement.Application.Services;
 public class InsurancePolicyService(
     IInsurancePolicyRepository insurancePolicyRepository,
     IMapper mapper,
-    IValidator<InsurancePolicyCreateDto> createValidator,
-    IValidator<InsurancePolicyUpdateDto> updateValidator)
+    IValidator<CreateInsurancePolicy> createValidator,
+    IValidator<UpdateInsurancePolicy> updateValidator)
 {
-    public Task<List<InsurancePolicyResponseDto>> GetInsurancePoliciesByOffice(Guid officeId)
+    public Task<List<InsurancePolicyResponse>> GetInsurancePoliciesByOffice(Guid officeId)
     {
         var insurancePolicies = insurancePolicyRepository.GetAll()
             .Where(ip => ip.Relation.OfficeId == officeId)
             .ToList();
 
-        var response = mapper.Map<List<InsurancePolicyResponseDto>>(insurancePolicies);
+        var response = mapper.Map<List<InsurancePolicyResponse>>(insurancePolicies);
         
         return Task.FromResult(response);
     }
 
-    public async Task<InsurancePolicyResponseDto?> GetInsurancePolicyByIdAsync(Guid id)
+    public async Task<InsurancePolicyResponse?> GetInsurancePolicyByIdAsync(Guid id)
     {
         var insurancePolicy = await insurancePolicyRepository.GetByIdAsync(id);
-        return insurancePolicy == null ? null : mapper.Map<InsurancePolicyResponseDto>(insurancePolicy);
+        return insurancePolicy == null ? null : mapper.Map<InsurancePolicyResponse>(insurancePolicy);
     }
 
-    public async Task<InsurancePolicyResponseDto> CreateInsurancePolicyAsync(InsurancePolicyCreateDto dto)
+    public async Task<InsurancePolicyResponse> CreateInsurancePolicyAsync(CreateInsurancePolicy dto)
     {
         var validation = await createValidator.ValidateAsync(dto);
         if (!validation.IsValid)
@@ -38,10 +38,10 @@ public class InsurancePolicyService(
 
         var insurancePolicy = mapper.Map<InsurancePolicy>(dto);
         await insurancePolicyRepository.AddAsync(insurancePolicy);
-        return mapper.Map<InsurancePolicyResponseDto>(insurancePolicy);
+        return mapper.Map<InsurancePolicyResponse>(insurancePolicy);
     }
 
-    public async Task<bool> UpdateInsurancePolicyAsync(InsurancePolicyUpdateDto dto)
+    public async Task<bool> UpdateInsurancePolicyAsync(UpdateInsurancePolicy dto)
     {
         var validation = await updateValidator.ValidateAsync(dto);
         if (!validation.IsValid)

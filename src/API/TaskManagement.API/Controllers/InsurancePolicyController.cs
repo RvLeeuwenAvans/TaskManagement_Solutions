@@ -30,7 +30,7 @@ public class InsurancePolicyController(InsurancePolicyService insurancePolicySer
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreatePolicy([FromBody] InsurancePolicyCreateDto dto)
+    public async Task<IActionResult> CreatePolicy([FromBody] CreateInsurancePolicy dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -40,7 +40,7 @@ public class InsurancePolicyController(InsurancePolicyService insurancePolicySer
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdatePolicy(Guid id, [FromBody] InsurancePolicyUpdateDto dto)
+    public async Task<IActionResult> UpdatePolicy(Guid id, [FromBody] UpdateInsurancePolicy dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

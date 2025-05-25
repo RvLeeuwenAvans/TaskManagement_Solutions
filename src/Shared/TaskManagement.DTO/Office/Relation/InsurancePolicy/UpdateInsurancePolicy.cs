@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.Relation.InsurancePolicy;
 
-public record InsurancePolicyUpdateDto
+public record UpdateInsurancePolicy
 {
     public Guid Id { get; init; }
 

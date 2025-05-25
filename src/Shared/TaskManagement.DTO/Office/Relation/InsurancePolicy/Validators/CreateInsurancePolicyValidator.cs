@@ -2,9 +2,9 @@
 
 namespace TaskManagement.DTO.Office.Relation.InsurancePolicy.Validators;
 
-public class InsurancePolicyCreateDtoValidator : AbstractValidator<InsurancePolicyCreateDto>
+public class CreateInsurancePolicyValidator : AbstractValidator<CreateInsurancePolicy>
 {
-    public InsurancePolicyCreateDtoValidator()
+    public CreateInsurancePolicyValidator()
     {
         RuleFor(x => x.RelationId).NotEmpty().WithMessage("RelationId is required.");
 

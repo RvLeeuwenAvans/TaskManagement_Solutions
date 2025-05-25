@@ -2,7 +2,7 @@
 
 namespace TaskManagement.DTO.Office.Relation.InsurancePolicy.Validators;
 
-public class InsurancePolicyUpdateDtoValidator : AbstractValidator<InsurancePolicyUpdateDto>
+public class InsurancePolicyUpdateDtoValidator : AbstractValidator<UpdateInsurancePolicy>
 {
     public InsurancePolicyUpdateDtoValidator()
     {
