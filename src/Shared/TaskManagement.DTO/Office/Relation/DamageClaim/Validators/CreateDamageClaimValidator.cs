@@ -2,11 +2,11 @@
 
 namespace TaskManagement.DTO.Office.Relation.DamageClaim.Validators;
 
-public class DamageClaimUpdateDtoValidator : AbstractValidator<DamageClaimUpdateDto>
+public class CreateDamageClaimValidator : AbstractValidator<CreateDamageClaim>
 {
-    public DamageClaimUpdateDtoValidator()
+    public CreateDamageClaimValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().WithMessage("DamageClaim ID is required.");
+        RuleFor(x => x.RelationId).NotEmpty().WithMessage("RelationId is required.");
 
         RuleFor(x => x.Type)
             .NotEmpty().WithMessage("Type is required.")

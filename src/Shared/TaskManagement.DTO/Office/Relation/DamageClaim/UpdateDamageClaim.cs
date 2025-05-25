@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.Relation.DamageClaim;
 
-public record DamageClaimUpdateDto
+public record UpdateDamageClaim
 {
     public Guid Id { get; init; }
 

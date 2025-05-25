@@ -8,9 +8,9 @@ namespace TaskManagement.Application.MappingProfiles
     {
         public DamageClaimMappingProfile()
         {
-            CreateMap<DamageClaim, DamageClaimResponseDto>();
-            CreateMap<DamageClaimCreateDto, DamageClaim>();
-            CreateMap<DamageClaimUpdateDto, DamageClaim>()
+            CreateMap<DamageClaim, DamageClaimResponse>();
+            CreateMap<CreateDamageClaim, DamageClaim>();
+            CreateMap<UpdateDamageClaim, DamageClaim>()
                 .ForMember(dest => dest.Type, opt =>
                     opt.Condition(src => !string.IsNullOrWhiteSpace(src.Type)));
         }
