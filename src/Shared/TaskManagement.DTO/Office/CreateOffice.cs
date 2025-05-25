@@ -1,5 +1,5 @@
 ﻿namespace TaskManagement.DTO.Office;
 
-public record OfficeCreateDto {
+public record CreateOffice {
     public required string Name { get; init; }
 }

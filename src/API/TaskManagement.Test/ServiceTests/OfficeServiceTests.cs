@@ -15,8 +15,8 @@ public class OfficeServiceTests
 {
     private readonly Mock<IOfficeRepository> _repoMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
-    private readonly Mock<IValidator<OfficeCreateDto>> _createValidatorMock = new();
-    private readonly Mock<IValidator<OfficeUpdateDto>> _updateValidatorMock = new();
+    private readonly Mock<IValidator<CreateOffice>> _createValidatorMock = new();
+    private readonly Mock<IValidator<UpdateOffice>> _updateValidatorMock = new();
     private readonly OfficeService _service;
 
     public OfficeServiceTests()
@@ -40,7 +40,7 @@ public class OfficeServiceTests
             TestHelpers.CreateTestOffice(name: "Office B")
         };
 
-        var dtos = new List<OfficeResponseDto>
+        var dtos = new List<OfficeResponse>
         {
             new() { Id = offices[0].Id, Name = offices[0].Name, OfficeCode = 1001 },
             new() { Id = offices[1].Id, Name = offices[1].Name, OfficeCode = 1002 }
@@ -51,7 +51,7 @@ public class OfficeServiceTests
             .Returns(offices.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<OfficeResponseDto>>(offices))
+            .Setup(m => m.Map<List<OfficeResponse>>(offices))
             .Returns(dtos);
 
         // Act
@@ -60,7 +60,7 @@ public class OfficeServiceTests
         // Assert
         result.Should().BeEquivalentTo(dtos);
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<OfficeResponseDto>>(offices), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<OfficeResponse>>(offices), Times.Once);
     }
 
     [Fact]
@@ -68,14 +68,14 @@ public class OfficeServiceTests
     {
         // Arrange
         var offices = new List<Office>();
-        var dtos = new List<OfficeResponseDto>();
+        var dtos = new List<OfficeResponse>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(offices.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<OfficeResponseDto>>(offices))
+            .Setup(m => m.Map<List<OfficeResponse>>(offices))
             .Returns(dtos);
 
         // Act
@@ -84,7 +84,7 @@ public class OfficeServiceTests
         // Assert
         result.Should().BeEmpty();
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<OfficeResponseDto>>(offices), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<OfficeResponse>>(offices), Times.Once);
     }
 
     #endregion
@@ -96,7 +96,7 @@ public class OfficeServiceTests
     {
         // Arrange
         var office = TestHelpers.CreateTestOffice(name: "Main Office");
-        var dto = new OfficeResponseDto
+        var dto = new OfficeResponse
         {
             Id = office.Id,
             Name = office.Name,
@@ -108,7 +108,7 @@ public class OfficeServiceTests
             .ReturnsAsync(office);
 
         _mapperMock
-            .Setup(m => m.Map<OfficeResponseDto>(office))
+            .Setup(m => m.Map<OfficeResponse>(office))
             .Returns(dto);
 
         // Act
@@ -117,7 +117,7 @@ public class OfficeServiceTests
         // Assert
         result.Should().BeEquivalentTo(dto);
         _repoMock.Verify(r => r.GetByIdAsync(office.Id), Times.Once);
-        _mapperMock.Verify(m => m.Map<OfficeResponseDto>(office), Times.Once);
+        _mapperMock.Verify(m => m.Map<OfficeResponse>(office), Times.Once);
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class OfficeServiceTests
         // Assert
         result.Should().BeNull();
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map<OfficeResponseDto>(It.IsAny<Office>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<OfficeResponse>(It.IsAny<Office>()), Times.Never);
     }
 
     #endregion
@@ -150,9 +150,9 @@ public class OfficeServiceTests
     public async Task CreateOfficeAsync_ValidDto_ReturnsMappedDto(string officeName, int officeCode)
     {
         // Arrange
-        var dto = new OfficeCreateDto { Name = officeName };
+        var dto = new CreateOffice { Name = officeName };
         var office = TestHelpers.CreateTestOffice(name: officeName);
-        var response = new OfficeResponseDto
+        var response = new OfficeResponse
         {
             Id = office.Id,
             Name = office.Name,
@@ -168,7 +168,7 @@ public class OfficeServiceTests
             .Returns(office);
 
         _mapperMock
-            .Setup(m => m.Map<OfficeResponseDto>(It.IsAny<Office>()))
+            .Setup(m => m.Map<OfficeResponse>(It.IsAny<Office>()))
             .Returns(response);
 
         // Act
@@ -178,7 +178,7 @@ public class OfficeServiceTests
         result.Should().BeEquivalentTo(response);
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<Office>(dto), Times.Once);
-        _mapperMock.Verify(m => m.Map<OfficeResponseDto>(It.IsAny<Office>()), Times.Once);
+        _mapperMock.Verify(m => m.Map<OfficeResponse>(It.IsAny<Office>()), Times.Once);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<Office>()), Times.Once);
     }
 
@@ -186,7 +186,7 @@ public class OfficeServiceTests
     public async Task CreateOfficeAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new OfficeCreateDto { Name = "" };
+        var dto = new CreateOffice { Name = "" };
         var failures = new List<ValidationFailure>
         {
             new("Name", "Name is required")
@@ -202,7 +202,7 @@ public class OfficeServiceTests
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<Office>(It.IsAny<OfficeCreateDto>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<Office>(It.IsAny<CreateOffice>()), Times.Never);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<Office>()), Times.Never);
     }
 
@@ -215,7 +215,7 @@ public class OfficeServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new OfficeUpdateDto
+        var dto = new UpdateOffice
         {
             Id = id,
             Name = "Updated Office Name"
@@ -247,7 +247,7 @@ public class OfficeServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new OfficeUpdateDto { Id = id, Name = "Updated Office" };
+        var dto = new UpdateOffice { Id = id, Name = "Updated Office" };
 
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
@@ -264,7 +264,7 @@ public class OfficeServiceTests
         result.Should().BeFalse();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map(It.IsAny<OfficeUpdateDto>(), It.IsAny<Office>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateOffice>(), It.IsAny<Office>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<Office>()), Times.Never);
     }
 
@@ -272,7 +272,7 @@ public class OfficeServiceTests
     public async Task UpdateOfficeAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new OfficeUpdateDto { Id = Guid.NewGuid(), Name = "" };
+        var dto = new UpdateOffice { Id = Guid.NewGuid(), Name = "" };
         var failures = new List<ValidationFailure>
         {
             new("Name", "Name cannot be empty")
@@ -289,7 +289,7 @@ public class OfficeServiceTests
         await act.Should().ThrowAsync<ValidationException>();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(It.IsAny<Guid>()), Times.Never);
-        _mapperMock.Verify(m => m.Map(It.IsAny<OfficeUpdateDto>(), It.IsAny<Office>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateOffice>(), It.IsAny<Office>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<Office>()), Times.Never);
     }
 

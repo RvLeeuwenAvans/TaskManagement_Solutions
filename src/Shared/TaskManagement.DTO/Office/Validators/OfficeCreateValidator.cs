@@ -3,7 +3,7 @@ using TaskManagement.DTO.Office;
 
 namespace TaskManagement.DTO.Office.Validators;
 
-public class OfficeCreateDtoValidator : AbstractValidator<OfficeCreateDto>
+public class OfficeCreateDtoValidator : AbstractValidator<CreateOffice>
 {
     public OfficeCreateDtoValidator()
     {

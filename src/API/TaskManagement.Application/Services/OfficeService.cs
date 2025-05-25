@@ -9,24 +9,24 @@ namespace TaskManagement.Application.Services;
 public class OfficeService(
     IOfficeRepository officeRepository,
     IMapper mapper,
-    IValidator<OfficeCreateDto> createValidator,
-    IValidator<OfficeUpdateDto> updateValidator)
+    IValidator<CreateOffice> createValidator,
+    IValidator<UpdateOffice> updateValidator)
 {
-    public Task<List<OfficeResponseDto>> GetAllOffices()
+    public Task<List<OfficeResponse>> GetAllOffices()
     {
         var offices = officeRepository.GetAll().ToList();
-        var response = mapper.Map<List<OfficeResponseDto>>(offices);
+        var response = mapper.Map<List<OfficeResponse>>(offices);
         
         return Task.FromResult(response);
     }
 
-    public async Task<OfficeResponseDto?> GetOfficeByIdAsync(Guid id)
+    public async Task<OfficeResponse?> GetOfficeByIdAsync(Guid id)
     {
         var office = await officeRepository.GetByIdAsync(id);
-        return office is null ? null : mapper.Map<OfficeResponseDto>(office);
+        return office is null ? null : mapper.Map<OfficeResponse>(office);
     }
 
-    public async Task<OfficeResponseDto> CreateOfficeAsync(OfficeCreateDto dto)
+    public async Task<OfficeResponse> CreateOfficeAsync(CreateOffice dto)
     {
         var validationResult = await createValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
@@ -34,10 +34,10 @@ public class OfficeService(
 
         var office = mapper.Map<Office>(dto);
         await officeRepository.AddAsync(office);
-        return mapper.Map<OfficeResponseDto>(office);
+        return mapper.Map<OfficeResponse>(office);
     }
 
-    public async Task<bool> UpdateOfficeAsync(OfficeUpdateDto dto)
+    public async Task<bool> UpdateOfficeAsync(UpdateOffice dto)
     {
         var validationResult = await updateValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)

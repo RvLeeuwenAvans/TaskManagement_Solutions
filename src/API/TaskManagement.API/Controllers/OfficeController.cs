@@ -29,7 +29,7 @@ public class OfficeController(OfficeService officeService) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateOffice([FromBody] OfficeCreateDto dto)
+    public async Task<IActionResult> CreateOffice([FromBody] CreateOffice dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -40,7 +40,7 @@ public class OfficeController(OfficeService officeService) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateOffice(Guid id, [FromBody] OfficeUpdateDto dto)
+    public async Task<IActionResult> UpdateOffice(Guid id, [FromBody] UpdateOffice dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
