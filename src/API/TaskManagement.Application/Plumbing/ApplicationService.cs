@@ -39,8 +39,8 @@ public static class ApplicationService
         //DI Auth First; then other services.
         services.AddScoped<TokenService>();
 
-        services.AddScoped<IValidator<UserCreateDto>, UserCreateDtoValidator>();
-        services.AddScoped<IValidator<UserUpdateDto>, UserUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateUser>, UserCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateUser>, UserUpdateDtoValidator>();
 
         services.AddScoped<IValidator<CreateOffice>, OfficeCreateDtoValidator>();
         services.AddScoped<IValidator<UpdateOffice>, OfficeUpdateDtoValidator>();

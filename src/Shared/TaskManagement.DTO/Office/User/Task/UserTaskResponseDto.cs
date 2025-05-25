@@ -5,7 +5,7 @@ namespace TaskManagement.DTO.Office.User.Task;
 public record UserTaskResponseDto {
     public required Guid Id { get; init; }
 
-    public required UserResponseDto User { get; init; }
+    public required ResponseUser User { get; init; }
 
     public required DateTime DueDate { get; init; }
 

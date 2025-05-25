@@ -8,9 +8,9 @@ public class UserMappingProfile : Profile
 {
     public UserMappingProfile()
     {
-        CreateMap<User, UserResponseDto>();
-        CreateMap<UserCreateDto, User>();
-        CreateMap<UserUpdateDto, User>()
+        CreateMap<User, ResponseUser>();
+        CreateMap<CreateUser, User>();
+        CreateMap<UpdateUser, User>()
             .ForAllMembers(
                 opts => 
                     opts.Condition((src, dest, srcMember) => srcMember != null));

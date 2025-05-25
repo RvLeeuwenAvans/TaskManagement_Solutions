@@ -47,7 +47,7 @@ public class UserTaskServiceTests
             Id = t.Id,
             Title = t.Title,
             Description = t.Description,
-            User = new UserResponseDto
+            User = new ResponseUser
             {
                 Id = t.User.Id,
                 FirstName = t.User.FirstName,
@@ -116,7 +116,7 @@ public class UserTaskServiceTests
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
-            User = new UserResponseDto
+            User = new ResponseUser
             {
                 Id = task.User.Id,
                 FirstName = task.User.FirstName,
@@ -189,7 +189,7 @@ public class UserTaskServiceTests
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
-            User = new UserResponseDto
+            User = new ResponseUser
             {
                 Id = task.User.Id,
                 FirstName = task.User.FirstName,

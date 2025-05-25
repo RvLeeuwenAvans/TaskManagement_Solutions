@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.User;
 
-public record UserUpdateDto {
+public record UpdateUser {
     public Guid Id { get; init; }
     
     public string? FirstName { get; init; }

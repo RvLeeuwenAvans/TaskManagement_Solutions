@@ -10,29 +10,29 @@ namespace TaskManagement.Application.Services;
 public class UserService(
     IUserRepository userRepository,
     IMapper mapper,
-    IValidator<UserCreateDto> createValidator,
-    IValidator<UserUpdateDto> updateValidator,
+    IValidator<CreateUser> createValidator,
+    IValidator<UpdateUser> updateValidator,
     IPasswordHasher<User> passwordHasher)
 {
-  public Task<List<UserResponseDto>> GetUsersFromOffice(Guid officeId)
+  public Task<List<ResponseUser>> GetUsersFromOffice(Guid officeId)
     {
         var users = userRepository
             .GetAll()
             .Where(u => u.OfficeId == officeId)
             .ToList();
 
-        var response = mapper.Map<List<UserResponseDto>>(users);
+        var response = mapper.Map<List<ResponseUser>>(users);
 
         return Task.FromResult(response);
     }
 
-    public async Task<UserResponseDto?> GetUserByIdAsync(Guid id)
+    public async Task<ResponseUser?> GetUserByIdAsync(Guid id)
     {
         var user = await userRepository.GetByIdAsync(id);
-        return user is null ? null : mapper.Map<UserResponseDto>(user);
+        return user is null ? null : mapper.Map<ResponseUser>(user);
     }
 
-    public async Task<UserResponseDto> CreateUserAsync(UserCreateDto dto)
+    public async Task<ResponseUser> CreateUserAsync(CreateUser dto)
     {
         var validationResult = await createValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
@@ -42,10 +42,10 @@ public class UserService(
         user.Password = HashPassword(user, dto.Password);
 
         await userRepository.AddAsync(user);
-        return mapper.Map<UserResponseDto>(user);
+        return mapper.Map<ResponseUser>(user);
     }
 
-    public async Task<bool> UpdateUserAsync(UserUpdateDto dto)
+    public async Task<bool> UpdateUserAsync(UpdateUser dto)
     {
         var validationResult = await updateValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)

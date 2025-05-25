@@ -13,7 +13,7 @@ public class UserTaskMappingProfile : Profile
         CreateMap<UserTask, UserTaskResponseDto>()
             .ForMember(dest => dest.User,
                 opt =>
-                    opt.MapFrom(source => new UserResponseDto
+                    opt.MapFrom(source => new ResponseUser
                     {
                         Id = source.User.Id,
                         FirstName = source.User.FirstName,
