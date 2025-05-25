@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.User.Authentication;
 
-public record AuthenticationResponseDto
+public record AuthenticationResponse
 {
   public required string Token { get; init; }
 }

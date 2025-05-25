@@ -11,9 +11,9 @@ public class AuthenticationController(TokenService tokenService) : ControllerBas
 {
     [AllowAnonymous]
     [HttpPost("user")]
-    public async Task<IActionResult> Login([FromBody] AuthenticationDto loginDto)
+    public async Task<IActionResult> Login([FromBody] AuthenticationRequest loginRequest)
     {
-        var token = await tokenService.AuthenticateUserAsync(loginDto.Email, loginDto.Password);
+        var token = await tokenService.AuthenticateUserAsync(loginRequest.Email, loginRequest.Password);
         if (token == null)
             return Unauthorized("Invalid credentials");
 

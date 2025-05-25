@@ -2,7 +2,7 @@
 
 namespace TaskManagement.DTO.Office.Relation.Validators;
 
-public class RelationUpdateDtoValidator : AbstractValidator<RelationUpdateDto>
+public class RelationUpdateDtoValidator : AbstractValidator<UpdateRelation>
 {
     public RelationUpdateDtoValidator()
     {

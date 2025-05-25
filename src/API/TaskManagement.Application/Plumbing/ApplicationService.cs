@@ -51,8 +51,8 @@ public static class ApplicationService
         services.AddScoped<IValidator<CreateNote>, NoteCreateDtoValidator>();
         services.AddScoped<IValidator<UpdateNote>, NoteUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<RelationCreateDto>, RelationCreateDtoValidator>();
-        services.AddScoped<IValidator<RelationUpdateDto>, RelationUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateRelation>, RelationCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateRelation>, RelationUpdateDtoValidator>();
 
         services.AddScoped<IValidator<CreateDamageClaim>, CreateDamageClaimValidator>();
         services.AddScoped<IValidator<UpdateDamageClaim>, UpdateDamageClaimValidator>();

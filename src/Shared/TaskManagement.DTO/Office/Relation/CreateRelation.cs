@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.Relation;
 
-public record RelationCreateDto
+public record CreateRelation
 {
     public Guid OfficeId { get; init; }
     

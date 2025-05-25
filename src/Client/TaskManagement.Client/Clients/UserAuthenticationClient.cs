@@ -9,14 +9,14 @@ public class UserAuthenticationClient(HttpClient httpClient, ApiClientConfig con
     **/
     public async Task<string> AuthenticateUserAsync(string email, string password)
     {
-        var request = new AuthenticationDto
+        var request = new AuthenticationRequest
         {
             Email = email,
             Password = password
         };
 
         var response =
-            await PostAsync<AuthenticationDto, AuthenticationResponseDto>("Authentication/user", request);
+            await PostAsync<AuthenticationRequest, AuthenticationResponse>("Authentication/user", request);
 
         SetAuthToken(response.Token);
         

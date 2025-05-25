@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.Relation;
 
-public record RelationUpdateDto
+public record UpdateRelation
 {
     public Guid Id { get; init; }
     

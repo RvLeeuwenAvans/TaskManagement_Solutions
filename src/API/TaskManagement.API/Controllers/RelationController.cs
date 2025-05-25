@@ -28,7 +28,7 @@ public class RelationController(RelationService relationService) : ControllerBas
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRelation([FromBody] RelationCreateDto dto)
+    public async Task<IActionResult> CreateRelation([FromBody] CreateRelation dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -38,7 +38,7 @@ public class RelationController(RelationService relationService) : ControllerBas
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateRelation(Guid id, [FromBody] RelationUpdateDto dto)
+    public async Task<IActionResult> UpdateRelation(Guid id, [FromBody] UpdateRelation dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
