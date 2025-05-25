@@ -24,7 +24,7 @@ public class UserTaskMappingProfile : Profile
             {
                 if (source.LinkedObject != null)
                 {
-                    dest.LinkedObject = new LinkedObjectResponseDto
+                    dest.LinkedObject = new LinkedObjectResponse
                     {
                         Id = source.LinkedObject.Id,
                         UserTaskId = source.LinkedObject.UserTask?.Id ?? Guid.Empty,

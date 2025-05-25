@@ -13,5 +13,5 @@ public record UserTaskResponse {
     public required string Title { get; init; }
     public string? Description { get; init; }
 
-    public LinkedObjectResponseDto? LinkedObject { get; set; }
+    public LinkedObjectResponse? LinkedObject { get; set; }
 }

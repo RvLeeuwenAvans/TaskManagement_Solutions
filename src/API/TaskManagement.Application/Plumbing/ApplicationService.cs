@@ -60,8 +60,8 @@ public static class ApplicationService
         services.AddScoped<IValidator<CreateInsurancePolicy>, CreateInsurancePolicyValidator>();
         services.AddScoped<IValidator<UpdateInsurancePolicy>, InsurancePolicyUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<LinkedObjectCreateDto>, LinkedObjectCreateDtoValidator>();
-        services.AddScoped<IValidator<LinkedObjectUpdateDto>, LinkedObjectUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateLinkedObject>, LinkedObjectCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateLinkedObject>, LinkedObjectUpdateDtoValidator>();
 
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         
