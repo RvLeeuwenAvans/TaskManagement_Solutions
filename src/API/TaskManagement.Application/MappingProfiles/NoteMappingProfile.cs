@@ -8,9 +8,9 @@ public class NoteMappingProfile : Profile
 {
     public NoteMappingProfile()
     {
-        CreateMap<Note, NoteResponseDto>();
-        CreateMap<NoteCreateDto, Note>();
-        CreateMap<NoteUpdateDto, Note>()
+        CreateMap<Note, NoteResponse>();
+        CreateMap<CreateNote, Note>();
+        CreateMap<UpdateNote, Note>()
             .ForMember(dest => dest.Content, opt => 
                 opt.Condition(src => !string.IsNullOrWhiteSpace(src.Content)));
     }

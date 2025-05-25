@@ -48,8 +48,8 @@ public static class ApplicationService
         services.AddScoped<IValidator<CreateUserTask>, UserTaskCreateDtoValidator>();
         services.AddScoped<IValidator<UpdateUserTask>, UserTaskUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<NoteCreateDto>, NoteCreateDtoValidator>();
-        services.AddScoped<IValidator<NoteUpdateDto>, NoteUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateNote>, NoteCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateNote>, NoteUpdateDtoValidator>();
 
         services.AddScoped<IValidator<RelationCreateDto>, RelationCreateDtoValidator>();
         services.AddScoped<IValidator<RelationUpdateDto>, RelationUpdateDtoValidator>();
