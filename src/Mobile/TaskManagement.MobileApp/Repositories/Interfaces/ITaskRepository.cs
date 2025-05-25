@@ -5,5 +5,5 @@ namespace TaskManagement.MobileApp.Repositories.Interfaces;
 
 public interface ITaskRepository
 {
-    Task<List<UserTaskResponseDto>> GetTasksAsync(Guid userId);
+    Task<List<UserTaskResponse>> GetTasksAsync(Guid userId);
 }

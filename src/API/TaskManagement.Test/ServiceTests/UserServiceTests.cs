@@ -44,7 +44,7 @@ public class UserServiceTests
             TestHelpers.CreateTestUser(firstName: "Jane", lastName: "Doe")
         };
 
-        var dtos = users.Select(u => new ResponseUser
+        var dtos = users.Select(u => new UserResponse
         {
             Id = u.Id,
             FirstName = u.FirstName,
@@ -58,7 +58,7 @@ public class UserServiceTests
             .Returns(users.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<ResponseUser>>(It.Is<List<User>>(l =>
+            .Setup(m => m.Map<List<UserResponse>>(It.Is<List<User>>(l =>
                 l.All(u => u.OfficeId == officeId))))
             .Returns(dtos);
 
@@ -68,7 +68,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeEquivalentTo(dtos);
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<ResponseUser>>(It.Is<List<User>>(l =>
+        _mapperMock.Verify(m => m.Map<List<UserResponse>>(It.Is<List<User>>(l =>
             l.All(u => u.OfficeId == officeId))), Times.Once);
     }
 
@@ -78,14 +78,14 @@ public class UserServiceTests
         // Arrange
         var officeId = Guid.NewGuid();
         var users = new List<User>();
-        var dtos = new List<ResponseUser>();
+        var dtos = new List<UserResponse>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(users.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<ResponseUser>>(users))
+            .Setup(m => m.Map<List<UserResponse>>(users))
             .Returns(dtos);
 
         // Act
@@ -94,7 +94,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeEmpty();
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<ResponseUser>>(users), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<UserResponse>>(users), Times.Once);
     }
 
     #endregion
@@ -106,7 +106,7 @@ public class UserServiceTests
     {
         // Arrange
         var user = TestHelpers.CreateTestUser();
-        var dto = new ResponseUser
+        var dto = new UserResponse
         {
             Id = user.Id,
             FirstName = user.FirstName,
@@ -120,7 +120,7 @@ public class UserServiceTests
             .ReturnsAsync(user);
 
         _mapperMock
-            .Setup(m => m.Map<ResponseUser>(user))
+            .Setup(m => m.Map<UserResponse>(user))
             .Returns(dto);
 
         // Act
@@ -129,7 +129,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeEquivalentTo(dto);
         _repoMock.Verify(r => r.GetByIdAsync(user.Id), Times.Once);
-        _mapperMock.Verify(m => m.Map<ResponseUser>(user), Times.Once);
+        _mapperMock.Verify(m => m.Map<UserResponse>(user), Times.Once);
     }
 
     [Fact]
@@ -148,7 +148,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeNull();
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map<ResponseUser>(It.IsAny<User>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<UserResponse>(It.IsAny<User>()), Times.Never);
     }
 
     #endregion
@@ -177,7 +177,7 @@ public class UserServiceTests
 
         var hashedPassword = "hashedPassword123";
 
-        var response = new ResponseUser
+        var response = new UserResponse
         {
             Id = user.Id,
             FirstName = user.FirstName,
@@ -199,7 +199,7 @@ public class UserServiceTests
             .Returns(hashedPassword);
 
         _mapperMock
-            .Setup(m => m.Map<ResponseUser>(user))
+            .Setup(m => m.Map<UserResponse>(user))
             .Returns(response);
 
         // Act
@@ -212,7 +212,7 @@ public class UserServiceTests
         _passwordHasherMock.Verify(h => h.HashPassword(user, dto.Password), Times.Once);
         user.Password.Should().Be(hashedPassword);
         _repoMock.Verify(r => r.AddAsync(user), Times.Once);
-        _mapperMock.Verify(m => m.Map<ResponseUser>(user), Times.Once);
+        _mapperMock.Verify(m => m.Map<UserResponse>(user), Times.Once);
     }
 
     [Fact]

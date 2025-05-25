@@ -5,14 +5,14 @@ namespace TaskManagement.MobileApp.Services.Helpers.Builders;
 
 public class TaskCardModelBuilder
 {
-    private readonly UserTaskResponseDto _taskItem;
+    private readonly UserTaskResponse _taskItem;
 
-    private TaskCardModelBuilder(UserTaskResponseDto taskItem)
+    private TaskCardModelBuilder(UserTaskResponse taskItem)
     {
         _taskItem = taskItem;
     }
 
-    public static TaskCardModelBuilder From(UserTaskResponseDto taskItem)
+    public static TaskCardModelBuilder From(UserTaskResponse taskItem)
     {
         return new TaskCardModelBuilder(taskItem);
     }

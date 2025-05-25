@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.DTO.Office.User.Task;
 
-public record UserTaskCreateDto {
+public record CreateUserTask {
     public required Guid UserId { get; init; }
 
     public required DateTime DueDate { get; init; }

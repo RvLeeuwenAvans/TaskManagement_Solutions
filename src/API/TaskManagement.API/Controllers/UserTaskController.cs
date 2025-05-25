@@ -28,7 +28,7 @@ public class UserTaskController(UserTaskService userTaskService) : ControllerBas
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTask([FromBody] UserTaskCreateDto dto)
+    public async Task<IActionResult> CreateTask([FromBody] CreateUserTask dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -38,7 +38,7 @@ public class UserTaskController(UserTaskService userTaskService) : ControllerBas
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateTask(Guid id, [FromBody] UserTaskUpdateDto dto)
+    public async Task<IActionResult> UpdateTask(Guid id, [FromBody] UpdateUserTask dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

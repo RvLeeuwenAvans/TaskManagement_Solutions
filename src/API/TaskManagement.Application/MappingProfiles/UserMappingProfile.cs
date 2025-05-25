@@ -8,7 +8,7 @@ public class UserMappingProfile : Profile
 {
     public UserMappingProfile()
     {
-        CreateMap<User, ResponseUser>();
+        CreateMap<User, UserResponse>();
         CreateMap<CreateUser, User>();
         CreateMap<UpdateUser, User>()
             .ForAllMembers(

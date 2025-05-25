@@ -10,10 +10,10 @@ public class UserTaskMappingProfile : Profile
 {
     public UserTaskMappingProfile()
     {
-        CreateMap<UserTask, UserTaskResponseDto>()
+        CreateMap<UserTask, UserTaskResponse>()
             .ForMember(dest => dest.User,
                 opt =>
-                    opt.MapFrom(source => new ResponseUser
+                    opt.MapFrom(source => new UserResponse
                     {
                         Id = source.User.Id,
                         FirstName = source.User.FirstName,
@@ -39,8 +39,8 @@ public class UserTaskMappingProfile : Profile
                 }
             });
         
-        CreateMap<UserTaskCreateDto, UserTask>();
-        CreateMap<UserTaskUpdateDto, UserTask>()
+        CreateMap<CreateUserTask, UserTask>();
+        CreateMap<UpdateUserTask, UserTask>()
             .ForAllMembers(opts =>
                 opts.Condition((src, dest, srcMember) => srcMember is not null));
     }

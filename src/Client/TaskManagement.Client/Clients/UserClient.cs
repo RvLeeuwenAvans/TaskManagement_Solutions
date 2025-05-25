@@ -4,21 +4,21 @@ namespace TaskManagement.Client.Clients;
 
 public class UserClient(HttpClient httpClient, ApiClientConfig config) : BaseClient(httpClient, config)
 {
-    public async Task<IEnumerable<ResponseUser>> GetUsersByOfficeAsync(Guid officeId,
+    public async Task<IEnumerable<UserResponse>> GetUsersByOfficeAsync(Guid officeId,
         CancellationToken cancellationToken = default)
     {
-        return await GetAsync<IEnumerable<ResponseUser>>($"/api/User/office/{officeId}", cancellationToken);
+        return await GetAsync<IEnumerable<UserResponse>>($"/api/User/office/{officeId}", cancellationToken);
     }
 
-    public async Task<ResponseUser> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<UserResponse> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await GetAsync<ResponseUser>($"/api/User/{id}", cancellationToken);
+        return await GetAsync<UserResponse>($"/api/User/{id}", cancellationToken);
     }
 
-    public async Task<ResponseUser> CreateUserAsync(CreateUser user,
+    public async Task<UserResponse> CreateUserAsync(CreateUser user,
         CancellationToken cancellationToken = default)
     {
-        return await PostAsync<CreateUser, ResponseUser>("/api/User", user, cancellationToken);
+        return await PostAsync<CreateUser, UserResponse>("/api/User", user, cancellationToken);
     }
 
     public async Task UpdateUserAsync(Guid id, UpdateUser user, CancellationToken cancellationToken = default)

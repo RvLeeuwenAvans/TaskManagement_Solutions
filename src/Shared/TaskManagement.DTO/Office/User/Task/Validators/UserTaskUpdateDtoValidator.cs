@@ -2,7 +2,7 @@
 
 namespace TaskManagement.DTO.Office.User.Task.Validators;
 
-public class UserTaskUpdateDtoValidator : AbstractValidator<UserTaskUpdateDto>
+public class UserTaskUpdateDtoValidator : AbstractValidator<UpdateUserTask>
 {
     public UserTaskUpdateDtoValidator()
     {
