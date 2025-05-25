@@ -1,48 +1,30 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Services;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
-/** todo look into: https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/layouts/statecontainer **/
-public sealed class MainPageViewModel : INotifyPropertyChanged
+public enum TaskFilter
+{
+    All,
+    Today,
+    Week
+}
+
+public partial class MainPageViewModel : ObservableObject
 {
     private readonly TaskService _taskService;
-    private ObservableCollection<TaskCardModel> _allTasks = [];
-    private ObservableCollection<TaskCardModel> _filteredTaskCards = [];
+    private ObservableCollection<TaskCardModel> _allTasks = new();
 
-    private Views.ViewState _currentState;
-
-    public ObservableCollection<TaskCardModel> FilteredTaskCards
-    {
-        get => _filteredTaskCards;
-        private set
-        {
-            _filteredTaskCards = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public Views.ViewState CurrentState
-    {
-        get => _currentState;
-        private set
-        {
-            _currentState = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    [ObservableProperty] private ObservableCollection<TaskCardModel> _filteredTaskCards = new();
+    [ObservableProperty] private Views.ViewState _currentState;
+    [ObservableProperty] private TaskFilter _selectedFilter = TaskFilter.All;
 
     public MainPageViewModel(TaskService taskService)
     {
-        _taskService = taskService;
+        _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
         InitializeAsync();
     }
 
@@ -53,7 +35,7 @@ public sealed class MainPageViewModel : INotifyPropertyChanged
             CurrentState = Views.ViewState.Loading;
             await LoadTasksAsync();
         }
-        catch (Exception)
+        catch
         {
             CurrentState = Views.ViewState.Error;
         }
@@ -72,22 +54,37 @@ public sealed class MainPageViewModel : INotifyPropertyChanged
         else
         {
             CurrentState = Views.ViewState.Success;
-            FilteredTaskCards = new ObservableCollection<TaskCardModel>(_allTasks);
+            ApplyFilter(SelectedFilter);
         }
     }
 
-    public void FilterTasks(string filter)
+    [RelayCommand]
+    private void Filter(string filter)
+    {
+        if (!Enum.TryParse<TaskFilter>(filter, out var parsedFilter)) return;
+        SelectedFilter = parsedFilter;
+        ApplyFilter(parsedFilter);
+    }
+
+    partial void OnSelectedFilterChanged(TaskFilter value)
+    {
+        ApplyFilter(value);
+    }
+
+    /**
+    * The tabs on the main page are not actually tabs but filters; but to mock tab behavior, we show/hide the underline.
+    */
+    private void ApplyFilter(TaskFilter filter)
     {
         if (CurrentState != Views.ViewState.Success)
-            return; 
+            return;
 
         var filtered = filter switch
         {
-            "Today" => _allTasks.Where(t => t.DueDate.Date == DateTime.Today),
-            "Week" => _allTasks.Where(t =>
+            TaskFilter.Today => _allTasks.Where(t => t.DueDate.Date == DateTime.Today),
+            TaskFilter.Week => _allTasks.Where(t =>
                 t.DueDate.Date >= DateTime.Today &&
-                t.DueDate.Date <= DateTime.Today.AddDays(7)
-            ),
+                t.DueDate.Date <= DateTime.Today.AddDays(7)),
             _ => _allTasks
         };
 
