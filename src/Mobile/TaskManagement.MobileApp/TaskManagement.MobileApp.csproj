@@ -90,4 +90,13 @@
     <ItemGroup>
       <EmbeddedResource Include="Properties\appsettings.json" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="src\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="src\Views\Pages\MainPage.xaml" />
+      <AdditionalFiles Include="src\Views\TaskCardView.xaml" />
+    </ItemGroup>
 </Project>

@@ -16,9 +16,9 @@ public enum TaskFilter
 public partial class MainPageViewModel : ObservableObject
 {
     private readonly TaskService _taskService;
-    private ObservableCollection<TaskCardModel> _allTasks = new();
+    private ObservableCollection<TaskCardModel> _allTasks = [];
 
-    [ObservableProperty] private ObservableCollection<TaskCardModel> _filteredTaskCards = new();
+    [ObservableProperty] private ObservableCollection<TaskCardModel> _filteredTaskCards = [];
     [ObservableProperty] private Views.ViewState _currentState;
     [ObservableProperty] private TaskFilter _selectedFilter = TaskFilter.All;
 
