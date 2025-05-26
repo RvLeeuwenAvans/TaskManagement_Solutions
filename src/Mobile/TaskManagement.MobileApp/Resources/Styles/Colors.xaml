@@ -50,8 +50,9 @@
     <Color x:Key="Transparent">Transparent</Color>
     <Color x:Key="Red">Red</Color>
     <Color x:Key="ShadowColor">#22000000</Color>
-    <Color x:Key="BackgroundIconGray">#E1E1E1</Color>
+    <Color x:Key="BackgroundIcon">#A1CACD</Color>
     <Color x:Key="DateLabelBackground">#EFE1B3</Color>
     <Color x:Key="DateLabelText">#B09969</Color>
     <Color x:Key="TextGray">Gray</Color>
+    <Color x:Key="PolicyBrown">#723A13</Color>
 </ResourceDictionary>

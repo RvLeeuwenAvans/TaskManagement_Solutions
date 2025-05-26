@@ -3,12 +3,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
-             xmlns:models="clr-namespace:TaskManagement.MobileApp.Models"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage"
              x:DataType="viewModels:MainPageViewModel">
+    
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryGreenDark}">
-        <!-- Header -->
         <Label Text="Kantoornaam"
                BackgroundColor="{StaticResource PrimaryGreen}"
                TextColor="{StaticResource White}"
@@ -19,7 +18,6 @@
                VerticalTextAlignment="Center"
                VerticalOptions="Center"
                Padding="15" />
-        <!-- Filter subheader -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -30,7 +28,6 @@
                                    x:Name="FilterTabs"
                                    Spacing="20"
                                    Padding="10,0">
-                <!-- All Tab -->
                 <VerticalStackLayout>
                     <Button Text="Alle"
                             Command="{Binding FilterCommand}"
@@ -43,7 +40,6 @@
                              BackgroundColor="{StaticResource White}"
                              IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=All}" />
                 </VerticalStackLayout>
-                <!-- Today Tab -->
                 <VerticalStackLayout>
                     <Button Text="Vandaag"
                             Command="{Binding FilterCommand}"
@@ -56,7 +52,6 @@
                              BackgroundColor="{StaticResource White}"
                              IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Today}" />
                 </VerticalStackLayout>
-                <!-- Week Tab -->
                 <VerticalStackLayout>
                     <Button Text="Week"
                             Command="{Binding FilterCommand}"
@@ -70,7 +65,6 @@
                              IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Week}" />
                 </VerticalStackLayout>
             </HorizontalStackLayout>
-            <!-- Filter Button -->
             <ImageButton Grid.Column="1"
                          Source="filter_icon.png"
                          BackgroundColor="{StaticResource Transparent}"
@@ -80,7 +74,6 @@
                          HorizontalOptions="End"
                          VerticalOptions="Center" />
         </Grid>
-        <!-- Content -->
         <Grid Grid.Row="2" BackgroundColor="{StaticResource LightGray}">
             <StackLayout
                 IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
@@ -104,13 +97,8 @@
                 <VerticalStackLayout Padding="0,0,0,100">
                     <CollectionView ItemsSource="{Binding FilteredTaskCards}">
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <views:TaskCardView
-                                    x:DataType="models:TaskCardModel"
-                                    IconLetter="{Binding CreatorInitial}"
-                                    Title="{Binding Title}"
-                                    Subtitle="{Binding Subtitle}"
-                                    DateText="{Binding DueDate, StringFormat='{0:dd-MM-yyyy}'}" />
+                            <DataTemplate x:DataType="viewModels:TaskCardViewModel">
+                                <views:TaskCardView />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

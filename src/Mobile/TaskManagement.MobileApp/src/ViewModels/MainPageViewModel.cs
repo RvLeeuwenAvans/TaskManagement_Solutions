@@ -16,15 +16,19 @@ public enum TaskFilter
 public partial class MainPageViewModel : ObservableObject
 {
     private readonly TaskService _taskService;
-    private ObservableCollection<TaskCardModel> _allTasks = [];
+    private readonly LinkedObjectService _linkedObjectService;
 
-    [ObservableProperty] private ObservableCollection<TaskCardModel> _filteredTaskCards = [];
+    private ObservableCollection<TaskCardViewModel> _allTasks = [];
+
+    [ObservableProperty] private ObservableCollection<TaskCardViewModel> _filteredTaskCards = [];
     [ObservableProperty] private Views.ViewState _currentState;
     [ObservableProperty] private TaskFilter _selectedFilter = TaskFilter.All;
 
-    public MainPageViewModel(TaskService taskService)
+    public MainPageViewModel(TaskService taskService, LinkedObjectService linkedObjectService)
     {
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
+        _linkedObjectService = linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
+
         InitializeAsync();
     }
 
@@ -44,7 +48,20 @@ public partial class MainPageViewModel : ObservableObject
     private async Task LoadTasksAsync()
     {
         var userTasks = await _taskService.GetUserTasks();
-        _allTasks = new ObservableCollection<TaskCardModel>(userTasks);
+        var taskCardViewModels = new List<TaskCardViewModel>();
+
+        foreach (var model in userTasks)
+        {
+            LinkedObjectModel? linkedObject = null;
+            if (model.LinkedObjectResponse != null)
+            {
+                linkedObject = await _linkedObjectService.GetLinkedObjectByResponse(model.LinkedObjectResponse);
+            }
+
+            taskCardViewModels.Add(new TaskCardViewModel(model, linkedObject));
+        }
+
+        _allTasks = new ObservableCollection<TaskCardViewModel>(taskCardViewModels);
 
         if (_allTasks.Count == 0)
         {
@@ -88,6 +105,6 @@ public partial class MainPageViewModel : ObservableObject
             _ => _allTasks
         };
 
-        FilteredTaskCards = new ObservableCollection<TaskCardModel>(filtered);
+        FilteredTaskCards = new ObservableCollection<TaskCardViewModel>(filtered);
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace TaskManagement.MobileApp.Models;
+﻿using TaskManagement.DTO.Office.User.Task.LinkedObject;
+
+namespace TaskManagement.MobileApp.Models;
 
 public record TaskCardModel(
     char CreatorInitial,
     string Title,
-    Guid? LinkedObjectId,
+    LinkedObjectResponse? LinkedObjectResponse,
     DateTime DueDate);

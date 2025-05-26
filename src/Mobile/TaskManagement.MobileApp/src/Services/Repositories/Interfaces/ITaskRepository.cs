@@ -1,7 +1,6 @@
 ﻿using TaskManagement.DTO.Office.User.Task;
-using TaskManagement.MobileApp.Models;
 
-namespace TaskManagement.MobileApp.Repositories.Interfaces;
+namespace TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 public interface ITaskRepository
 {

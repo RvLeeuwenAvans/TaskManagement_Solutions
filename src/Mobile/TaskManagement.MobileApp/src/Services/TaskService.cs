@@ -1,8 +1,8 @@
 ﻿using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Interfaces;
-using TaskManagement.MobileApp.Repositories.Interfaces;
 using TaskManagement.MobileApp.Services.Authentication;
 using TaskManagement.MobileApp.Services.Helpers.Builders;
+using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services;
 

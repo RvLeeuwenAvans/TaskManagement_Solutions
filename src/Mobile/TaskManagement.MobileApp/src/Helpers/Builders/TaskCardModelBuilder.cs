@@ -22,7 +22,7 @@ public class TaskCardModelBuilder
         return new TaskCardModel(
             _taskItem.User.FirstName.ToCharArray().First(),
             _taskItem.Title,
-            _taskItem.LinkedObject?.Id,
+            _taskItem.LinkedObject,
             _taskItem.DueDate
         );
     }

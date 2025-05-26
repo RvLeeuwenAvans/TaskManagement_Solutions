@@ -1,8 +1,8 @@
 ﻿using TaskManagement.Client.Clients;
 using TaskManagement.DTO.Office.User.Task;
-using TaskManagement.MobileApp.Repositories.Interfaces;
+using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
-namespace TaskManagement.MobileApp.Repositories;
+namespace TaskManagement.MobileApp.Services.Repositories;
 
 public class TaskRepository(UserTaskClient client) : ITaskRepository
 {

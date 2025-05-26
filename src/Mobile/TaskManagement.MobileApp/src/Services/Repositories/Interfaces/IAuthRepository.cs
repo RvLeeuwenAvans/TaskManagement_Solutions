@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.MobileApp.Repositories.Interfaces;
+﻿namespace TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 public interface IAuthRepository
 {

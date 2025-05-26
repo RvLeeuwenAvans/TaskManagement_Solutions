@@ -9,10 +9,10 @@ namespace TaskManagement.MobileApp.Views.Pages;
  */
 public partial class MainPage : ContentPage
 {
-    public MainPage(TaskService taskService)
+    public MainPage(TaskService taskService, LinkedObjectService linkedObjectService)
     {
         InitializeComponent();
-        var viewModel = new MainPageViewModel(taskService);
+        var viewModel = new MainPageViewModel(taskService, linkedObjectService);
         BindingContext = viewModel;
     }
 }

@@ -1,56 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.TaskCardView"
-             x:Name="This">
+             x:DataType="viewModels:TaskCardViewModel">
 
     <Border Margin="16,8"
             Padding="0, 7"
             StrokeShape="RoundRectangle 8"
             BackgroundColor="{StaticResource White}"
             Shadow="{Shadow Brush={StaticResource ShadowColor}, Offset='0,2', Radius=4}">
-
         <Grid ColumnDefinitions="Auto,*,Auto,Auto"
               RowDefinitions="*,Auto"
               ColumnSpacing="8"
               RowSpacing="4"
               Padding="12,8">
-
-            <!-- Profile Image/Letter Circle -->
             <Border Grid.Column="0"
                     Grid.RowSpan="2"
                     HeightRequest="44"
                     WidthRequest="44"
                     StrokeShape="RoundRectangle 22"
-                    BackgroundColor="{StaticResource BackgroundIconGray}"
+                    BackgroundColor="{StaticResource BackgroundIcon}"
                     VerticalOptions="Center">
-                <Label Text="{Binding IconLetter, Source={x:Reference This}}"
+                <Label Text="{Binding CreatorInitial}"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
-                       TextColor="{StaticResource TextGray}"
+                       TextColor="{StaticResource White}"
                        FontSize="22" />
             </Border>
-
-            <!-- Title and object -->
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="0"
                                  Grid.RowSpan="2"
                                  VerticalOptions="Center">
-                <Label Text="{Binding Title, Source={x:Reference This}}"
+                <Label Text="{Binding Title}"
                        FontSize="20"
                        TextColor="{StaticResource Black}"
+                       FontAttributes="Bold"
                        VerticalTextAlignment="Center"
                        LineBreakMode="TailTruncation"
                        MaxLines="1" />
-                <Label Text="{Binding Subtitle, Source={x:Reference This}}"
+                <Label Text="{Binding Subtitle}"
                        FontSize="17"
-                       TextColor="{StaticResource PrimaryGreen}"
+                       TextColor="{Binding LinkedObjectType, Converter={StaticResource TypeToColorConverter}}"
                        VerticalTextAlignment="Center"
                        LineBreakMode="TailTruncation"
                        MaxLines="1" />
             </VerticalStackLayout>
-
-            <!-- Action Icons -->
             <HorizontalStackLayout Grid.Column="2"
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
@@ -67,15 +63,13 @@
                              VerticalOptions="Center"
                              BackgroundColor="{StaticResource Transparent}" />
             </HorizontalStackLayout>
-
-            <!-- Date  -->
             <Border Grid.Column="2"
                     Grid.Row="1"
                     BackgroundColor="{StaticResource DateLabelBackground}"
                     StrokeShape="RoundRectangle 9"
                     HorizontalOptions="Center"
                     Padding="20,0">
-                <Label Text="{Binding DateText, Source={x:Reference This}}"
+                <Label Text="{Binding DueDate, StringFormat='{0:dd MMM yyyy}'}"
                        FontSize="13"
                        FontAttributes="Bold"
                        TextColor="{StaticResource DateLabelText}"

@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using TaskManagement.MobileApp.Models.Interfaces;
-using TaskManagement.MobileApp.Repositories.Interfaces;
+using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Authentication;
 

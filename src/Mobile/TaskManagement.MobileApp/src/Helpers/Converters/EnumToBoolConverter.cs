@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace TaskManagement.MobileApp;
+namespace TaskManagement.MobileApp.Helpers.Converters;
 
 public class EnumToBoolConverter : IValueConverter
 {
