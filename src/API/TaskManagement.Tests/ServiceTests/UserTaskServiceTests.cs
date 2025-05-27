@@ -8,9 +8,9 @@ using TaskManagement.Application.Services;
 using TaskManagement.Domain.Office.User.Task;
 using TaskManagement.DTO.Office.User;
 using TaskManagement.DTO.Office.User.Task;
-using TaskManagement.Test.ServiceTests.Helpers;
+using TaskManagement.Tests.ServiceTests.Helpers;
 
-namespace TaskManagement.Test.ServiceTests;
+namespace TaskManagement.Tests.ServiceTests;
 
 public class UserTaskServiceTests
 {

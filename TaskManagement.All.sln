@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Domain", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Infrastructure", "src\API\TaskManagement.Infrastructure\TaskManagement.Infrastructure.csproj", "{A4E802C0-2802-4DC3-BDFA-AAD855C4FBEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Test", "src\API\TaskManagement.Test\TaskManagement.Test.csproj", "{A6F97815-2D6E-4BFD-8D9F-ACAF7CA30564}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Tests", "src\API\TaskManagement.Tests\TaskManagement.Tests.csproj", "{A6F97815-2D6E-4BFD-8D9F-ACAF7CA30564}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{5F6E8ECF-6C7C-84BC-3852-AC68F2C425F8}"
 EndProject
