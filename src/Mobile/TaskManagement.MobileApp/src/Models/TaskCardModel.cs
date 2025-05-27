@@ -3,6 +3,7 @@
 namespace TaskManagement.MobileApp.Models;
 
 public record TaskCardModel(
+    Guid Id,
     char CreatorInitial,
     string Title,
     LinkedObjectResponse? LinkedObjectResponse,
