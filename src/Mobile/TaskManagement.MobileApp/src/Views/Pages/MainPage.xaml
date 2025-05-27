@@ -8,7 +8,8 @@
              x:DataType="viewModels:MainPageViewModel">
     
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryGreenDark}">
-        <Label Text="Kantoornaam"
+        <!-- todo: make Kantoornaam bindable -->
+        <Label Text="Kantoornaam" 
                BackgroundColor="{StaticResource PrimaryGreen}"
                TextColor="{StaticResource White}"
                FontSize="26"
