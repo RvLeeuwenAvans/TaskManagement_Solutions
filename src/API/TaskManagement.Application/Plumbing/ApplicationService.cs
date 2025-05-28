@@ -39,29 +39,29 @@ public static class ApplicationService
         //DI Auth First; then other services.
         services.AddScoped<TokenService>();
 
-        services.AddScoped<IValidator<UserCreateDto>, UserCreateDtoValidator>();
-        services.AddScoped<IValidator<UserUpdateDto>, UserUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateUser>, UserCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateUser>, UserUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<OfficeCreateDto>, OfficeCreateDtoValidator>();
-        services.AddScoped<IValidator<OfficeUpdateDto>, OfficeUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateOffice>, OfficeCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateOffice>, OfficeUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<UserTaskCreateDto>, UserTaskCreateDtoValidator>();
-        services.AddScoped<IValidator<UserTaskUpdateDto>, UserTaskUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateUserTask>, UserTaskCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateUserTask>, UserTaskUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<NoteCreateDto>, NoteCreateDtoValidator>();
-        services.AddScoped<IValidator<NoteUpdateDto>, NoteUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateNote>, NoteCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateNote>, NoteUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<RelationCreateDto>, RelationCreateDtoValidator>();
-        services.AddScoped<IValidator<RelationUpdateDto>, RelationUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateRelation>, RelationCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateRelation>, RelationUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<DamageClaimCreateDto>, DamageClaimCreateDtoValidator>();
-        services.AddScoped<IValidator<DamageClaimUpdateDto>, DamageClaimUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateDamageClaim>, CreateDamageClaimValidator>();
+        services.AddScoped<IValidator<UpdateDamageClaim>, UpdateDamageClaimValidator>();
 
-        services.AddScoped<IValidator<InsurancePolicyCreateDto>, InsurancePolicyCreateDtoValidator>();
-        services.AddScoped<IValidator<InsurancePolicyUpdateDto>, InsurancePolicyUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateInsurancePolicy>, CreateInsurancePolicyValidator>();
+        services.AddScoped<IValidator<UpdateInsurancePolicy>, InsurancePolicyUpdateDtoValidator>();
 
-        services.AddScoped<IValidator<LinkedObjectCreateDto>, LinkedObjectCreateDtoValidator>();
-        services.AddScoped<IValidator<LinkedObjectUpdateDto>, LinkedObjectUpdateDtoValidator>();
+        services.AddScoped<IValidator<CreateLinkedObject>, LinkedObjectCreateDtoValidator>();
+        services.AddScoped<IValidator<UpdateLinkedObject>, LinkedObjectUpdateDtoValidator>();
 
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         

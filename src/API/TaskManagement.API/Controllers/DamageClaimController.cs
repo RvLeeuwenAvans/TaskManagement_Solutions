@@ -28,7 +28,7 @@ public class DamageClaimController(DamageClaimService damageClaimService) : Cont
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateClaim([FromBody] DamageClaimCreateDto dto)
+    public async Task<IActionResult> CreateClaim([FromBody] CreateDamageClaim dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -38,7 +38,7 @@ public class DamageClaimController(DamageClaimService damageClaimService) : Cont
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateClaim(Guid id, [FromBody] DamageClaimUpdateDto dto)
+    public async Task<IActionResult> UpdateClaim(Guid id, [FromBody] UpdateDamageClaim dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

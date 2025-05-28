@@ -9,27 +9,27 @@ namespace TaskManagement.Application.Services;
 public class NoteService(
     INoteRepository noteRepository,
     IMapper mapper,
-    IValidator<NoteCreateDto> createValidator,
-    IValidator<NoteUpdateDto> updateValidator)
+    IValidator<CreateNote> createValidator,
+    IValidator<UpdateNote> updateValidator)
 {
-    public Task<List<NoteResponseDto>> GetNotesByTask(Guid taskId)
+    public Task<List<NoteResponse>> GetNotesByTask(Guid taskId)
     {
         var notes = noteRepository.GetAll()
             .Where(n => n.TaskId == taskId)
             .ToList();
 
-        var response = mapper.Map<List<NoteResponseDto>>(notes);
+        var response = mapper.Map<List<NoteResponse>>(notes);
         
         return Task.FromResult(response);
     }
 
-    public async Task<NoteResponseDto?> GetNoteByIdAsync(Guid id)
+    public async Task<NoteResponse?> GetNoteByIdAsync(Guid id)
     {
         var note = await noteRepository.GetByIdAsync(id);
-        return note is null ? null : mapper.Map<NoteResponseDto>(note);
+        return note is null ? null : mapper.Map<NoteResponse>(note);
     }
 
-    public async Task<NoteResponseDto> CreateNoteAsync(NoteCreateDto dto)
+    public async Task<NoteResponse> CreateNoteAsync(CreateNote dto)
     {
         var validation = await createValidator.ValidateAsync(dto);
         if (!validation.IsValid)
@@ -37,10 +37,10 @@ public class NoteService(
 
         var note = mapper.Map<Note>(dto);
         await noteRepository.AddAsync(note);
-        return mapper.Map<NoteResponseDto>(note);
+        return mapper.Map<NoteResponse>(note);
     }
 
-    public async Task<bool> UpdateNoteAsync(NoteUpdateDto dto)
+    public async Task<bool> UpdateNoteAsync(UpdateNote dto)
     {
         var validation = await updateValidator.ValidateAsync(dto);
         if (!validation.IsValid)

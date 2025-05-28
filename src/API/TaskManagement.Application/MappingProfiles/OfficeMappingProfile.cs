@@ -8,9 +8,9 @@ public class OfficeMappingProfile : Profile
 {
     public OfficeMappingProfile()
     {
-        CreateMap<Office, OfficeResponseDto>();
-        CreateMap<OfficeCreateDto, Office>();
-        CreateMap<OfficeUpdateDto, Office>()
+        CreateMap<Office, OfficeResponse>();
+        CreateMap<CreateOffice, Office>();
+        CreateMap<UpdateOffice, Office>()
             .ForMember(dest => dest.Name, opt =>
                 opt.Condition(src => !string.IsNullOrWhiteSpace(src.Name)));
     }

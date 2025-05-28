@@ -2,7 +2,7 @@
 
 namespace TaskManagement.DTO.Office.User.Task.Note.Validators;
 
-public class NoteCreateDtoValidator : AbstractValidator<NoteCreateDto>
+public class NoteCreateDtoValidator : AbstractValidator<CreateNote>
 {
     public NoteCreateDtoValidator()
     {

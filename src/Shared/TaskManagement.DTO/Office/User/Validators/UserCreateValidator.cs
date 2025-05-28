@@ -2,7 +2,7 @@
 
 namespace TaskManagement.DTO.Office.User.Validators;
 
-public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
+public class UserCreateDtoValidator : AbstractValidator<CreateUser>
 {
     public UserCreateDtoValidator()
     {

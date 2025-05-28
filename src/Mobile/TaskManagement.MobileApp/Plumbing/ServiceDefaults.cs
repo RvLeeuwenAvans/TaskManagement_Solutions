@@ -4,10 +4,10 @@ using Microsoft.Extensions.Configuration;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Properties;
-using TaskManagement.MobileApp.Repositories;
-using TaskManagement.MobileApp.Repositories.Interfaces;
 using TaskManagement.MobileApp.Services;
 using TaskManagement.MobileApp.Services.Authentication;
+using TaskManagement.MobileApp.Services.Repositories;
+using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Plumbing;
 
@@ -25,6 +25,11 @@ public static class ServiceDefaults
         services.AddSingleton<IAuthRepository, AuthRepository>();
         services.AddSingleton<AuthService>();
         // Services
+        services.AddSingleton<IDamageClaimRepository, DamageClaimRepository>();
+        services.AddSingleton<IPolicyRepository, InsurancePolicyRepository>();
+        services.AddSingleton<IRelationRepository, RelationRepository>();
+        services.AddSingleton<LinkedObjectService>();
+        
         services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddSingleton<TaskService>();
         

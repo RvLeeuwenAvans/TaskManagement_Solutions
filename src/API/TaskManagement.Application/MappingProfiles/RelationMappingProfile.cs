@@ -8,9 +8,9 @@ public class RelationMappingProfile : Profile
 {
     public RelationMappingProfile()
     {
-        CreateMap<Relation, RelationResponseDto>();
-        CreateMap<RelationCreateDto, Relation>();
-        CreateMap<RelationUpdateDto, Relation>()
+        CreateMap<Relation, RelationResponse>();
+        CreateMap<CreateRelation, Relation>();
+        CreateMap<UpdateRelation, Relation>()
             .ForMember(dest => dest.FirstName, opt =>
                 opt.Condition(src => !string.IsNullOrWhiteSpace(src.FirstName)))
             .ForMember(dest => dest.LastName, opt =>

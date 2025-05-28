@@ -15,8 +15,8 @@ public class RelationServiceTests
 {
     private readonly Mock<IRelationRepository> _repoMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
-    private readonly Mock<IValidator<RelationCreateDto>> _createValidatorMock = new();
-    private readonly Mock<IValidator<RelationUpdateDto>> _updateValidatorMock = new();
+    private readonly Mock<IValidator<CreateRelation>> _createValidatorMock = new();
+    private readonly Mock<IValidator<UpdateRelation>> _updateValidatorMock = new();
     private readonly RelationService _service;
 
     public RelationServiceTests()
@@ -41,7 +41,7 @@ public class RelationServiceTests
             TestHelpers.CreateTestRelation(firstName: "Jane", lastName: "Smith")
         };
 
-        var dtos = relations.Select(r => new RelationResponseDto
+        var dtos = relations.Select(r => new RelationResponse
         {
             Id = r.Id,
             FirstName = r.FirstName,
@@ -55,7 +55,7 @@ public class RelationServiceTests
             .Returns(relations.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<RelationResponseDto>>(It.Is<List<Relation>>(l =>
+            .Setup(m => m.Map<List<RelationResponse>>(It.Is<List<Relation>>(l =>
                 l.All(r => r.OfficeId == officeId))))
             .Returns(dtos);
 
@@ -65,7 +65,7 @@ public class RelationServiceTests
         // Assert
         result.Should().BeEquivalentTo(dtos);
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<RelationResponseDto>>(It.Is<List<Relation>>(l =>
+        _mapperMock.Verify(m => m.Map<List<RelationResponse>>(It.Is<List<Relation>>(l =>
             l.All(r => r.OfficeId == officeId))), Times.Once);
     }
 
@@ -75,14 +75,14 @@ public class RelationServiceTests
         // Arrange
         var officeId = Guid.NewGuid();
         var relations = new List<Relation>();
-        var dtos = new List<RelationResponseDto>();
+        var dtos = new List<RelationResponse>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(relations.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<RelationResponseDto>>(relations))
+            .Setup(m => m.Map<List<RelationResponse>>(relations))
             .Returns(dtos);
 
         // Act
@@ -91,7 +91,7 @@ public class RelationServiceTests
         // Assert
         result.Should().BeEmpty();
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<RelationResponseDto>>(relations), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<RelationResponse>>(relations), Times.Once);
     }
 
     #endregion
@@ -103,7 +103,7 @@ public class RelationServiceTests
     {
         // Arrange
         var relation = TestHelpers.CreateTestRelation();
-        var dto = new RelationResponseDto
+        var dto = new RelationResponse
         {
             Id = relation.Id,
             FirstName = relation.FirstName,
@@ -117,7 +117,7 @@ public class RelationServiceTests
             .ReturnsAsync(relation);
 
         _mapperMock
-            .Setup(m => m.Map<RelationResponseDto>(relation))
+            .Setup(m => m.Map<RelationResponse>(relation))
             .Returns(dto);
 
         // Act
@@ -126,7 +126,7 @@ public class RelationServiceTests
         // Assert
         result.Should().BeEquivalentTo(dto);
         _repoMock.Verify(r => r.GetByIdAsync(relation.Id), Times.Once);
-        _mapperMock.Verify(m => m.Map<RelationResponseDto>(relation), Times.Once);
+        _mapperMock.Verify(m => m.Map<RelationResponse>(relation), Times.Once);
     }
 
     [Fact]
@@ -145,7 +145,7 @@ public class RelationServiceTests
         // Assert
         result.Should().BeNull();
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map<RelationResponseDto>(It.IsAny<Relation>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<RelationResponse>(It.IsAny<Relation>()), Times.Never);
     }
 
     #endregion
@@ -159,7 +159,7 @@ public class RelationServiceTests
     public async Task CreateRelationAsync_ValidDto_ReturnsMappedDto(string firstName, string lastName)
     {
         // Arrange
-        var dto = new RelationCreateDto
+        var dto = new CreateRelation
         {
             FirstName = firstName,
             LastName = lastName,
@@ -170,7 +170,7 @@ public class RelationServiceTests
             firstName: firstName,
             lastName: lastName);
 
-        var response = new RelationResponseDto
+        var response = new RelationResponse
         {
             Id = relation.Id,
             FirstName = relation.FirstName,
@@ -188,7 +188,7 @@ public class RelationServiceTests
             .Returns(relation);
 
         _mapperMock
-            .Setup(m => m.Map<RelationResponseDto>(relation))
+            .Setup(m => m.Map<RelationResponse>(relation))
             .Returns(response);
 
         // Act
@@ -199,14 +199,14 @@ public class RelationServiceTests
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<Relation>(dto), Times.Once);
         _repoMock.Verify(r => r.AddAsync(relation), Times.Once);
-        _mapperMock.Verify(m => m.Map<RelationResponseDto>(relation), Times.Once);
+        _mapperMock.Verify(m => m.Map<RelationResponse>(relation), Times.Once);
     }
 
     [Fact]
     public async Task CreateRelationAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new RelationCreateDto { FirstName = "", LastName = "" };
+        var dto = new CreateRelation { FirstName = "", LastName = "" };
         var failures = new List<ValidationFailure>
         {
             new("FirstName", "FirstName is required"),
@@ -223,7 +223,7 @@ public class RelationServiceTests
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<Relation>(It.IsAny<RelationCreateDto>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<Relation>(It.IsAny<CreateRelation>()), Times.Never);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<Relation>()), Times.Never);
     }
 
@@ -236,7 +236,7 @@ public class RelationServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new RelationUpdateDto
+        var dto = new UpdateRelation
         {
             Id = id,
             FirstName = "Updated",
@@ -269,7 +269,7 @@ public class RelationServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new RelationUpdateDto { Id = id, FirstName = "Test", LastName = "User" };
+        var dto = new UpdateRelation { Id = id, FirstName = "Test", LastName = "User" };
 
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
@@ -286,7 +286,7 @@ public class RelationServiceTests
         result.Should().BeFalse();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map(It.IsAny<RelationUpdateDto>(), It.IsAny<Relation>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateRelation>(), It.IsAny<Relation>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<Relation>()), Times.Never);
     }
 
@@ -294,7 +294,7 @@ public class RelationServiceTests
     public async Task UpdateRelationAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new RelationUpdateDto { Id = Guid.NewGuid(), FirstName = "", LastName = "" };
+        var dto = new UpdateRelation { Id = Guid.NewGuid(), FirstName = "", LastName = "" };
         var failures = new List<ValidationFailure>
         {
             new("FirstName", "FirstName cannot be empty"),
@@ -312,7 +312,7 @@ public class RelationServiceTests
         await act.Should().ThrowAsync<ValidationException>();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(It.IsAny<Guid>()), Times.Never);
-        _mapperMock.Verify(m => m.Map(It.IsAny<RelationUpdateDto>(), It.IsAny<Relation>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateRelation>(), It.IsAny<Relation>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<Relation>()), Times.Never);
     }
 

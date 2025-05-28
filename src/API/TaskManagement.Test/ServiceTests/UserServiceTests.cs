@@ -16,8 +16,8 @@ public class UserServiceTests
 {
     private readonly Mock<IUserRepository> _repoMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
-    private readonly Mock<IValidator<UserCreateDto>> _createValidatorMock = new();
-    private readonly Mock<IValidator<UserUpdateDto>> _updateValidatorMock = new();
+    private readonly Mock<IValidator<CreateUser>> _createValidatorMock = new();
+    private readonly Mock<IValidator<UpdateUser>> _updateValidatorMock = new();
     private readonly Mock<IPasswordHasher<User>> _passwordHasherMock = new();
     private readonly UserService _service;
 
@@ -44,7 +44,7 @@ public class UserServiceTests
             TestHelpers.CreateTestUser(firstName: "Jane", lastName: "Doe")
         };
 
-        var dtos = users.Select(u => new UserResponseDto
+        var dtos = users.Select(u => new UserResponse
         {
             Id = u.Id,
             FirstName = u.FirstName,
@@ -58,7 +58,7 @@ public class UserServiceTests
             .Returns(users.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<UserResponseDto>>(It.Is<List<User>>(l =>
+            .Setup(m => m.Map<List<UserResponse>>(It.Is<List<User>>(l =>
                 l.All(u => u.OfficeId == officeId))))
             .Returns(dtos);
 
@@ -68,7 +68,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeEquivalentTo(dtos);
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<UserResponseDto>>(It.Is<List<User>>(l =>
+        _mapperMock.Verify(m => m.Map<List<UserResponse>>(It.Is<List<User>>(l =>
             l.All(u => u.OfficeId == officeId))), Times.Once);
     }
 
@@ -78,14 +78,14 @@ public class UserServiceTests
         // Arrange
         var officeId = Guid.NewGuid();
         var users = new List<User>();
-        var dtos = new List<UserResponseDto>();
+        var dtos = new List<UserResponse>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(users.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<UserResponseDto>>(users))
+            .Setup(m => m.Map<List<UserResponse>>(users))
             .Returns(dtos);
 
         // Act
@@ -94,7 +94,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeEmpty();
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<UserResponseDto>>(users), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<UserResponse>>(users), Times.Once);
     }
 
     #endregion
@@ -106,7 +106,7 @@ public class UserServiceTests
     {
         // Arrange
         var user = TestHelpers.CreateTestUser();
-        var dto = new UserResponseDto
+        var dto = new UserResponse
         {
             Id = user.Id,
             FirstName = user.FirstName,
@@ -120,7 +120,7 @@ public class UserServiceTests
             .ReturnsAsync(user);
 
         _mapperMock
-            .Setup(m => m.Map<UserResponseDto>(user))
+            .Setup(m => m.Map<UserResponse>(user))
             .Returns(dto);
 
         // Act
@@ -129,7 +129,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeEquivalentTo(dto);
         _repoMock.Verify(r => r.GetByIdAsync(user.Id), Times.Once);
-        _mapperMock.Verify(m => m.Map<UserResponseDto>(user), Times.Once);
+        _mapperMock.Verify(m => m.Map<UserResponse>(user), Times.Once);
     }
 
     [Fact]
@@ -148,7 +148,7 @@ public class UserServiceTests
         // Assert
         result.Should().BeNull();
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map<UserResponseDto>(It.IsAny<User>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<UserResponse>(It.IsAny<User>()), Times.Never);
     }
 
     #endregion
@@ -162,7 +162,7 @@ public class UserServiceTests
     public async Task CreateUserAsync_ValidDto_ReturnsMappedDto(string firstName, string lastName)
     {
         // Arrange
-        var dto = new UserCreateDto
+        var dto = new CreateUser
         {
             FirstName = firstName,
             LastName = lastName,
@@ -177,7 +177,7 @@ public class UserServiceTests
 
         var hashedPassword = "hashedPassword123";
 
-        var response = new UserResponseDto
+        var response = new UserResponse
         {
             Id = user.Id,
             FirstName = user.FirstName,
@@ -199,7 +199,7 @@ public class UserServiceTests
             .Returns(hashedPassword);
 
         _mapperMock
-            .Setup(m => m.Map<UserResponseDto>(user))
+            .Setup(m => m.Map<UserResponse>(user))
             .Returns(response);
 
         // Act
@@ -212,14 +212,14 @@ public class UserServiceTests
         _passwordHasherMock.Verify(h => h.HashPassword(user, dto.Password), Times.Once);
         user.Password.Should().Be(hashedPassword);
         _repoMock.Verify(r => r.AddAsync(user), Times.Once);
-        _mapperMock.Verify(m => m.Map<UserResponseDto>(user), Times.Once);
+        _mapperMock.Verify(m => m.Map<UserResponse>(user), Times.Once);
     }
 
     [Fact]
     public async Task CreateUserAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new UserCreateDto
+        var dto = new CreateUser
         {
             FirstName = "",
             LastName = "",
@@ -242,7 +242,7 @@ public class UserServiceTests
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<User>(It.IsAny<UserCreateDto>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<User>(It.IsAny<CreateUser>()), Times.Never);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<User>()), Times.Never);
     }
 
@@ -255,7 +255,7 @@ public class UserServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new UserUpdateDto
+        var dto = new UpdateUser
         {
             Id = id,
             FirstName = "Updated",
@@ -297,7 +297,7 @@ public class UserServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new UserUpdateDto { Id = id, FirstName = "Test", LastName = "User" };
+        var dto = new UpdateUser { Id = id, FirstName = "Test", LastName = "User" };
 
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
@@ -314,7 +314,7 @@ public class UserServiceTests
         result.Should().BeFalse();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map(It.IsAny<UserUpdateDto>(), It.IsAny<User>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateUser>(), It.IsAny<User>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<User>()), Times.Never);
     }
 
@@ -322,7 +322,7 @@ public class UserServiceTests
     public async Task UpdateUserAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new UserUpdateDto { Id = Guid.NewGuid(), FirstName = "", LastName = "" };
+        var dto = new UpdateUser { Id = Guid.NewGuid(), FirstName = "", LastName = "" };
         var failures = new List<ValidationFailure>
         {
             new("FirstName", "FirstName cannot be empty"),
@@ -340,7 +340,7 @@ public class UserServiceTests
         await act.Should().ThrowAsync<ValidationException>();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(It.IsAny<Guid>()), Times.Never);
-        _mapperMock.Verify(m => m.Map(It.IsAny<UserUpdateDto>(), It.IsAny<User>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateUser>(), It.IsAny<User>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<User>()), Times.Never);
     }
 

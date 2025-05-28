@@ -15,8 +15,8 @@ public class InsurancePolicyServiceTests
 {
     private readonly Mock<IInsurancePolicyRepository> _repoMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
-    private readonly Mock<IValidator<InsurancePolicyCreateDto>> _createValidatorMock = new();
-    private readonly Mock<IValidator<InsurancePolicyUpdateDto>> _updateValidatorMock = new();
+    private readonly Mock<IValidator<CreateInsurancePolicy>> _createValidatorMock = new();
+    private readonly Mock<IValidator<UpdateInsurancePolicy>> _updateValidatorMock = new();
     private readonly InsurancePolicyService _service;
 
     public InsurancePolicyServiceTests()
@@ -47,7 +47,7 @@ public class InsurancePolicyServiceTests
             )
         };
 
-        var dtos = policies.Select(p => new InsurancePolicyResponseDto
+        var dtos = policies.Select(p => new InsurancePolicyResponse
         {
             Id = p.Id,
             Type = p.Type,
@@ -60,7 +60,7 @@ public class InsurancePolicyServiceTests
             .Returns(policies.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<InsurancePolicyResponseDto>>(It.Is<List<InsurancePolicy>>(l =>
+            .Setup(m => m.Map<List<InsurancePolicyResponse>>(It.Is<List<InsurancePolicy>>(l =>
                 l.All(p => p.Relation.OfficeId == officeId))))
             .Returns(dtos);
 
@@ -70,7 +70,7 @@ public class InsurancePolicyServiceTests
         // Assert
         result.Should().BeEquivalentTo(dtos);
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<InsurancePolicyResponseDto>>(It.Is<List<InsurancePolicy>>(l =>
+        _mapperMock.Verify(m => m.Map<List<InsurancePolicyResponse>>(It.Is<List<InsurancePolicy>>(l =>
             l.All(p => p.Relation.OfficeId == officeId))), Times.Once);
     }
 
@@ -80,14 +80,14 @@ public class InsurancePolicyServiceTests
         // Arrange
         var officeId = Guid.NewGuid();
         var policies = new List<InsurancePolicy>().AsQueryable();
-        var dtos = new List<InsurancePolicyResponseDto>();
+        var dtos = new List<InsurancePolicyResponse>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(policies);
 
         _mapperMock
-            .Setup(m => m.Map<List<InsurancePolicyResponseDto>>(It.Is<List<InsurancePolicy>>(l => !l.Any())))
+            .Setup(m => m.Map<List<InsurancePolicyResponse>>(It.Is<List<InsurancePolicy>>(l => !l.Any())))
             .Returns(dtos);
 
         // Act
@@ -96,7 +96,7 @@ public class InsurancePolicyServiceTests
         // Assert
         result.Should().BeEmpty();
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<InsurancePolicyResponseDto>>(It.Is<List<InsurancePolicy>>(l => !l.Any())),
+        _mapperMock.Verify(m => m.Map<List<InsurancePolicyResponse>>(It.Is<List<InsurancePolicy>>(l => !l.Any())),
             Times.Once);
     }
 
@@ -109,7 +109,7 @@ public class InsurancePolicyServiceTests
     {
         // Arrange
         var policy = TestHelpers.CreateTestInsurancePolicy();
-        var dto = new InsurancePolicyResponseDto
+        var dto = new InsurancePolicyResponse
         {
             Id = policy.Id,
             Type = policy.Type,
@@ -122,7 +122,7 @@ public class InsurancePolicyServiceTests
             .ReturnsAsync(policy);
 
         _mapperMock
-            .Setup(m => m.Map<InsurancePolicyResponseDto>(policy))
+            .Setup(m => m.Map<InsurancePolicyResponse>(policy))
             .Returns(dto);
 
         // Act
@@ -131,7 +131,7 @@ public class InsurancePolicyServiceTests
         // Assert
         result.Should().BeEquivalentTo(dto);
         _repoMock.Verify(r => r.GetByIdAsync(policy.Id), Times.Once);
-        _mapperMock.Verify(m => m.Map<InsurancePolicyResponseDto>(policy), Times.Once);
+        _mapperMock.Verify(m => m.Map<InsurancePolicyResponse>(policy), Times.Once);
     }
 
     [Fact]
@@ -150,7 +150,7 @@ public class InsurancePolicyServiceTests
         // Assert
         result.Should().BeNull();
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map<InsurancePolicyResponseDto>(It.IsAny<InsurancePolicy>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<InsurancePolicyResponse>(It.IsAny<InsurancePolicy>()), Times.Never);
     }
 
     #endregion
@@ -165,7 +165,7 @@ public class InsurancePolicyServiceTests
     {
         // Arrange
         var relationId = Guid.NewGuid();
-        var dto = new InsurancePolicyCreateDto
+        var dto = new CreateInsurancePolicy
         {
             RelationId = relationId,
             Type = policyType
@@ -175,7 +175,7 @@ public class InsurancePolicyServiceTests
             relation: TestHelpers.CreateTestRelation(relationId),
             type: policyType);
 
-        var response = new InsurancePolicyResponseDto
+        var response = new InsurancePolicyResponse
         {
             Id = policy.Id,
             RelationId = policy.RelationId,
@@ -192,7 +192,7 @@ public class InsurancePolicyServiceTests
             .Returns(policy);
 
         _mapperMock
-            .Setup(m => m.Map<InsurancePolicyResponseDto>(It.IsAny<InsurancePolicy>()))
+            .Setup(m => m.Map<InsurancePolicyResponse>(It.IsAny<InsurancePolicy>()))
             .Returns(response);
 
         // Act
@@ -203,14 +203,14 @@ public class InsurancePolicyServiceTests
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<InsurancePolicy>(dto), Times.Once);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<InsurancePolicy>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<InsurancePolicyResponseDto>(It.IsAny<InsurancePolicy>()), Times.Once);
+        _mapperMock.Verify(m => m.Map<InsurancePolicyResponse>(It.IsAny<InsurancePolicy>()), Times.Once);
     }
 
     [Fact]
     public async Task CreateInsurancePolicyAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new InsurancePolicyCreateDto
+        var dto = new CreateInsurancePolicy
         {
             RelationId = Guid.NewGuid(),
             Type = string.Empty
@@ -231,7 +231,7 @@ public class InsurancePolicyServiceTests
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<InsurancePolicy>(It.IsAny<InsurancePolicyCreateDto>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<InsurancePolicy>(It.IsAny<CreateInsurancePolicy>()), Times.Never);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<InsurancePolicy>()), Times.Never);
     }
 
@@ -244,7 +244,7 @@ public class InsurancePolicyServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new InsurancePolicyUpdateDto
+        var dto = new UpdateInsurancePolicy
         {
             Id = id,
             Type = "Updated Insurance"
@@ -279,7 +279,7 @@ public class InsurancePolicyServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new InsurancePolicyUpdateDto
+        var dto = new UpdateInsurancePolicy
         {
             Id = id,
             Type = "Something"
@@ -300,7 +300,7 @@ public class InsurancePolicyServiceTests
         result.Should().BeFalse();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map(It.IsAny<InsurancePolicyUpdateDto>(), It.IsAny<InsurancePolicy>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateInsurancePolicy>(), It.IsAny<InsurancePolicy>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<InsurancePolicy>()), Times.Never);
     }
 
@@ -308,7 +308,7 @@ public class InsurancePolicyServiceTests
     public async Task UpdateInsurancePolicyAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new InsurancePolicyUpdateDto
+        var dto = new UpdateInsurancePolicy
         {
             Id = Guid.NewGuid(),
             Type = string.Empty
@@ -330,7 +330,7 @@ public class InsurancePolicyServiceTests
         await act.Should().ThrowAsync<ValidationException>();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(It.IsAny<Guid>()), Times.Never);
-        _mapperMock.Verify(m => m.Map(It.IsAny<InsurancePolicyUpdateDto>(), It.IsAny<InsurancePolicy>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateInsurancePolicy>(), It.IsAny<InsurancePolicy>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<InsurancePolicy>()), Times.Never);
     }
 

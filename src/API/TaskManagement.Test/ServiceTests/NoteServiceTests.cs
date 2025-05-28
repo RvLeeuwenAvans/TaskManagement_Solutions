@@ -15,8 +15,8 @@ public class NoteServiceTests
 {
     private readonly Mock<INoteRepository> _repoMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
-    private readonly Mock<IValidator<NoteCreateDto>> _createValidatorMock = new();
-    private readonly Mock<IValidator<NoteUpdateDto>> _updateValidatorMock = new();
+    private readonly Mock<IValidator<CreateNote>> _createValidatorMock = new();
+    private readonly Mock<IValidator<UpdateNote>> _updateValidatorMock = new();
     private readonly NoteService _service;
 
     public NoteServiceTests()
@@ -41,7 +41,7 @@ public class NoteServiceTests
             TestHelpers.CreateTestNote(content: "Note 1", taskId: taskId)
         };
 
-        var dtos = notes.Select(n => new NoteResponseDto
+        var dtos = notes.Select(n => new NoteResponse
         {
             Id = n.Id,
             Content = n.Content,
@@ -53,7 +53,7 @@ public class NoteServiceTests
             .Returns(notes.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<NoteResponseDto>>(It.Is<List<Note>>(l =>
+            .Setup(m => m.Map<List<NoteResponse>>(It.Is<List<Note>>(l =>
                 l.All(n => n.TaskId == taskId))))
             .Returns(dtos);
 
@@ -63,7 +63,7 @@ public class NoteServiceTests
         // Assert
         result.Should().BeEquivalentTo(dtos);
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<NoteResponseDto>>(It.Is<List<Note>>(l =>
+        _mapperMock.Verify(m => m.Map<List<NoteResponse>>(It.Is<List<Note>>(l =>
             l.All(n => n.TaskId == taskId))), Times.Once);
     }
 
@@ -73,14 +73,14 @@ public class NoteServiceTests
         // Arrange
         var taskId = Guid.NewGuid();
         var notes = new List<Note>();
-        var dtos = new List<NoteResponseDto>();
+        var dtos = new List<NoteResponse>();
 
         _repoMock
             .Setup(r => r.GetAll())
             .Returns(notes.AsQueryable());
 
         _mapperMock
-            .Setup(m => m.Map<List<NoteResponseDto>>(notes))
+            .Setup(m => m.Map<List<NoteResponse>>(notes))
             .Returns(dtos);
 
         // Act
@@ -89,7 +89,7 @@ public class NoteServiceTests
         // Assert
         result.Should().BeEmpty();
         _repoMock.Verify(r => r.GetAll(), Times.Once);
-        _mapperMock.Verify(m => m.Map<List<NoteResponseDto>>(notes), Times.Once);
+        _mapperMock.Verify(m => m.Map<List<NoteResponse>>(notes), Times.Once);
     }
 
     #endregion
@@ -101,7 +101,7 @@ public class NoteServiceTests
     {
         // Arrange
         var note = TestHelpers.CreateTestNote(content: "Test Note");
-        var dto = new NoteResponseDto
+        var dto = new NoteResponse
         {
             Id = note.Id,
             Content = note.Content,
@@ -113,7 +113,7 @@ public class NoteServiceTests
             .ReturnsAsync(note);
 
         _mapperMock
-            .Setup(m => m.Map<NoteResponseDto>(note))
+            .Setup(m => m.Map<NoteResponse>(note))
             .Returns(dto);
 
         // Act
@@ -122,7 +122,7 @@ public class NoteServiceTests
         // Assert
         result.Should().BeEquivalentTo(dto);
         _repoMock.Verify(r => r.GetByIdAsync(note.Id), Times.Once);
-        _mapperMock.Verify(m => m.Map<NoteResponseDto>(note), Times.Once);
+        _mapperMock.Verify(m => m.Map<NoteResponse>(note), Times.Once);
     }
 
     [Fact]
@@ -141,7 +141,7 @@ public class NoteServiceTests
         // Assert
         result.Should().BeNull();
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map<NoteResponseDto>(It.IsAny<Note>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<NoteResponse>(It.IsAny<Note>()), Times.Never);
     }
 
     #endregion
@@ -155,9 +155,9 @@ public class NoteServiceTests
     public async Task CreateNoteAsync_ValidDto_ReturnsMappedDto(string content)
     {
         // Arrange
-        var dto = new NoteCreateDto { Content = content, TaskId = Guid.NewGuid() };
+        var dto = new CreateNote { Content = content, TaskId = Guid.NewGuid() };
         var note = TestHelpers.CreateTestNote(content: dto.Content, taskId: dto.TaskId);
-        var response = new NoteResponseDto
+        var response = new NoteResponse
         {
             Id = note.Id,
             Content = note.Content,
@@ -173,7 +173,7 @@ public class NoteServiceTests
             .Returns(note);
 
         _mapperMock
-            .Setup(m => m.Map<NoteResponseDto>(note))
+            .Setup(m => m.Map<NoteResponse>(note))
             .Returns(response);
 
         // Act
@@ -184,14 +184,14 @@ public class NoteServiceTests
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _mapperMock.Verify(m => m.Map<Note>(dto), Times.Once);
         _repoMock.Verify(r => r.AddAsync(note), Times.Once);
-        _mapperMock.Verify(m => m.Map<NoteResponseDto>(note), Times.Once);
+        _mapperMock.Verify(m => m.Map<NoteResponse>(note), Times.Once);
     }
 
     [Fact]
     public async Task CreateNoteAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new NoteCreateDto { Content = "" };
+        var dto = new CreateNote { Content = "" };
         var failures = new List<ValidationFailure>
         {
             new("Content", "Content is required")
@@ -207,7 +207,7 @@ public class NoteServiceTests
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
         _createValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<Note>(It.IsAny<NoteCreateDto>()), Times.Never);
+        _mapperMock.Verify(m => m.Map<Note>(It.IsAny<CreateNote>()), Times.Never);
         _repoMock.Verify(r => r.AddAsync(It.IsAny<Note>()), Times.Never);
     }
 
@@ -220,7 +220,7 @@ public class NoteServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new NoteUpdateDto
+        var dto = new UpdateNote
         {
             Id = id,
             Content = "Updated Content"
@@ -252,7 +252,7 @@ public class NoteServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var dto = new NoteUpdateDto { Id = id, Content = "Updated Content" };
+        var dto = new UpdateNote { Id = id, Content = "Updated Content" };
 
         _updateValidatorMock
             .Setup(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()))
@@ -269,7 +269,7 @@ public class NoteServiceTests
         result.Should().BeFalse();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(id), Times.Once);
-        _mapperMock.Verify(m => m.Map(It.IsAny<NoteUpdateDto>(), It.IsAny<Note>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateNote>(), It.IsAny<Note>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<Note>()), Times.Never);
     }
 
@@ -277,7 +277,7 @@ public class NoteServiceTests
     public async Task UpdateNoteAsync_InvalidDto_ThrowsValidationException()
     {
         // Arrange
-        var dto = new NoteUpdateDto { Id = Guid.NewGuid(), Content = "" };
+        var dto = new UpdateNote { Id = Guid.NewGuid(), Content = "" };
         var failures = new List<ValidationFailure>
         {
             new("Content", "Content cannot be empty")
@@ -294,7 +294,7 @@ public class NoteServiceTests
         await act.Should().ThrowAsync<ValidationException>();
         _updateValidatorMock.Verify(v => v.ValidateAsync(dto, It.IsAny<CancellationToken>()), Times.Once);
         _repoMock.Verify(r => r.GetByIdAsync(It.IsAny<Guid>()), Times.Never);
-        _mapperMock.Verify(m => m.Map(It.IsAny<NoteUpdateDto>(), It.IsAny<Note>()), Times.Never);
+        _mapperMock.Verify(m => m.Map(It.IsAny<UpdateNote>(), It.IsAny<Note>()), Times.Never);
         _repoMock.Verify(r => r.UpdateAsync(It.IsAny<Note>()), Times.Never);
     }
 

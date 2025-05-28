@@ -9,27 +9,27 @@ namespace TaskManagement.Application.Services;
 public class DamageClaimService(
     IDamageClaimRepository damageClaimRepository,
     IMapper mapper,
-    IValidator<DamageClaimCreateDto> createValidator,
-    IValidator<DamageClaimUpdateDto> updateValidator)
+    IValidator<CreateDamageClaim> createValidator,
+    IValidator<UpdateDamageClaim> updateValidator)
 {
-    public Task<List<DamageClaimResponseDto>> GetDamageClaimsByOffice(Guid officeId)
+    public Task<List<DamageClaimResponse>> GetDamageClaimsByOffice(Guid officeId)
     {
         var damageClaims = damageClaimRepository.GetAll()
             .Where(dc => dc.Relation.OfficeId == officeId)
             .ToList();
 
-        var response = mapper.Map<List<DamageClaimResponseDto>>(damageClaims);
+        var response = mapper.Map<List<DamageClaimResponse>>(damageClaims);
 
         return Task.FromResult(response);
     }
 
-    public async Task<DamageClaimResponseDto?> GetDamageClaimByIdAsync(Guid id)
+    public async Task<DamageClaimResponse?> GetDamageClaimByIdAsync(Guid id)
     {
         var damageClaim = await damageClaimRepository.GetByIdAsync(id);
-        return damageClaim == null ? null : mapper.Map<DamageClaimResponseDto>(damageClaim);
+        return damageClaim == null ? null : mapper.Map<DamageClaimResponse>(damageClaim);
     }
 
-    public async Task<DamageClaimResponseDto> CreateDamageClaimAsync(DamageClaimCreateDto dto)
+    public async Task<DamageClaimResponse> CreateDamageClaimAsync(CreateDamageClaim dto)
     {
         var validation = await createValidator.ValidateAsync(dto);
         if (!validation.IsValid)
@@ -37,10 +37,10 @@ public class DamageClaimService(
 
         var damageClaim = mapper.Map<DamageClaim>(dto);
         await damageClaimRepository.AddAsync(damageClaim);
-        return mapper.Map<DamageClaimResponseDto>(damageClaim);
+        return mapper.Map<DamageClaimResponse>(damageClaim);
     }
 
-    public async Task<bool> UpdateDamageClaimAsync(DamageClaimUpdateDto dto)
+    public async Task<bool> UpdateDamageClaimAsync(UpdateDamageClaim dto)
     {
         var validation = await updateValidator.ValidateAsync(dto);
         if (!validation.IsValid)

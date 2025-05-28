@@ -2,7 +2,7 @@
 
 namespace TaskManagement.DTO.Office.User.Task.LinkedObject.Validators;
 
-public class LinkedObjectUpdateDtoValidator : AbstractValidator<LinkedObjectUpdateDto>
+public class LinkedObjectUpdateDtoValidator : AbstractValidator<UpdateLinkedObject>
 {
     public LinkedObjectUpdateDtoValidator()
     {

@@ -9,27 +9,27 @@ namespace TaskManagement.Application.Services;
 public class RelationService(
     IRelationRepository relationRepository,
     IMapper mapper,
-    IValidator<RelationCreateDto> createValidator,
-    IValidator<RelationUpdateDto> updateValidator)
+    IValidator<CreateRelation> createValidator,
+    IValidator<UpdateRelation> updateValidator)
 {
-    public Task<List<RelationResponseDto>> GetRelationsByOffice(Guid officeId)
+    public Task<List<RelationResponse>> GetRelationsByOffice(Guid officeId)
     {
         var relations = relationRepository.GetAll()
             .Where(r => r.OfficeId == officeId)
             .ToList();
 
-        var response = mapper.Map<List<RelationResponseDto>>(relations);
+        var response = mapper.Map<List<RelationResponse>>(relations);
 
         return Task.FromResult(response);
     }
 
-    public async Task<RelationResponseDto?> GetRelationByIdAsync(Guid id)
+    public async Task<RelationResponse?> GetRelationByIdAsync(Guid id)
     {
         var relation = await relationRepository.GetByIdAsync(id);
-        return relation == null ? null : mapper.Map<RelationResponseDto>(relation);
+        return relation == null ? null : mapper.Map<RelationResponse>(relation);
     }
 
-    public async Task<RelationResponseDto> CreateRelationAsync(RelationCreateDto dto)
+    public async Task<RelationResponse> CreateRelationAsync(CreateRelation dto)
     {
         var validation = await createValidator.ValidateAsync(dto);
         if (!validation.IsValid)
@@ -37,10 +37,10 @@ public class RelationService(
 
         var relation = mapper.Map<Relation>(dto);
         await relationRepository.AddAsync(relation);
-        return mapper.Map<RelationResponseDto>(relation);
+        return mapper.Map<RelationResponse>(relation);
     }
 
-    public async Task<bool> UpdateRelationAsync(RelationUpdateDto dto)
+    public async Task<bool> UpdateRelationAsync(UpdateRelation dto)
     {
         var validation = await updateValidator.ValidateAsync(dto);
         if (!validation.IsValid)

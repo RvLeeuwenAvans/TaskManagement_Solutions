@@ -28,7 +28,7 @@ public class NoteController(NoteService noteService) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateNote([FromBody] NoteCreateDto dto)
+    public async Task<IActionResult> CreateNote([FromBody] CreateNote dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -38,7 +38,7 @@ public class NoteController(NoteService noteService) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateNote(Guid id, [FromBody] NoteUpdateDto dto)
+    public async Task<IActionResult> UpdateNote(Guid id, [FromBody] UpdateNote dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

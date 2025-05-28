@@ -8,9 +8,9 @@ namespace TaskManagement.Application.MappingProfiles
     {
         public InsurancePolicyMappingProfile()
         {
-            CreateMap<InsurancePolicy, InsurancePolicyResponseDto>();
-            CreateMap<InsurancePolicyCreateDto, InsurancePolicy>();
-            CreateMap<InsurancePolicyUpdateDto, InsurancePolicy>()
+            CreateMap<InsurancePolicy, InsurancePolicyResponse>();
+            CreateMap<CreateInsurancePolicy, InsurancePolicy>();
+            CreateMap<UpdateInsurancePolicy, InsurancePolicy>()
                 .ForMember(dest => dest.Type, opt =>
                     opt.Condition(src => !string.IsNullOrWhiteSpace(src.Type)));
         }

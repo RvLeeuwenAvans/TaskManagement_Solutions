@@ -8,7 +8,7 @@ public class LinkedObjectMappingProfile : Profile
 {
     public LinkedObjectMappingProfile()
     {
-        CreateMap<LinkedObjectCreateDto, LinkedObject>()
+        CreateMap<CreateLinkedObject, LinkedObject>()
             .ForMember(dest => dest.UserTask, 
                 opt => opt.Ignore())
             .ForMember(dest => dest.Relation, 
@@ -18,7 +18,7 @@ public class LinkedObjectMappingProfile : Profile
             .ForMember(dest => dest.InsurancePolicy, 
                 opt => opt.Ignore());
 
-        CreateMap<LinkedObjectUpdateDto, LinkedObject>()
+        CreateMap<UpdateLinkedObject, LinkedObject>()
             .ForMember(dest => dest.Relation, 
                 opt => opt.Ignore())
             .ForMember(dest => dest.DamageClaim, 
@@ -28,7 +28,7 @@ public class LinkedObjectMappingProfile : Profile
             .ForMember(dest => dest.UserTask, 
                 opt => opt.Ignore());
 
-        CreateMap<LinkedObject, LinkedObjectResponseDto>()
+        CreateMap<LinkedObject, LinkedObjectResponse>()
             .ForMember(dest => dest.UserTaskId, 
                 opt =>
                     opt.MapFrom(src => src.UserTask.Id))

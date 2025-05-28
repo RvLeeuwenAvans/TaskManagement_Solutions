@@ -21,12 +21,12 @@ public class TokenService(UserService userService, IConfiguration configuration)
 
     private readonly int _expiryMinutes = int.Parse(configuration["Jwt:TokenExpiryMinutes"] ?? "60");
 
-    public async Task<AuthenticationResponseDto?> AuthenticateUserAsync(string email, string password)
+    public async Task<AuthenticationResponse?> AuthenticateUserAsync(string email, string password)
     {
         var user = await userService.GetUserByEmail(email);
 
         return user != null && userService.VerifyPassword(user, user.Password, password)
-            ? new AuthenticationResponseDto { Token = GenerateToken(user) }
+            ? new AuthenticationResponse { Token = GenerateToken(user) }
             : null;
     }
 

@@ -9,14 +9,31 @@ public class UserTaskRepository(IDbContext context) : IUserTaskRepository
 {
     public IQueryable<UserTask> GetAll()
     {
-        return context.Tasks.Include(task => task.User).AsQueryable();
+        // suppression is allowed; the response allows those attributes to be null
+        return context.Tasks
+            .Include(task => task.User)
+            .Include(task => task.LinkedObject)
+            .ThenInclude(lo => lo!.Relation)
+            .Include(task => task.LinkedObject)
+            .ThenInclude(lo => lo!.DamageClaim)
+            .Include(task => task.LinkedObject)
+            .ThenInclude(lo => lo!.InsurancePolicy)
+            .AsQueryable();
     }
 
     public async Task<UserTask?> GetByIdAsync(Guid id)
     {
-        return await context.Tasks.Include(task => task.User).FirstOrDefaultAsync(t => t.Id == id);
+        // suppression is allowed; the response allows those attributes to be null
+        return await context.Tasks
+            .Include(task => task.User)
+            .Include(task => task.LinkedObject)
+            .ThenInclude(lo => lo!.Relation)
+            .Include(task => task.LinkedObject)
+            .ThenInclude(lo => lo!.DamageClaim)
+            .Include(task => task.LinkedObject)
+            .ThenInclude(lo => lo!.InsurancePolicy)
+            .FirstOrDefaultAsync(t => t.Id == id);
     }
-
     public async Task AddAsync(UserTask task)
     {
         await context.Tasks.AddAsync(task);

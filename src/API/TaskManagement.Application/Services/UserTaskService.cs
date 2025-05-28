@@ -9,27 +9,27 @@ namespace TaskManagement.Application.Services;
 public class UserTaskService(
     IUserTaskRepository taskRepository,
     IMapper mapper,
-    IValidator<UserTaskCreateDto> createValidator,
-    IValidator<UserTaskUpdateDto> updateValidator)
+    IValidator<CreateUserTask> createValidator,
+    IValidator<UpdateUserTask> updateValidator)
 {
-    public Task<List<UserTaskResponseDto>> GetTasksByUser(Guid userId)
+    public Task<List<UserTaskResponse>> GetTasksByUser(Guid userId)
     {
         var tasks = taskRepository.GetAll()
             .Where(t => t.UserId == userId)
             .ToList();
         
-        var response = mapper.Map<List<UserTaskResponseDto>>(tasks);
+        var response = mapper.Map<List<UserTaskResponse>>(tasks);
 
         return Task.FromResult(response);
     }
 
-    public async Task<UserTaskResponseDto?> GetTaskByIdAsync(Guid id)
+    public async Task<UserTaskResponse?> GetTaskByIdAsync(Guid id)
     {
         var task = await taskRepository.GetByIdAsync(id);
-        return task is null ? null : mapper.Map<UserTaskResponseDto>(task);
+        return task is null ? null : mapper.Map<UserTaskResponse>(task);
     }
 
-    public async Task<UserTaskResponseDto> CreateTaskAsync(UserTaskCreateDto dto)
+    public async Task<UserTaskResponse> CreateTaskAsync(CreateUserTask dto)
     {
         var validationResult = await createValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
@@ -37,10 +37,10 @@ public class UserTaskService(
 
         var task = mapper.Map<UserTask>(dto);
         await taskRepository.AddAsync(task);
-        return mapper.Map<UserTaskResponseDto>(task);
+        return mapper.Map<UserTaskResponse>(task);
     }
 
-    public async Task<bool> UpdateTaskAsync(UserTaskUpdateDto dto)
+    public async Task<bool> UpdateTaskAsync(UpdateUserTask dto)
     {
         var validationResult = await updateValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
