@@ -6,8 +6,9 @@
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage"
              x:DataType="viewModels:MainPageViewModel">
-    
+
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryGreenDark}">
+        <!-- todo: make Kantoornaam bindable -->
         <Label Text="Kantoornaam"
                BackgroundColor="{StaticResource PrimaryGreen}"
                TextColor="{StaticResource White}"
@@ -127,7 +128,7 @@
                     HeightRequest="70"
                     CornerRadius="35"
                     Padding="0,-2,0,0"
-                    x:Name="AddButton" />
+                    Command="{Binding NavigateToAddTaskCommand}" />
             </Border>
         </Grid>
     </Grid>

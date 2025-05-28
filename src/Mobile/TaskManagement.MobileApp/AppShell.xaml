@@ -10,5 +10,10 @@
     <ShellContent
         ContentTemplate="{DataTemplate pages:MainPage}"
         Route="MainPage" />
-
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:AddTaskPage}"
+        Route="AddTaskPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:UpdateTaskPage}"
+        Route="UpdateTaskPage" />
 </Shell>

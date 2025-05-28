@@ -74,6 +74,12 @@ public partial class MainPageViewModel : ObservableObject
             ApplyFilter(SelectedFilter);
         }
     }
+    
+    [RelayCommand]
+    private async Task NavigateToAddTask()
+    {
+        await Shell.Current.GoToAsync("AddTaskPage");
+    }
 
     [RelayCommand]
     private void Filter(string filter)
