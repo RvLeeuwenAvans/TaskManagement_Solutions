@@ -11,7 +11,7 @@ public class LinkedObjectTypeToColorConverter : IValueConverter
         {
             return type switch
             {
-                LinkedObjectType.Relation => Application.Current?.Resources["PrimaryGreen"],
+                LinkedObjectType.Relation => Application.Current?.Resources["Primary"],
                 LinkedObjectType.DamageClaim => Application.Current?.Resources["Red"],
                 LinkedObjectType.InsurancePolicy => Application.Current?.Resources["PolicyBrown"],
                 _ => Application.Current?.Resources["TextGray"]

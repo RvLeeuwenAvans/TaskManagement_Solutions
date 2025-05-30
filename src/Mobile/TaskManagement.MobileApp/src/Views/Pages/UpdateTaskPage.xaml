@@ -16,7 +16,7 @@
                              Spacing="12"
                              Margin="16,0,16,32">
             <Button Text="Bijwerken"
-                    BackgroundColor="{StaticResource PrimaryGreen}"
+                    BackgroundColor="{StaticResource Primary}"
                     TextColor="{StaticResource White}"
                     FontSize="18"
                     FontAttributes="Bold"

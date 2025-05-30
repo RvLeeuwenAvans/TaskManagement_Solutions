@@ -6,75 +6,43 @@
              x:Class="TaskManagement.MobileApp.Views.TaskCardView"
              x:DataType="viewModels:TaskCardViewModel">
 
-    <Border Margin="16,8"
-            Padding="0, 7"
-            StrokeShape="RoundRectangle 8"
-            BackgroundColor="{StaticResource White}"
-            Shadow="{Shadow Brush={StaticResource ShadowColor}, Offset='0,2', Radius=4}">
+    <Border Style="{StaticResource CardBorderStyle}">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto"
               RowDefinitions="*,Auto"
               ColumnSpacing="8"
               RowSpacing="4"
               Padding="12,8">
+
             <Border Grid.Column="0"
                     Grid.RowSpan="2"
-                    HeightRequest="44"
-                    WidthRequest="44"
-                    StrokeShape="RoundRectangle 22"
-                    BackgroundColor="{StaticResource BackgroundIcon}"
-                    VerticalOptions="Center">
+                    Style="{StaticResource AvatarBorderStyle}">
                 <Label Text="{Binding CreatorInitial}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource White}"
-                       FontSize="22" />
+                       Style="{StaticResource AvatarLabelStyle}" />
             </Border>
+
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="0"
                                  Grid.RowSpan="2"
                                  VerticalOptions="Center">
                 <Label Text="{Binding Title}"
-                       FontSize="20"
-                       TextColor="{StaticResource Black}"
-                       FontAttributes="Bold"
-                       VerticalTextAlignment="Center"
-                       LineBreakMode="TailTruncation"
-                       MaxLines="1" />
+                       Style="{StaticResource TitleLabelStyle}" />
                 <Label Text="{Binding Subtitle}"
-                       FontSize="17"
-                       TextColor="{Binding LinkedObjectType, Converter={StaticResource TypeToColorConverter}}"
-                       VerticalTextAlignment="Center"
-                       LineBreakMode="TailTruncation"
-                       MaxLines="1" />
+                       Style="{StaticResource SubtitleLabelStyle}"
+                       TextColor="{Binding LinkedObjectType, Converter={StaticResource TypeToColorConverter}}" />
             </VerticalStackLayout>
+
             <HorizontalStackLayout Grid.Column="2"
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
-                <ImageButton Source="edit_icon.png"
-                             HeightRequest="8"
-                             WidthRequest="8"
-                             Scale="0.6"
-                             VerticalOptions="Center"
-                             BackgroundColor="{StaticResource Transparent}" />
-                <ImageButton Source="check_icon.png"
-                             HeightRequest="8"
-                             WidthRequest="8"
-                             Scale="0.7"
-                             VerticalOptions="Center"
-                             BackgroundColor="{StaticResource Transparent}" />
+                <ImageButton Style="{StaticResource IconButtonStyle}" Source="edit_icon" Scale="0.6" />
+                <ImageButton Style="{StaticResource IconButtonStyle}" Source="check_icon" Scale="0.7" />
             </HorizontalStackLayout>
+
             <Border Grid.Column="2"
                     Grid.Row="1"
-                    BackgroundColor="{StaticResource DateLabelBackground}"
-                    StrokeShape="RoundRectangle 9"
-                    HorizontalOptions="Center"
-                    Padding="20,0">
+                    Style="{StaticResource DateBorderStyle}">
                 <Label Text="{Binding DueDate, StringFormat='{0:dd MMM yyyy}'}"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource DateLabelText}"
-                       VerticalTextAlignment="Center"
-                       HorizontalOptions="Center" />
+                       Style="{StaticResource DateLabelStyle}" />
             </Border>
         </Grid>
     </Border>

@@ -1,126 +1,41 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
+             xmlns:controls="clr-namespace:TaskManagement.MobileApp.Views.Controls"
              x:Class="TaskManagement.MobileApp.Views.TaskFormView"
              x:DataType="viewModels:TaskFormViewModel">
-    
     <ScrollView BackgroundColor="{StaticResource LightGray}">
         <VerticalStackLayout Padding="16" Spacing="16">
-            
-            <!-- Title Section -->
             <VerticalStackLayout Spacing="8">
-                <Label Text="Titel:" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource Black}" />
-                <Entry Text="{Binding Title}" 
-                       BackgroundColor="{StaticResource White}"
-                       TextColor="{StaticResource Black}"
-                       Placeholder="Voer titel in..."
-                       PlaceholderColor="{StaticResource LightGray}" />
+                <Label Text="Titel:" Style="{StaticResource LabelHeader}" />
+                <Grid>
+                    <Entry x:Name="TitleEntry"
+                           Style="{StaticResource BaseEntry}"
+                           Text="{Binding Title}"
+                           Placeholder="Voer titel in..." />
+                    <controls:TopShadowView />
+                </Grid>
             </VerticalStackLayout>
-
-            <!-- Description Section -->
             <VerticalStackLayout Spacing="8">
-                <Label Text="Omschrijving:" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource Black}" />
-                <Editor Text="{Binding Description}" 
-                        BackgroundColor="{StaticResource White}"
-                        TextColor="{StaticResource Black}"
-                        Placeholder="Voer omschrijving in..."
-                        PlaceholderColor="{StaticResource LightGray}"
-                        HeightRequest="100" />
+                <Label Text="Omschrijving:" Style="{StaticResource LabelHeader}" />
+                <Grid>
+                    <Editor Text="{Binding Description}"
+                            Style="{StaticResource BaseEditor}"
+                            Placeholder="Voer omschrijving in..." />
+                    <controls:TopShadowView />
+                </Grid>
             </VerticalStackLayout>
-
-            <!-- Deadline Section -->
             <VerticalStackLayout Spacing="8">
-                <Label Text="Deadline:" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource Black}" />
-                <Border BackgroundColor="{StaticResource White}"
-                        Stroke="{StaticResource Transparent}"
-                        StrokeThickness="0">
-                    <Grid ColumnDefinitions="*, Auto" Padding="12">
-                        <Label Grid.Column="0"
-                               Text="{Binding Deadline, StringFormat='{0:dd-MM-yyyy}'}" 
-                               TextColor="{StaticResource Black}"
-                               VerticalOptions="Center" />
-                        <Image Grid.Column="1"
-                               Source="calendar_icon.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               VerticalOptions="Center" />
-                        <Button Grid.ColumnSpan="2"
-                                BackgroundColor="{StaticResource Transparent}"
-                                Command="{Binding SelectDateCommand}" />
-                    </Grid>
-                </Border>
+                <Label Text="Deadline:" Style="{StaticResource LabelHeader}" />
+                <Grid>
+                    <DatePicker Date="{Binding Deadline}"
+                                Format="dd-MM-yyyy"
+                                Style="{StaticResource BaseDatePicker}" />
+                    <controls:TopShadowView />
+                </Grid>
             </VerticalStackLayout>
-
-            <!-- User Section -->
-            <VerticalStackLayout Spacing="8">
-                <Label Text="Gebruiker:" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource Black}" />
-                <Border BackgroundColor="{StaticResource White}"
-                        Stroke="{StaticResource Transparent}"
-                        StrokeThickness="0">
-                    <Grid ColumnDefinitions="Auto, *, Auto" Padding="12">
-                        <Ellipse Grid.Column="0"
-                                 Fill="{Binding SelectedUser.AvatarColor}"
-                                 HeightRequest="30"
-                                 WidthRequest="30"
-                                 VerticalOptions="Center" />
-                        <Label Grid.Column="0"
-                               Text="{Binding SelectedUser.Initials}"
-                               TextColor="{StaticResource White}"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                        <Label Grid.Column="1"
-                               Text="{Binding SelectedUser.Name}" 
-                               TextColor="{StaticResource Black}"
-                               VerticalOptions="Center"
-                               Margin="12,0,0,0" />
-                        <Image Grid.Column="2"
-                               Source="dropdown_icon.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               VerticalOptions="Center" />
-                        <Button Grid.ColumnSpan="3"
-                                BackgroundColor="{StaticResource Transparent}"
-                                Command="{Binding SelectUserCommand}" />
-                    </Grid>
-                </Border>
-            </VerticalStackLayout>
-
-            <!-- Object Section -->
-            <VerticalStackLayout Spacing="8">
-                <Label Text="Object" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource Black}" />
-                <Border BackgroundColor="{StaticResource White}"
-                        Stroke="{StaticResource Transparent}"
-                        StrokeThickness="0">
-                    <Grid ColumnDefinitions="*, Auto" Padding="12">
-                        <Label Grid.Column="0"
-                               Text="{Binding SelectedObject.Name, FallbackValue=Geen}" 
-                               TextColor="{Binding SelectedObject.Color, FallbackValue={StaticResource Black}}"
-                               VerticalOptions="Center" />
-                        <!-- <Image Grid.Column="1" -->
-                        <!--        Source="{Binding HasSelectedObject, Converter={StaticResource BoolToStringConverter}, ConverterParameter='close_icon.png|dropdown_icon.png'}" -->
-                        <!--        HeightRequest="20" -->
-                        <!--        WidthRequest="20" -->
-                        <!--        VerticalOptions="Center" /> -->
-                        <Button Grid.ColumnSpan="2"
-                                BackgroundColor="{StaticResource Transparent}"
-                                Command="{Binding SelectObjectCommand}" />
-                    </Grid>
-                </Border>
-            </VerticalStackLayout>
-
         </VerticalStackLayout>
     </ScrollView>
-    
 </ContentView>
