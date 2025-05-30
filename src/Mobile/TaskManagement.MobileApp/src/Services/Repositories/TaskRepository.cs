@@ -11,4 +11,9 @@ public class TaskRepository(UserTaskClient client) : ITaskRepository
         var tasks = await client.GetTasksByUserAsync(userId);
         return tasks.ToList();
     }
+
+    public async Task CloseTasksAsync(Guid taskId)
+    {
+       await client.DeleteTaskAsync(taskId);
+    }
 }

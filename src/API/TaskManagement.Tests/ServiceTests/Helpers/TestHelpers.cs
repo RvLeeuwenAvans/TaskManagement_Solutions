@@ -6,7 +6,7 @@ using TaskManagement.Domain.Office.User;
 using TaskManagement.Domain.Office.User.Task;
 using TaskManagement.Domain.Office.User.Task.Note;
 
-namespace TaskManagement.Test.ServiceTests.Helpers;
+namespace TaskManagement.Tests.ServiceTests.Helpers;
 
 public static class TestHelpers
 {

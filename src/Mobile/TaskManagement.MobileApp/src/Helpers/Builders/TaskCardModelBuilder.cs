@@ -20,6 +20,7 @@ public class TaskCardModelBuilder
     public TaskCardModel Build()
     {
         return new TaskCardModel(
+            _taskItem.Id,
             _taskItem.User.FirstName.ToCharArray().First(),
             _taskItem.Title,
             _taskItem.LinkedObject,

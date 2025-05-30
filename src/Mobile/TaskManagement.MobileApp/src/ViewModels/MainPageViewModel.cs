@@ -58,7 +58,7 @@ public partial class MainPageViewModel : ObservableObject
                 linkedObject = await _linkedObjectService.GetLinkedObjectByResponse(model.LinkedObjectResponse);
             }
 
-            taskCardViewModels.Add(new TaskCardViewModel(model, linkedObject));
+            taskCardViewModels.Add(new TaskCardViewModel(model, _taskService, linkedObject, RemoveTask));
         }
 
         _allTasks = new ObservableCollection<TaskCardViewModel>(taskCardViewModels);
@@ -112,5 +112,15 @@ public partial class MainPageViewModel : ObservableObject
         };
 
         FilteredTaskCards = new ObservableCollection<TaskCardViewModel>(filtered);
+    }
+
+    private void RemoveTask(Guid taskId)
+    {
+        foreach (var collection in new[] { _allTasks, FilteredTaskCards })
+        {
+            var task = collection.FirstOrDefault(t => t.Id == taskId);
+            if (task != null)
+                collection.Remove(task);
+        }
     }
 }

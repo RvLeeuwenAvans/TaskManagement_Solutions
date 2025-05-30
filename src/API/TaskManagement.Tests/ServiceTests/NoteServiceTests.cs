@@ -7,9 +7,9 @@ using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Application.Services;
 using TaskManagement.Domain.Office.User.Task.Note;
 using TaskManagement.DTO.Office.User.Task.Note;
-using TaskManagement.Test.ServiceTests.Helpers;
+using TaskManagement.Tests.ServiceTests.Helpers;
 
-namespace TaskManagement.Test.ServiceTests;
+namespace TaskManagement.Tests.ServiceTests;
 
 public class NoteServiceTests
 {
