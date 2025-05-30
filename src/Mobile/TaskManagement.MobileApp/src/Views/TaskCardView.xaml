@@ -35,7 +35,8 @@
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
                 <ImageButton Style="{StaticResource IconButtonStyle}" Source="edit_icon" Scale="0.6" />
-                <ImageButton Style="{StaticResource IconButtonStyle}" Source="check_icon" Scale="0.7" Command="{Binding CloseTaskCommand}"ø />
+                <ImageButton Style="{StaticResource IconButtonStyle}" Source="check_icon" Scale="0.7"
+                             Command="{Binding CloseTaskCommand}" />
             </HorizontalStackLayout>
 
             <Border Grid.Column="2"
