@@ -12,7 +12,7 @@ namespace TaskManagement.MobileApp.WinUI;
 public partial class App : MauiWinUIApplication
 {
     const int WindowWidth = 400;
-    const int WindowHeight = 750;
+    const int WindowHeight = 800;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -28,14 +28,12 @@ public partial class App : MauiWinUIApplication
             //  * Found this snippet on stackoverflow; it sets the default size.
             //  * This App is meant for mobile devices So we atleast try to mimic that here
             //  * you can still resize it but... it gets the point across
-            #if WINDOWS
-                var nativeWindow = handler.PlatformView;
-                nativeWindow.Activate();
-                IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
-                var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-                var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-                appWindow.Resize(new Windows.Graphics.SizeInt32(WindowWidth, WindowHeight));
-            #endif
+            var nativeWindow = handler.PlatformView;
+            nativeWindow.Activate();
+            IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
+            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+            var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+            appWindow.Resize(new Windows.Graphics.SizeInt32(WindowWidth, WindowHeight));
         });
     }
 
