@@ -38,6 +38,18 @@
                     <controls:TopShadowView />
                 </Grid>
             </VerticalStackLayout>
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Gebruiker:" Style="{StaticResource LabelHeader}" />
+                <Border Style="{StaticResource PickerBorder}">
+                    <Picker Style="{StaticResource BasePicker}" />
+                </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Object:" Style="{StaticResource LabelHeader}" />
+                <Border Style="{StaticResource PickerBorder}">
+                    <Picker Style="{StaticResource BasePicker}" />
+                </Border>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>

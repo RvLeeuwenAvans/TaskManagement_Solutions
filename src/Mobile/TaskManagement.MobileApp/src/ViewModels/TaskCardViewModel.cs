@@ -6,13 +6,13 @@ using TaskManagement.MobileApp.Services;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
-public class TaskCardViewModel : ObservableObject
+public partial class TaskCardViewModel : ObservableObject
 {
     private TaskCardModel Model { get; }
     public ICommand CloseTaskCommand { get; }
 
     public char CreatorInitial => Model.CreatorInitial;
-    
+
     public Guid Id => Model.Id;
     public string Title => Model.Title;
     public DateTime DueDate => Model.DueDate;
@@ -39,6 +39,11 @@ public class TaskCardViewModel : ObservableObject
         {
             _onTaskClosed?.Invoke(Model.Id);
         }
-        // Optionally: Notify UI or remove the task from the list
+    }
+
+    [RelayCommand]
+    private static async Task NavigateToUpdateTask()
+    {
+        await Shell.Current.GoToAsync("UpdateTaskPage");
     }
 }

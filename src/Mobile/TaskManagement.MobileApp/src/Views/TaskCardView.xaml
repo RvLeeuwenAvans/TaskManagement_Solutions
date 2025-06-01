@@ -12,12 +12,14 @@
               ColumnSpacing="8"
               RowSpacing="4"
               Padding="12,8">
+            
             <Border Grid.Column="0"
                     Grid.RowSpan="2"
                     Style="{StaticResource CardAvatarBorder}">
                 <Label Text="{Binding CreatorInitial}"
                        Style="{StaticResource CardAvatarInitial}" />
             </Border>
+            
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="0"
                                  Grid.RowSpan="2"
@@ -28,13 +30,16 @@
                        Style="{StaticResource CardSubtitleLabel}"
                        TextColor="{Binding LinkedObjectType, Converter={StaticResource TypeToColorConverter}}" />
             </VerticalStackLayout>
+            
             <HorizontalStackLayout Grid.Column="2"
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
-                <ImageButton Style="{StaticResource CardIconButton}" Source="edit_icon.png" Scale="0.6" />
+                <ImageButton Style="{StaticResource CardIconButton}" Source="edit_icon.png" Scale="0.6"
+                             Command="{Binding NavigateToUpdateTaskCommand}"/>
                 <ImageButton Style="{StaticResource CardIconButton}" Source="check_icon.png" Scale="0.7"
                              Command="{Binding CloseTaskCommand}" />
             </HorizontalStackLayout>
+            
             <Border Grid.Column="2"
                     Grid.Row="1"
                     Style="{StaticResource DateBorder}">

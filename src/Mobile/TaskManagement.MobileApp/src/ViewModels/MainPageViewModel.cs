@@ -76,7 +76,7 @@ public partial class MainPageViewModel : ObservableObject
     }
     
     [RelayCommand]
-    private async Task NavigateToAddTask()
+    private static async Task NavigateToAddTask()
     {
         await Shell.Current.GoToAsync("AddTaskPage");
     }

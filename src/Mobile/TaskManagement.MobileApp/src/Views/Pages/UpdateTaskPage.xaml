@@ -6,15 +6,22 @@
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.UpdateTaskPage"
              x:DataType="viewModels:UpdateTaskViewModel"
-             Title="Nieuwe taak"
              BackgroundColor="{StaticResource LightGray}">
-    <Grid RowDefinitions="*, Auto">
-        <views:TaskFormView Grid.Row="0"
+    <Shell.TitleView>
+        <!-- todo: Make bindable -->
+        <Label Text="Taaknaam"
+               Style="{StaticResource NavHeaderLabel}" />
+    </Shell.TitleView>
+    <Grid RowDefinitions="Auto, Auto, *">
+        <!-- just a spacer; has no use here besides looking pretty -->
+        <BoxView Grid.Row="0" HeightRequest="20"
+                 BackgroundColor="{StaticResource PrimaryDark}"
+                 HorizontalOptions="FillAndExpand" />
+        
+        <views:TaskFormView Grid.Row="1"
                             BindingContext="{Binding FormViewModel}" />
 
-        <VerticalStackLayout Grid.Row="1"
-                             Spacing="12"
-                             Margin="16,0,16,32">
+        <VerticalStackLayout Grid.Row="2">
             <Button Text="Bijwerken"
                     Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding UpdateTaskCommand}" />
@@ -22,6 +29,5 @@
                     Style="{StaticResource SecondaryActionButton}"
                     Command="{Binding DeleteTaskCommand}" />
         </VerticalStackLayout>
-
     </Grid>
 </ContentPage>

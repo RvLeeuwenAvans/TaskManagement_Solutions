@@ -6,15 +6,15 @@
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.AddTaskPage"
              x:DataType="viewModels:AddTaskViewModel"
-             Title="Nieuwe taak"
              BackgroundColor="{StaticResource LightGray}">
     <Shell.TitleView>
+        <!-- todo: Make bindable -->
         <Label Text="Nieuwe taak"
-               Style="{StaticResource MainHeaderLabel}" />
+               Style="{StaticResource NavHeaderLabel}" />
     </Shell.TitleView>
-    <Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto, Auto, *">
         <!-- just a spacer; has no use here besides looking pretty -->
-        <BoxView HeightRequest="20"
+        <BoxView Grid.Row="0" HeightRequest="20"
                  BackgroundColor="{StaticResource PrimaryDark}"
                  HorizontalOptions="FillAndExpand" />
 
