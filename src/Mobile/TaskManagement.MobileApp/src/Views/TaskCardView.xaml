@@ -6,44 +6,40 @@
              x:Class="TaskManagement.MobileApp.Views.TaskCardView"
              x:DataType="viewModels:TaskCardViewModel">
 
-    <Border Style="{StaticResource CardBorderStyle}">
+    <Border Style="{StaticResource CardBorder}">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto"
               RowDefinitions="*,Auto"
               ColumnSpacing="8"
               RowSpacing="4"
               Padding="12,8">
-
             <Border Grid.Column="0"
                     Grid.RowSpan="2"
-                    Style="{StaticResource AvatarBorderStyle}">
+                    Style="{StaticResource CardAvatarBorder}">
                 <Label Text="{Binding CreatorInitial}"
-                       Style="{StaticResource AvatarLabelStyle}" />
+                       Style="{StaticResource CardAvatarInitial}" />
             </Border>
-
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="0"
                                  Grid.RowSpan="2"
                                  VerticalOptions="Center">
                 <Label Text="{Binding Title}"
-                       Style="{StaticResource TitleLabelStyle}" />
+                       Style="{StaticResource CardTitleLabel}" />
                 <Label Text="{Binding Subtitle}"
-                       Style="{StaticResource SubtitleLabelStyle}"
+                       Style="{StaticResource CardSubtitleLabel}"
                        TextColor="{Binding LinkedObjectType, Converter={StaticResource TypeToColorConverter}}" />
             </VerticalStackLayout>
-
             <HorizontalStackLayout Grid.Column="2"
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
-                <ImageButton Style="{StaticResource IconButtonStyle}" Source="edit_icon" Scale="0.6" />
-                <ImageButton Style="{StaticResource IconButtonStyle}" Source="check_icon" Scale="0.7"
+                <ImageButton Style="{StaticResource CardIconButton}" Source="edit_icon.png" Scale="0.6" />
+                <ImageButton Style="{StaticResource CardIconButton}" Source="check_icon.png" Scale="0.7"
                              Command="{Binding CloseTaskCommand}" />
             </HorizontalStackLayout>
-
             <Border Grid.Column="2"
                     Grid.Row="1"
-                    Style="{StaticResource DateBorderStyle}">
+                    Style="{StaticResource DateBorder}">
                 <Label Text="{Binding DueDate, StringFormat='{0:dd MMM yyyy}'}"
-                       Style="{StaticResource DateLabelStyle}" />
+                       Style="{StaticResource DateLabel}" />
             </Border>
         </Grid>
     </Border>

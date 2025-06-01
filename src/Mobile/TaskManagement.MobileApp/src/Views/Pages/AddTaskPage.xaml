@@ -8,25 +8,22 @@
              x:DataType="viewModels:AddTaskViewModel"
              Title="Nieuwe taak"
              BackgroundColor="{StaticResource LightGray}">
+    <Shell.TitleView>
+        <Label Text="Nieuwe taak"
+               Style="{StaticResource MainHeaderLabel}" />
+    </Shell.TitleView>
     <Grid RowDefinitions="Auto, *, Auto">
-        
+        <!-- just a spacer; has no use here besides looking pretty -->
         <BoxView HeightRequest="20"
                  BackgroundColor="{StaticResource PrimaryDark}"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Start" />
-        
+                 HorizontalOptions="FillAndExpand" />
+
         <views:TaskFormView Grid.Row="1"
                             BindingContext="{Binding FormViewModel}" />
 
         <Button Grid.Row="2"
                 Text="Aanmaken"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="{StaticResource White}"
-                FontSize="18"
-                FontAttributes="Bold"
-                Margin="16,0,16,32"
-                HeightRequest="50"
-                CornerRadius="8"
+                Style="{StaticResource PrimaryActionButton}"
                 Command="{Binding CreateTaskCommand}" />
     </Grid>
 </ContentPage>

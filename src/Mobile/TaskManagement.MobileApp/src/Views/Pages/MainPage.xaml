@@ -6,95 +6,77 @@
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage"
              x:DataType="viewModels:MainPageViewModel">
-
-    <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryDark}">
-        <!-- todo: make Kantoornaam bindable -->
+    <Shell.TitleView>
+        <!-- todo make bindable -->
         <Label Text="Kantoornaam"
-               BackgroundColor="{StaticResource Primary}"
-               TextColor="{StaticResource White}"
-               FontSize="26"
-               FontAttributes="Bold"
-               HorizontalOptions="FillAndExpand"
-               HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"
-               VerticalOptions="Center"
-               Padding="15" />
+               Style="{StaticResource MainHeaderLabel}" />
+    </Shell.TitleView>
+    <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryDark}">
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <!-- Tabs -->
+
             <HorizontalStackLayout Grid.Column="0"
                                    x:Name="FilterTabs"
                                    Spacing="20"
                                    Padding="10,0">
                 <VerticalStackLayout>
                     <Button Text="Alle"
+                            Style="{StaticResource FilterButton}"
                             Command="{Binding FilterCommand}"
-                            CommandParameter="All"
-                            BackgroundColor="{StaticResource Transparent}"
-                            TextColor="{StaticResource White}"
-                            FontAttributes="Bold"
-                            FontSize="14" />
-                    <BoxView HeightRequest="2"
-                             BackgroundColor="{StaticResource White}"
+                            CommandParameter="All" />
+                    <BoxView Style="{StaticResource FilterUnderline}"
                              IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=All}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Button Text="Vandaag"
+                            Style="{StaticResource FilterButton}"
                             Command="{Binding FilterCommand}"
-                            CommandParameter="Today"
-                            BackgroundColor="{StaticResource Transparent}"
-                            TextColor="{StaticResource White}"
-                            FontAttributes="Bold"
-                            FontSize="14" />
-                    <BoxView HeightRequest="2"
-                             BackgroundColor="{StaticResource White}"
+                            CommandParameter="Today" />
+                    <BoxView Style="{StaticResource FilterUnderline}"
                              IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Today}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Button Text="Week"
+                            Style="{StaticResource FilterButton}"
                             Command="{Binding FilterCommand}"
-                            CommandParameter="Week"
-                            BackgroundColor="{StaticResource Transparent}"
-                            TextColor="{StaticResource White}"
-                            FontAttributes="Bold"
-                            FontSize="14" />
-                    <BoxView HeightRequest="2"
-                             BackgroundColor="{StaticResource White}"
+                            CommandParameter="Week" />
+                    <BoxView Style="{StaticResource FilterUnderline}"
                              IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Week}" />
                 </VerticalStackLayout>
             </HorizontalStackLayout>
+
             <ImageButton Grid.Column="1"
-                         Source="filter_icon.png"
-                         BackgroundColor="{StaticResource Transparent}"
-                         HeightRequest="5"
-                         WidthRequest="5"
-                         Scale="0.7"
-                         HorizontalOptions="End"
-                         VerticalOptions="Center" />
+                         Style="{StaticResource FilterIconButton}"
+                         Source="filter_icon.png" />
         </Grid>
+
         <Grid Grid.Row="2" BackgroundColor="{StaticResource LightGray}">
             <StackLayout
                 IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
-                HorizontalOptions="Center" VerticalOptions="Center">
+                Style="{StaticResource StateStack}">
                 <ActivityIndicator IsRunning="True" />
                 <Label Text="Loading tasks..." />
             </StackLayout>
+
             <StackLayout
                 IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Empty}"
-                HorizontalOptions="Center" VerticalOptions="Center">
+                Style="{StaticResource StateStack}">
                 <Label Text="No tasks found." />
             </StackLayout>
+
             <StackLayout
                 IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Error}"
-                HorizontalOptions="Center" VerticalOptions="Center">
-                <Label Text="An error occurred while loading tasks." TextColor="{StaticResource Red}" />
+                Style="{StaticResource StateStack}">
+                <Label Text="An error occurred while loading tasks."
+                       Style="{StaticResource ErrorLabel}" />
             </StackLayout>
+
             <ScrollView
                 IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Success}">
-                <!-- padding needs to correspond with the boxview below, so items at the bottom don't get overlapped. -->
+                <!-- this padding needs to correspond with the box view VV to make sure the last task in a list is always reachable -->
                 <VerticalStackLayout Padding="0,0,0,100">
                     <CollectionView ItemsSource="{Binding FilteredTaskCards}">
                         <CollectionView.ItemTemplate>
@@ -105,30 +87,16 @@
                     </CollectionView>
                 </VerticalStackLayout>
             </ScrollView>
+
             <BoxView HeightRequest="100"
                      BackgroundColor="{StaticResource LightGray}"
                      Opacity="0.7"
                      VerticalOptions="End"
                      HorizontalOptions="Fill" />
-            <Border BackgroundColor="{StaticResource Transparent}"
-                    Stroke="{StaticResource Transparent}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 35"
-                    Margin="0,0,16,16"
-                    HorizontalOptions="End"
-                    VerticalOptions="End"
-                    Shadow="{Shadow Brush={StaticResource ShadowColor}, Offset='0,2', Radius=8}">
-                <Button
-                    Text="+"
-                    FontSize="40"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource White}"
-                    BackgroundColor="{StaticResource Primary}"
-                    WidthRequest="70"
-                    HeightRequest="70"
-                    CornerRadius="35"
-                    Padding="0,-2,0,0"
-                    Command="{Binding NavigateToAddTaskCommand}" />
+
+            <Border Style="{StaticResource FabBorder}">
+                <Button Command="{Binding NavigateToAddTaskCommand}"
+                        Style="{StaticResource FabButton}" />
             </Border>
         </Grid>
     </Grid>

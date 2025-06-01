@@ -16,20 +16,10 @@
                              Spacing="12"
                              Margin="16,0,16,32">
             <Button Text="Bijwerken"
-                    BackgroundColor="{StaticResource Primary}"
-                    TextColor="{StaticResource White}"
-                    FontSize="18"
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    CornerRadius="8"
+                    Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding UpdateTaskCommand}" />
             <Button Text="Taak verwijderen"
-                    BackgroundColor="{StaticResource Red}"
-                    TextColor="{StaticResource White}"
-                    FontSize="18"
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    CornerRadius="8"
+                    Style="{StaticResource SecondaryActionButton}"
                     Command="{Binding DeleteTaskCommand}" />
         </VerticalStackLayout>
 

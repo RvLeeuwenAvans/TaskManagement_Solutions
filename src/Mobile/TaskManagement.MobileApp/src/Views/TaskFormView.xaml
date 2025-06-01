@@ -29,8 +29,10 @@
             </VerticalStackLayout>
             <VerticalStackLayout Spacing="8">
                 <Label Text="Deadline:" Style="{StaticResource LabelHeader}" />
-                <Grid>
-                    <DatePicker Date="{Binding Deadline}"
+                <Grid HorizontalOptions="FillAndExpand"
+                      SizeChanged="OnContainerSizeChanged">
+                    <DatePicker x:Name="DeadlinePicker"
+                                Date="{Binding Deadline}"
                                 Format="dd-MM-yyyy"
                                 Style="{StaticResource BaseDatePicker}" />
                     <controls:TopShadowView />
