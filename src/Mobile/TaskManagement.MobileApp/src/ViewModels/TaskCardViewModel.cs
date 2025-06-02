@@ -2,13 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 using TaskManagement.MobileApp.Models;
+using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
 public partial class TaskCardViewModel : ObservableObject
 {
-    private TaskCardModel Model { get; }
+    private UserTaskCardItem Model { get; }
     public ICommand CloseTaskCommand { get; }
 
     public char CreatorInitial => Model.CreatorInitial;
@@ -20,10 +21,10 @@ public partial class TaskCardViewModel : ObservableObject
     public LinkedObjectType? LinkedObjectType => _linkedObject?.Type;
 
     private readonly TaskService _taskService;
-    private readonly LinkedObjectModel? _linkedObject;
+    private readonly LinkedObjectItem? _linkedObject;
     private readonly Action<Guid>? _onTaskClosed;
 
-    public TaskCardViewModel(TaskCardModel model, TaskService taskService, LinkedObjectModel? linkedObject = null,
+    public TaskCardViewModel(UserTaskCardItem model, TaskService taskService, LinkedObjectItem? linkedObject = null,
         Action<Guid>? onTaskClosed = null)
     {
         Model = model;

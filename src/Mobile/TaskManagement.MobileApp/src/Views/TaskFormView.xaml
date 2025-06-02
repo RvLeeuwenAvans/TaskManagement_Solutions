@@ -29,6 +29,7 @@
             </VerticalStackLayout>
             <VerticalStackLayout Spacing="8">
                 <Label Text="Deadline:" Style="{StaticResource LabelHeader}" />
+                <!-- SizeChangedHandler is required for winUi to scale this field properly -->
                 <Grid HorizontalOptions="FillAndExpand"
                       SizeChanged="OnContainerSizeChanged">
                     <DatePicker x:Name="DeadlinePicker"
@@ -41,13 +42,18 @@
             <VerticalStackLayout Spacing="8">
                 <Label Text="Gebruiker:" Style="{StaticResource LabelHeader}" />
                 <Border Style="{StaticResource PickerBorder}">
-                    <Picker Style="{StaticResource BasePicker}" />
+                    <Picker Style="{StaticResource BasePicker}"
+                            ItemsSource="{Binding Colleagues}"
+                            SelectedItem="{Binding SelectedUser}" />
                 </Border>
             </VerticalStackLayout>
-            <VerticalStackLayout Spacing="8">
+            <VerticalStackLayout Spacing="8"
+                                 IsVisible="{Binding IsNewTask}">
                 <Label Text="Object:" Style="{StaticResource LabelHeader}" />
                 <Border Style="{StaticResource PickerBorder}">
-                    <Picker Style="{StaticResource BasePicker}" />
+                    <Picker Style="{StaticResource BasePicker}"
+                            ItemsSource="{Binding ManagedObjects}"
+                            SelectedItem="{Binding SelectedObject}" />
                 </Border>
             </VerticalStackLayout>
         </VerticalStackLayout>

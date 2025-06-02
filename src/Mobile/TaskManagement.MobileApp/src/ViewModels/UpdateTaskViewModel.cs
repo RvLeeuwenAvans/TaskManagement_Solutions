@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using TaskManagement.MobileApp.Models.Collections;
 
 namespace TaskManagement.MobileApp.ViewModels
 {
@@ -44,9 +45,10 @@ namespace TaskManagement.MobileApp.ViewModels
                 // For now, load sample data
                 FormViewModel.Title = "Foto toevoegen";
                 FormViewModel.Description = "Voeg sub foto's toe voor de inboedel op deze relatie 📸";
-                FormViewModel.Deadline = new DateTime(2023, 7, 15);
-                FormViewModel.SelectedUser = new UserModel { Name = "Ik", Initials = "Ik", AvatarColor = "#4CAF50" };
-                FormViewModel.SelectedObject = new ObjectModel { Name = "Schade: Water", Color = "#F44336" };
+                FormViewModel.DueDate = new DateTime(2023, 7, 15);
+                FormViewModel.AssignedUser = new UserItem(new Guid(), "John", "Doe");
+                FormViewModel.LinkedObject =
+                    new LinkedObjectItem(new Guid(), LinkedObjectType.InsurancePolicy, "Rolis Polis");
             }
             catch (Exception ex)
             {
@@ -98,7 +100,8 @@ namespace TaskManagement.MobileApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Fout", $"Er is een fout opgetreden: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Fout", $"Er is een fout opgetreden: {ex.Message}",
+                    "OK");
             }
         }
 
@@ -107,8 +110,8 @@ namespace TaskManagement.MobileApp.ViewModels
             try
             {
                 bool confirm = await Application.Current.MainPage.DisplayAlert(
-                    "Bevestigen", 
-                    "Weet je zeker dat je deze taak wilt verwijderen?", 
+                    "Bevestigen",
+                    "Weet je zeker dat je deze taak wilt verwijderen?",
                     "Ja", "Nee");
 
                 if (!confirm) return;
@@ -124,13 +127,14 @@ namespace TaskManagement.MobileApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Fout", $"Er is een fout opgetreden: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Fout", $"Er is een fout opgetreden: {ex.Message}",
+                    "OK");
             }
         }
 
         private bool CanUpdateTask()
         {
-            return !string.IsNullOrWhiteSpace(FormViewModel?.Title) && 
+            return !string.IsNullOrWhiteSpace(FormViewModel?.Title) &&
                    !string.IsNullOrWhiteSpace(FormViewModel?.Description);
         }
 

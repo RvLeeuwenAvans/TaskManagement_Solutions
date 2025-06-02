@@ -1,4 +1,5 @@
 ﻿using TaskManagement.MobileApp.Models;
+using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services.Authentication;
 using TaskManagement.MobileApp.Services.Helpers.Builders;
@@ -9,7 +10,7 @@ namespace TaskManagement.MobileApp.Services;
 //todo: remove auth service
 public class TaskService(IUserContext userContext, ITaskRepository repository, AuthService authService)
 {
-    public async Task<List<TaskCardModel>> GetUserTasks()
+    public async Task<List<UserTaskCardItem>> GetUserTasks()
     {
         await authService.AuthenticateUser("jane.smith@example.com", "hashedpassword23");
 

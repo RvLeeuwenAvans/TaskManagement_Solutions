@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaskManagement.MobileApp.Models;
+using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services;
 
 namespace TaskManagement.MobileApp.ViewModels;
@@ -52,7 +53,7 @@ public partial class MainPageViewModel : ObservableObject
 
         foreach (var model in userTasks)
         {
-            LinkedObjectModel? linkedObject = null;
+            LinkedObjectItem? linkedObject = null;
             if (model.LinkedObjectResponse != null)
             {
                 linkedObject = await _linkedObjectService.GetLinkedObjectByResponse(model.LinkedObjectResponse);
