@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -71,6 +73,7 @@ public partial class UpdateTaskViewModel(
         var success = await FormViewModel.SaveTaskAsync();
         if (success)
         {
+            WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
             await Shell.Current.Navigation.PopAsync();
         }
     }
@@ -88,6 +91,7 @@ public partial class UpdateTaskViewModel(
                 var success = await _taskService.CloseTaskAsync(_taskId);
                 if (success)
                 {
+                    WeakReferenceMessenger.Default.Send(new TaskClosedMessage(true));
                     await Shell.Current.Navigation.PopAsync();
                 }
                 else

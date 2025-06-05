@@ -14,6 +14,14 @@
         <Setter Property="VerticalOptions" Value="Center" />
     </Style>
     
+    <Style x:Key="SubheaderText" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding" Value="7" />
+    </Style>
+    
     <!-- Label used in pages with a back button; on mobile we allign it with the backbutton; on windows we just center it.
     Because the Back button is in a different location -->
     <Style x:Key="NavHeaderLabel" TargetType="Label" BasedOn="{StaticResource TitleHeaderLabel}">

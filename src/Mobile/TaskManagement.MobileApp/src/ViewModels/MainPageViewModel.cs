@@ -31,18 +31,9 @@ public partial class MainPageViewModel : ObservableObject
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
         _linkedObjectService = linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
-        WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, async void (_, _) =>
-        {
-            try
-            {
-                CurrentState = Views.ViewState.Loading;
-                await LoadTasksAsync();
-            }
-            catch
-            {
-                CurrentState = Views.ViewState.Error;
-            }
-        });
+        WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, async void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskEditedMessage>(this, async void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskClosedMessage>(this, async void (_, _) => { InitializeAsync(); });
 
         InitializeAsync();
     }
@@ -73,7 +64,7 @@ public partial class MainPageViewModel : ObservableObject
                 linkedObject = await _linkedObjectService.GetLinkedObjectByResponse(model.LinkedObjectResponse);
             }
 
-            taskCardViewModels.Add(new TaskCardViewModel(model, _taskService, linkedObject, RemoveTask));
+            taskCardViewModels.Add(new TaskCardViewModel(model, _taskService, linkedObject));
         }
 
         _allTasks = new ObservableCollection<TaskCardViewModel>(taskCardViewModels);
@@ -127,15 +118,5 @@ public partial class MainPageViewModel : ObservableObject
         };
 
         FilteredTaskCards = new ObservableCollection<TaskCardViewModel>(filtered);
-    }
-
-    private void RemoveTask(Guid taskId)
-    {
-        foreach (var collection in new[] { _allTasks, FilteredTaskCards })
-        {
-            var task = collection.FirstOrDefault(t => t.Id == taskId);
-            if (task != null)
-                collection.Remove(task);
-        }
     }
 }

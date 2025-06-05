@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- todo: there's a bug; not showing a warning when a task isnt created; nav stack pop doenst trigger tho
+so i probably forgot to add a log somewhere
 
+todo: I need to look at steamlining the eror handling 
+
+todo: there's a bug in my request validator for the API, cant make tasks for today; tho
+that should be allowed -->
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
@@ -50,8 +56,11 @@
             <VerticalStackLayout Spacing="8"
                                  IsVisible="{Binding IsNewTask}">
                 <Label Text="Object:" Style="{StaticResource LabelHeader}" />
+                <!-- The title below might seem weird, picker doesn't have a placeholder and instead uses the Title property.
+                Which i find a bit odd but: https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/picker?view=net-maui-9.0 -->
                 <Border Style="{StaticResource PickerBorder}">
                     <Picker Style="{StaticResource BasePicker}"
+                            Title="Geen"
                             ItemsSource="{Binding ManagedObjects}"
                             SelectedItem="{Binding LinkedObject}"
                             ItemDisplayBinding="{Binding Name}"

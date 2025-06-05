@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.DTO.Office.User.Task;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -66,18 +68,23 @@ public partial class TaskFormViewModel : ObservableObject
                 LinkedObject
             );
 
+            var success = false;
+
             if (_existingTask == null)
             {
-                var currentUser = Colleagues.First(user => user.Id == _userContext.UserId);
-                await _taskService.CreateTaskAsync(task, currentUser);
+                success =
+                    await _taskService.CreateTaskAsync(
+                        task,
+                        Colleagues.First(user => user.Id == _userContext.UserId)
+                    );
             }
             else
             {
-                await _taskService.UpdateTaskAsync(task, _existingTask.Id);
+                success = await _taskService.UpdateTaskAsync(task, _existingTask.Id);
             }
 
-            CurrentState = Views.ViewState.Success;
-            return true;
+            CurrentState = success ? Views.ViewState.Success : Views.ViewState.Error;
+            return success;
         }
         catch (Exception ex)
         {

@@ -13,7 +13,7 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
 {
     public async Task<List<UserTaskCardItem>> GetUserTasksAsync()
     {
-        await authService.AuthenticateUser("jane.smith@example.com", "hashedpassword23");
+        await authService.AuthenticateUser("john.doe@example.com", "hashedpassword12");
 
         var userTasks = await repository.GetTasksAsync(userContext.UserId);
         return userTasks.Select(task => TaskCardModelBuilder.From(task).Build()).ToList();
@@ -24,7 +24,7 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
         return await repository.GetTaskAsync(taskId);
     }
 
-    public async Task CreateTaskAsync(UserTask task, UserItem taskCreator)
+    public async Task<bool> CreateTaskAsync(UserTask task, UserItem taskCreator)
     {
         try
         {
@@ -37,15 +37,18 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
                 LinkedObjectId = task.LinkedObject?.Id,
                 CreatorName = taskCreator.Firstname
             });
+            
+            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            return false;
         }
     }
 
 
-    public async Task UpdateTaskAsync(UserTask task, Guid taskId)
+    public async Task<bool> UpdateTaskAsync(UserTask task, Guid taskId)
     {
         try
         {
@@ -58,10 +61,13 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
                 DueDate = task.DueDate,
                 LinkedObjectId = task.LinkedObject?.Id
             });
+            
+            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            return false;
         }
     }
 

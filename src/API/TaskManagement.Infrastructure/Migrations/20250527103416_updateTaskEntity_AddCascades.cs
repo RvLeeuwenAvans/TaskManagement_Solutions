@@ -10,25 +10,25 @@ namespace TaskManagement.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // migrationBuilder.DropForeignKey(
-            //     name: "FK_LinkedObjects_DamageClaims_DamageClaimId",
-            //     table: "LinkedObjects");
+            migrationBuilder.DropForeignKey(
+                name: "FK_LinkedObjects_DamageClaims_DamageClaimId",
+                table: "LinkedObjects");
 
-            // migrationBuilder.DropForeignKey(
-            //     name: "FK_LinkedObjects_InsurancePolicies_InsuranceId",
-            //     table: "LinkedObjects");
-            //
-            // migrationBuilder.DropForeignKey(
-            //     name: "FK_LinkedObjects_Relations_RelationId",
-            //     table: "LinkedObjects");
+            migrationBuilder.DropForeignKey(
+                name: "FK_LinkedObjects_InsurancePolicies_InsuranceId",
+                table: "LinkedObjects");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_LinkedObjects_Relations_RelationId",
+                table: "LinkedObjects");
 
-            // migrationBuilder.DropForeignKey(
-            //     name: "FK_Tasks_LinkedObjects_LinkedObjectId",
-            //     table: "Tasks");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Tasks_LinkedObjects_LinkedObjectId",
+                table: "Tasks");
 
-            // migrationBuilder.DropIndex(
-            //     name: "IX_Tasks_LinkedObjectId",
-            //     table: "Tasks");
+            migrationBuilder.DropIndex(
+                name: "IX_Tasks_LinkedObjectId",
+                table: "Tasks");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_LinkedObjects_DamageClaims_DamageClaimId",

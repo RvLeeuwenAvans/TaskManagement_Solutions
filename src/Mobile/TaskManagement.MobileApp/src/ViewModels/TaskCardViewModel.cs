@@ -1,44 +1,37 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
-public partial class TaskCardViewModel : ObservableObject
+public partial class TaskCardViewModel(
+    UserTaskCardItem model,
+    TaskService taskService,
+    LinkedObjectItem? linkedObject = null)
+    : ObservableObject
 {
-    private UserTaskCardItem Model { get; }
-    public ICommand CloseTaskCommand { get; }
+    private UserTaskCardItem Model { get; } = model;
 
     public char CreatorInitial => Model.CreatorInitial;
 
     public Guid Id => Model.Id;
     public string Title => Model.Title;
     public DateTime DueDate => Model.DueDate;
-    public string? Subtitle => _linkedObject?.Name;
-    public LinkedObjectType? LinkedObjectType => _linkedObject?.Type;
+    public string? Subtitle => linkedObject?.Name;
+    public LinkedObjectType? LinkedObjectType => linkedObject?.Type;
 
-    private readonly TaskService _taskService;
-    private readonly LinkedObjectItem? _linkedObject;
-    private readonly Action<Guid>? _onTaskClosed;
-
-    public TaskCardViewModel(UserTaskCardItem model, TaskService taskService, LinkedObjectItem? linkedObject = null,
-        Action<Guid>? onTaskClosed = null)
-    {
-        Model = model;
-        _taskService = taskService;
-        _linkedObject = linkedObject;
-        _onTaskClosed = onTaskClosed;
-        CloseTaskCommand = new AsyncRelayCommand(CloseTaskAsync);
-    }
-
+    [RelayCommand]
     private async Task CloseTaskAsync()
     {
-        if (await _taskService.CloseTaskAsync(Model.Id))
+        if (await taskService.CloseTaskAsync(Model.Id))
         {
-            _onTaskClosed?.Invoke(Model.Id);
+            WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
+            await Shell.Current.Navigation.PopAsync();
         }
     }
 
