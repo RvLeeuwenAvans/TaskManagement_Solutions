@@ -19,7 +19,7 @@ public static class ServiceDefaults
         var settings = configuration.GetRequiredSection("ApiSettings").Get<ApiSettings>();
         services.AddSingleton(new ApiClientConfig { BaseUrl = settings!.BaseUrl });
         services.RegisterClients();
-        
+
         // Auth
         services.AddSingleton<IUserContext, UserContext>();
         services.AddSingleton<IAuthRepository, AuthRepository>();
@@ -30,9 +30,12 @@ public static class ServiceDefaults
         services.AddSingleton<IRelationRepository, RelationRepository>();
         services.AddSingleton<LinkedObjectService>();
         
+        services.AddSingleton<IUserRepository, UserRepository>();
+        services.AddSingleton<OfficeService>();
+
         services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddSingleton<TaskService>();
-        
+
         return services;
     }
 }

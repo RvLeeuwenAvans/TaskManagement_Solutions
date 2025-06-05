@@ -53,7 +53,7 @@
 
     <Style x:Key="BaseEditor" TargetType="Editor">
         <Setter Property="BackgroundColor" Value="{StaticResource White}" />
-        <Setter Property="TextColor" Value="{StaticResource TextGray}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextGray}" />
         <Setter Property="HeightRequest" Value="100" />
     </Style>

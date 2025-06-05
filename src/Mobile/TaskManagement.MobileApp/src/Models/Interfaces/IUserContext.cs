@@ -3,4 +3,5 @@
 public interface IUserContext
 {
     Guid UserId { get; set; }
+    Guid OfficeId { get; set; }
 }

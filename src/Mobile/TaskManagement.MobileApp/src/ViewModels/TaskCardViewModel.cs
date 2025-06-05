@@ -43,8 +43,8 @@ public partial class TaskCardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private static async Task NavigateToUpdateTask()
+    private async Task NavigateToUpdateTask()
     {
-        await Shell.Current.GoToAsync("UpdateTaskPage");
+        await Shell.Current.GoToAsync($"UpdateTaskPage?taskId={Model.Id}");
     }
 }

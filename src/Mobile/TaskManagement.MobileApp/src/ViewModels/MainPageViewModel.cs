@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using TaskManagement.MobileApp.Models;
+using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -30,6 +31,19 @@ public partial class MainPageViewModel : ObservableObject
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
         _linkedObjectService = linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
+        WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, async void (_, _) =>
+        {
+            try
+            {
+                CurrentState = Views.ViewState.Loading;
+                await LoadTasksAsync();
+            }
+            catch
+            {
+                CurrentState = Views.ViewState.Error;
+            }
+        });
+
         InitializeAsync();
     }
 
@@ -48,7 +62,7 @@ public partial class MainPageViewModel : ObservableObject
 
     private async Task LoadTasksAsync()
     {
-        var userTasks = await _taskService.GetUserTasks();
+        var userTasks = await _taskService.GetUserTasksAsync();
         var taskCardViewModels = new List<TaskCardViewModel>();
 
         foreach (var model in userTasks)
@@ -75,7 +89,7 @@ public partial class MainPageViewModel : ObservableObject
             ApplyFilter(SelectedFilter);
         }
     }
-    
+
     [RelayCommand]
     private static async Task NavigateToAddTask()
     {

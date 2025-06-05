@@ -4,7 +4,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Authentication;
 
-public class AuthService(IUserContext userContext, IAuthRepository authRepository)
+public class AuthService(IUserContext userContext, IAuthRepository authRepository, IUserRepository userRepository)
 {
     /**
      * Will return true if the user is authenticated, false otherwise.
@@ -23,8 +23,8 @@ public class AuthService(IUserContext userContext, IAuthRepository authRepositor
             return false;
         }
     }
-    
-    private Task SetUserContextFromJwt(string jwtToken)
+
+    private async Task SetUserContextFromJwt(string jwtToken)
     {
         var handler = new JwtSecurityTokenHandler();
         var jwt = handler.ReadJwtToken(jwtToken);
@@ -35,6 +35,7 @@ public class AuthService(IUserContext userContext, IAuthRepository authRepositor
             throw new Exception("UserId not found");
 
         userContext.UserId = Guid.Parse(userIdClaim.Value);
-        return Task.CompletedTask;
+        var user = await userRepository.GetUserById(userContext.UserId);
+        userContext.OfficeId = user.OfficeId;
     }
 }

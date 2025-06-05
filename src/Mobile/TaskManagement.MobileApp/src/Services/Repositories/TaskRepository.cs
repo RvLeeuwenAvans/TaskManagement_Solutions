@@ -12,8 +12,23 @@ public class TaskRepository(UserTaskClient client) : ITaskRepository
         return tasks.ToList();
     }
 
+    public async Task<UserTaskResponse> GetTaskAsync(Guid taskId)
+    {
+        return await client.GetTaskByIdAsync(taskId);
+    }
+
+    public async Task CreateTaskAsync(CreateUserTask task)
+    {
+        await client.CreateTaskAsync(task);
+    }
+
+    public async Task UpdateTaskAsync(UpdateUserTask task)
+    {
+        await client.UpdateTaskAsync(task.Id, task);
+    }
+
     public async Task CloseTasksAsync(Guid taskId)
     {
-       await client.DeleteTaskAsync(taskId);
+        await client.DeleteTaskAsync(taskId);
     }
 }

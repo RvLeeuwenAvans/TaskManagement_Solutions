@@ -6,5 +6,11 @@ public interface ITaskRepository
 {
     Task<List<UserTaskResponse>> GetTasksAsync(Guid userId);
     
+    Task<UserTaskResponse> GetTaskAsync(Guid taskId);
+    
+    Task CreateTaskAsync(CreateUserTask task);
+
+    Task UpdateTaskAsync(UpdateUserTask task);
+    
     Task CloseTasksAsync(Guid taskId);
 }

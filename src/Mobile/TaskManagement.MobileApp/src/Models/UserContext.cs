@@ -5,4 +5,5 @@ namespace TaskManagement.MobileApp.Models;
 public class UserContext : IUserContext
 {
     public Guid UserId { get; set; }
+    public Guid OfficeId { get; set; }
 }

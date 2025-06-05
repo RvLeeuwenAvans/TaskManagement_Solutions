@@ -33,7 +33,7 @@
                 <Grid HorizontalOptions="FillAndExpand"
                       SizeChanged="OnContainerSizeChanged">
                     <DatePicker x:Name="DeadlinePicker"
-                                Date="{Binding Deadline}"
+                                Date="{Binding DueDate}"
                                 Format="dd-MM-yyyy"
                                 Style="{StaticResource BaseDatePicker}" />
                     <controls:TopShadowView />
@@ -44,7 +44,7 @@
                 <Border Style="{StaticResource PickerBorder}">
                     <Picker Style="{StaticResource BasePicker}"
                             ItemsSource="{Binding Colleagues}"
-                            SelectedItem="{Binding SelectedUser}" />
+                            SelectedItem="{Binding AssignedUser}" />
                 </Border>
             </VerticalStackLayout>
             <VerticalStackLayout Spacing="8"
@@ -53,7 +53,9 @@
                 <Border Style="{StaticResource PickerBorder}">
                     <Picker Style="{StaticResource BasePicker}"
                             ItemsSource="{Binding ManagedObjects}"
-                            SelectedItem="{Binding SelectedObject}" />
+                            SelectedItem="{Binding LinkedObject}"
+                            ItemDisplayBinding="{Binding Name}"
+                            TextColor="{Binding LinkedObject.Type, Converter={StaticResource TypeToColorConverter}}" />
                 </Border>
             </VerticalStackLayout>
         </VerticalStackLayout>

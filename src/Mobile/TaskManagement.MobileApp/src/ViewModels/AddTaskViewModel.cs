@@ -1,91 +1,33 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using TaskManagement.MobileApp.Models.Interfaces;
+using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels
 {
-    public class AddTaskViewModel : INotifyPropertyChanged
+    public partial class AddTaskViewModel : ObservableObject
     {
-        public TaskFormViewModel FormViewModel { get; }
+        [ObservableProperty] private TaskFormViewModel _formViewModel;
 
-        public ICommand BackCommand { get; }
-        public ICommand CreateTaskCommand { get; }
-
-        public AddTaskViewModel()
+        public AddTaskViewModel(TaskService taskService, LinkedObjectService linkedObjectService,
+            OfficeService officeService, IUserContext userContext)
         {
-            FormViewModel = new TaskFormViewModel();
-            BackCommand = new Command(async () => await GoBack());
-            CreateTaskCommand = new Command(async () => await CreateTask(), CanCreateTask);
+            FormViewModel = new TaskFormViewModel(taskService, linkedObjectService, officeService, userContext);
         }
 
-        private async Task GoBack()
+        [RelayCommand]
+        private async Task CreateTaskAsync()
         {
-            // Navigate back to previous page
-            await Shell.Current.GoToAsync("..");
-        }
-
-        private async Task CreateTask()
-        {
-            try
+            var success = await FormViewModel.SaveTaskAsync();
+            
+            WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
+            
+            if (success)
             {
-                // Validate form
-                if (string.IsNullOrWhiteSpace(FormViewModel.Title))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Fout", "Titel is verplicht", "OK");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(FormViewModel.Description))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Fout", "Omschrijving is verplicht", "OK");
-                    return;
-                }
-
-                // TODO: Create the actual task using your service/repository
-                // var newTask = new TaskModel 
-                // {
-                //     Title = FormViewModel.Title,
-                //     Description = FormViewModel.Description,
-                //     Deadline = FormViewModel.Deadline,
-                //     AssignedUser = FormViewModel.SelectedUser,
-                //     RelatedObject = FormViewModel.SelectedObject
-                // };
-                // 
-                // await _taskService.CreateTaskAsync(newTask);
-
-                // Show success message
-                await Application.Current.MainPage.DisplayAlert("Succes", "Taak succesvol aangemaakt!", "OK");
-
-                // Navigate back to main page
-                await Shell.Current.GoToAsync("..");
+                await Shell.Current.Navigation.PopAsync();
             }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Fout", $"Er is een fout opgetreden: {ex.Message}", "OK");
-            }
-        }
-
-        private bool CanCreateTask()
-        {
-            return !string.IsNullOrWhiteSpace(FormViewModel?.Title) && 
-                   !string.IsNullOrWhiteSpace(FormViewModel?.Description);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return false;
-
-            backingStore = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }

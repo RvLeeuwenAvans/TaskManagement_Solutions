@@ -1,142 +1,89 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using TaskManagement.DTO.Office.User.Task;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
+using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
 public partial class TaskFormViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private string _title = string.Empty;
+    [ObservableProperty] private string _title = string.Empty;
+    [ObservableProperty] private string? _description = string.Empty;
+    [ObservableProperty] private DateTime _dueDate = DateTime.Today.AddDays(7);
+    [ObservableProperty] private Views.ViewState _currentState = Views.ViewState.Loading;
+    [ObservableProperty] private bool _isNewTask = true;
+    [ObservableProperty] private UserItem? _assignedUser;
+    [ObservableProperty] private LinkedObjectItem? _linkedObject;
+    [ObservableProperty] private ObservableCollection<UserItem> _colleagues = [];
+    [ObservableProperty] private ObservableCollection<LinkedObjectItem> _managedObjects = [];
 
-    [ObservableProperty]
-    private string _description = string.Empty;
+    private readonly TaskService _taskService;
+    private readonly LinkedObjectService _linkedObjectService;
+    private readonly OfficeService _officeService;
 
-    [ObservableProperty]
-    private DateTime _dueDate = DateTime.Today.AddDays(7); // Default deadline 1 week from today
+    private readonly IUserContext _userContext;
+    private readonly UserTaskResponse? _existingTask;
 
-    [ObservableProperty]
-    private bool _isNewTask = true;
-
-    [ObservableProperty]
-    private object? _assignedUser;
-
-    [ObservableProperty]
-    private object? _linkedObject;
-
-    [ObservableProperty]
-    private bool _isBusy;
-
-    public ObservableCollection<UserItem> Colleagues { get; } = [];
-    public ObservableCollection<LinkedObjectItem> ManagedObjects { get; } = [];
-    
-    public TaskFormViewModel(UserTask? task = null)
+    public TaskFormViewModel(TaskService taskService, LinkedObjectService linkedObjectService,
+        OfficeService officeService,
+        IUserContext userContext,
+        UserTaskResponse? task = null)
     {
-        if (task is null) return;
-        
-        IsNewTask = false;
-        Title = task.Title;
-        Description = task.Description ?? string.Empty;
-        DueDate = task.DueDate;
-        AssignedUser = Colleagues.FirstOrDefault(u => u.Id == task.UserId);
-        LinkedObject = ManagedObjects.FirstOrDefault(o => o.Id == task.LinkedObjectId);
+        _taskService = taskService;
+        _linkedObjectService = linkedObjectService;
+        _officeService = officeService;
+        _userContext = userContext;
+        _existingTask = task;
+
+        if (task is not null)
+        {
+            IsNewTask = false;
+            Title = task.Title;
+            Description = task.Description;
+            DueDate = task.DueDate;
+        }
+
+        InitializeAsync();
     }
 
-    // Commands
-    [RelayCommand]
-    private async Task SaveTaskAsync()
+    public async Task<bool> SaveTaskAsync()
     {
-        if (IsBusy)
-            return;
-
         if (!ValidateForm())
-            return;
+            return false;
 
         try
         {
-            IsBusy = true;
+            CurrentState = Views.ViewState.Loading;
 
-            // TODO: Implement save logic
-            // Example:
-            // var task = new TaskItem
-            // {
-            //     Title = Title,
-            //     Description = Description,
-            //     Deadline = Deadline,
-            //     UserId = (SelectedUser as User)?.Id,
-            //     ObjectId = IsNewTask ? (SelectedObject as TaskObject)?.Id : null
-            // };
-            // 
-            // if (IsNewTask)
-            //     await _taskService.CreateTaskAsync(task);
-            // else
-            //     await _taskService.UpdateTaskAsync(task);
+            var task = new UserTask(
+                Title,
+                Description,
+                DueDate,
+                AssignedUser!, // Validated in ValidateForm
+                LinkedObject
+            );
 
-            // Navigate back or show success message
-            await Shell.Current.GoToAsync("..");
+            if (_existingTask == null)
+            {
+                var currentUser = Colleagues.First(user => user.Id == _userContext.UserId);
+                await _taskService.CreateTaskAsync(task, currentUser);
+            }
+            else
+            {
+                await _taskService.UpdateTaskAsync(task, _existingTask.Id);
+            }
+
+            CurrentState = Views.ViewState.Success;
+            return true;
         }
         catch (Exception ex)
         {
-            // Handle error - show alert or log
+            CurrentState = Views.ViewState.Error;
             await Shell.Current.DisplayAlert("Error", $"Failed to save task: {ex.Message}", "OK");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-
-    [RelayCommand]
-    private async Task CancelAsync()
-    {
-        // Navigate back without saving
-        await Shell.Current.GoToAsync("..");
-    }
-
-    [RelayCommand]
-    private async Task LoadDataAsync()
-    {
-        if (IsBusy)
-            return;
-
-        try
-        {
-            IsBusy = true;
-
-            // TODO: Load users and objects from your data service
-            // Example:
-            // var users = await _userService.GetUsersAsync();
-            // var objects = await _objectService.GetObjectsAsync();
-            // 
-            // Users.Clear();
-            // foreach (var user in users)
-            //     Users.Add(user);
-            // 
-            // Objects.Clear();
-            // foreach (var obj in objects)
-            //     Objects.Add(obj);
-
-            // For demo purposes, add some sample data:
-            Colleagues.Clear();
-            Colleagues.Add(new UserItem(new Guid(), "John", "Doe"));
-            Colleagues.Add(new UserItem(new Guid(), "Jane", "Smith"));
-            Colleagues.Add(new UserItem(new Guid(), "Bob", "Johnson"));
-
-            ManagedObjects.Clear();
-            ManagedObjects.Add(new LinkedObjectItem(new Guid(), LinkedObjectType.Relation, "Henk"));
-            ManagedObjects.Add(new LinkedObjectItem(new Guid(), LinkedObjectType.DamageClaim, "Auto"));
-            ManagedObjects.Add(new LinkedObjectItem(new Guid(), LinkedObjectType.InsurancePolicy, "Rolis Polis"));
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Error", $"Failed to load data: {ex.Message}", "OK");
-        }
-        finally
-        {
-            IsBusy = false;
+            return false;
         }
     }
 
@@ -154,10 +101,60 @@ public partial class TaskFormViewModel : ObservableObject
             return false;
         }
 
-        if (DueDate >= DateTime.Today) return true;
-        
-        Shell.Current.DisplayAlert("Validation Error", "Deadline kan niet in het verleden liggen.", "OK");
-        return false;
+        if (DueDate < DateTime.Today)
+        {
+            Shell.Current.DisplayAlert("Validation Error", "Deadline kan niet in het verleden liggen.", "OK");
+            return false;
+        }
 
+        return true;
+    }
+
+    private async void InitializeAsync()
+    {
+        try
+        {
+            CurrentState = Views.ViewState.Loading;
+            await PopulateFormCollections();
+
+            AssignedUser = Colleagues.FirstOrDefault(u => u.Id == _userContext.UserId);
+
+            if (_existingTask is not null)
+            {
+                AssignedUser = Colleagues.FirstOrDefault(u => u.Id == _existingTask.User.Id);
+
+                if (_existingTask.LinkedObject != null)
+                {
+                    LinkedObject = await _linkedObjectService.GetLinkedObjectByResponse(_existingTask.LinkedObject);
+                }
+            }
+
+            CurrentState = Views.ViewState.Success;
+        }
+        catch
+        {
+            CurrentState = Views.ViewState.Error;
+        }
+    }
+
+    private async Task PopulateFormCollections()
+    {
+        try
+        {
+            var newColleagues = new ObservableCollection<UserItem>(
+                await _officeService.GetUsersByOfficeAsync()
+            );
+
+            var newManagedObjects = new ObservableCollection<LinkedObjectItem>(
+                await _officeService.GetManagedObjectsByOffice()
+            );
+
+            Colleagues = newColleagues;
+            ManagedObjects = newManagedObjects;
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Failed to populate form collections", ex);
+        }
     }
 }
