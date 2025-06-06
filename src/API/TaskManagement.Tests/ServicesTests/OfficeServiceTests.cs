@@ -9,7 +9,7 @@ using TaskManagement.Domain.Office;
 using TaskManagement.DTO.Office;
 using TaskManagement.Tests.ServiceTests.Helpers;
 
-namespace TaskManagement.Tests.ServiceTests;
+namespace TaskManagement.Tests.ServicesTests;
 
 public class OfficeServiceTests
 {

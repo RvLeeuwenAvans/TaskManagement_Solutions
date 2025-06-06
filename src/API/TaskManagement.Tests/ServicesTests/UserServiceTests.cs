@@ -10,7 +10,7 @@ using TaskManagement.Domain.Office.User;
 using TaskManagement.DTO.Office.User;
 using TaskManagement.Tests.ServiceTests.Helpers;
 
-namespace TaskManagement.Tests.ServiceTests;
+namespace TaskManagement.Tests.ServicesTests;
 
 public class UserServiceTests
 {

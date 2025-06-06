@@ -9,7 +9,7 @@ using TaskManagement.Domain.Office.Relation.DamageClaim;
 using TaskManagement.DTO.Office.Relation.DamageClaim;
 using TaskManagement.Tests.ServiceTests.Helpers;
 
-namespace TaskManagement.Tests.ServiceTests;
+namespace TaskManagement.Tests.ServicesTests;
 
 public class DamageClaimServiceTests
 {
