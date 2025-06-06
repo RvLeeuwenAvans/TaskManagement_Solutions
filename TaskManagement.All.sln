@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{C8E429
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.DTO", "src\Shared\TaskManagement.DTO\TaskManagement.DTO.csproj", "{0658DE42-404C-4918-86E4-F632A1ED80BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Mobile.Tests", "src\Mobile\TaskManagement.Mobile.Tests\TaskManagement.Mobile.Tests.csproj", "{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,18 @@ Global
 		{0658DE42-404C-4918-86E4-F632A1ED80BC}.Release|x64.Build.0 = Release|Any CPU
 		{0658DE42-404C-4918-86E4-F632A1ED80BC}.Release|x86.ActiveCfg = Release|Any CPU
 		{0658DE42-404C-4918-86E4-F632A1ED80BC}.Release|x86.Build.0 = Release|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Debug|x64.Build.0 = Debug|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Debug|x86.Build.0 = Debug|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Release|x64.ActiveCfg = Release|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Release|x64.Build.0 = Release|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,5 +166,6 @@ Global
 		{DBD9ABFC-CB39-45B5-84E4-77820B35C47E} = {C5A3B5EA-BE9F-76E5-E9B8-8A22B289B295}
 		{C8E42992-5E42-0C2B-DBFE-AA848D06431C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{0658DE42-404C-4918-86E4-F632A1ED80BC} = {C8E42992-5E42-0C2B-DBFE-AA848D06431C}
+		{36F4F0C7-6AFC-47B8-93D4-EB38B9EB46E9} = {5F6E8ECF-6C7C-84BC-3852-AC68F2C425F8}
 	EndGlobalSection
 EndGlobal
