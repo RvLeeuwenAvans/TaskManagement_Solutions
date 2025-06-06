@@ -4,8 +4,10 @@ using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.Enums;
 
 namespace TaskManagement.Mobile.Tests.UiTests;
+
 // todo; streamline the database seeders
-// todo write readme for the tests, UI tests only work when triggered with a working/seeded emulator
+// todo: write readme for the tests, UI tests only work when triggered with a working/seeded emulator
+// todo: see if we can force theses tests to start on the mainpage.
 [TestFixture]
 public class TaskManagementAndroidUiTests
 {
@@ -40,7 +42,7 @@ public class TaskManagementAndroidUiTests
         _driver.Dispose();
     }
 
-    [Test]
+    [Test, Order(1)]
     public void VerifyMainPageLoads()
     {
         // Assert main page loads by finding one of the filter tabs.
@@ -50,7 +52,7 @@ public class TaskManagementAndroidUiTests
         Assert.That(filterTab.Displayed, Is.True, "Main Page is not displayed properly.");
     }
 
-    [Test]
+    [Test, Order(2)]
     public void VerifyTaskCardsLoad()
     {
         // Assert that TaskCards load by finding one of the buttons on it.
@@ -60,24 +62,41 @@ public class TaskManagementAndroidUiTests
         Assert.That(closeTaskButton.Displayed, Is.True, "Taskcard edit button is not displayed properly.");
     }
 
-    [Test]
+    [Test, Order(3)]
     public void VerifyTaskCardEditButtonNavigation()
     {
-        // Find and click the "Add" button
+        // Find and click the "Edit" button
         var editButton = _driver.FindElement(By.Id("EditTaskButton"));
 
         editButton.Click();
-        // Verify navigation to add a Task page
+        // Verify navigation to Edit Task page
         var editPageSubtitle = _driver.FindElement(MobileBy.AndroidUIAutomator(
             "new UiSelector().text(\"Bewerken\")"));
 
         Assert.That(editPageSubtitle, Is.Not.Null, "Navigation to Edit Task page failed.");
         Assert.That(editPageSubtitle.Displayed, Is.True, "Edit Task page is not displayed properly.");
+    }
 
+    [Test, Order(4)]
+    public void VerifyTaskFormLoadsOnEditTaskPage()
+    {
+        // Find and click the "Add" button
+        var taskFormInputElement = _driver.FindElement(MobileBy.AndroidUIAutomator(
+            "new UiSelector().text(\"Titel:\")"
+        ));
+
+        Assert.That(taskFormInputElement, Is.Not.Null, "TaskForm initialization failed on update page.");
+        Assert.That(
+            taskFormInputElement.Displayed,
+            Is.True,
+            "TaskForm is not displayed properly on edit page."
+        );
+
+        // Navigate back to the main page
         _driver.Navigate().Back();
     }
 
-    [Test]
+    [Test, Order(5)]
     public void VerifyAddButtonNavigation()
     {
         // Find and click the "Add" button
@@ -90,7 +109,33 @@ public class TaskManagementAndroidUiTests
 
         Assert.That(addTaskPageTitle, Is.Not.Null, "Navigation to Add Task page failed.");
         Assert.That(addTaskPageTitle.Displayed, Is.True, "Add Task page is not displayed properly.");
+    }
 
+    [Test, Order(6)]
+    public void VerifyTaskFormLoadsOnAddTaskPage()
+    {
+        // Find and click the "Add" button
+        var taskFormInputElement = _driver.FindElement(MobileBy.AndroidUIAutomator(
+            "new UiSelector().text(\"Titel:\")"));
+
+        Assert.That(taskFormInputElement, Is.Not.Null, "TaskForm initialization failed on add task page.");
+        Assert.That(
+            taskFormInputElement.Displayed,
+            Is.True,
+            "TaskForm is not displayed properly on add task page."
+        );
+
+        // Navigate back to the main page
         _driver.Navigate().Back();
+    }
+
+    [Test, Order(7)]
+    public void VerifyNavigationFlowIsCorrect()
+    {
+        // After all tests have ran in sequence, we should be back on the MainPage.
+        var filterTab = _driver.FindElement(MobileBy.AndroidUIAutomator(
+            "new UiSelector().text(\"Alle\")"));
+        Assert.That(filterTab, Is.Not.Null, "Main Page Title element not found.");
+        Assert.That(filterTab.Displayed, Is.True, "Main Page is not displayed properly.");
     }
 }
