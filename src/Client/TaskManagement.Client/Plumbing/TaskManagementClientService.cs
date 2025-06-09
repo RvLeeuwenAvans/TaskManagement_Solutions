@@ -1,4 +1,3 @@
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Client.Clients;
 
@@ -19,6 +18,7 @@ public static class TaskManagementClientService
         services.AddTransient<NoteClient>();
         services.AddTransient<InsurancePolicyClient>();
         services.AddTransient<DamageClaimClient>();
+        services.AddTransient<LinkedObjectClient>();
         
         return services;
     }
