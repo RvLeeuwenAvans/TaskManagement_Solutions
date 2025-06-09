@@ -9,35 +9,43 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 namespace TaskManagement.MobileApp.Services;
 
 //todo: remove auth service
-public class TaskService(IUserContext userContext, ITaskRepository repository, AuthService authService)
+public class TaskService(
+    IUserContext userContext,
+    ITaskRepository taskRepository,
+    LinkedObjectService linkedObjectService,
+    AuthService authService)
 {
     public async Task<List<UserTaskCardItem>> GetUserTasksAsync()
     {
         await authService.AuthenticateUser("john.doe@example.com", "hashedpassword12");
 
-        var userTasks = await repository.GetTasksAsync(userContext.UserId);
+        var userTasks = await taskRepository.GetTasksAsync(userContext.UserId);
         return userTasks.Select(task => TaskCardModelBuilder.From(task).Build()).ToList();
     }
 
     public async Task<UserTaskResponse> GetTaskByIdAsync(Guid taskId)
     {
-        return await repository.GetTaskAsync(taskId);
+        return await taskRepository.GetTaskAsync(taskId);
     }
 
-    public async Task<bool> CreateTaskAsync(UserTask task, UserItem taskCreator)
+    public async Task<bool> CreateTaskAsync(UserTask taskToCreate, UserItem taskCreator)
     {
         try
         {
-            await repository.CreateTaskAsync(new CreateUserTask
+            var createdTask = await taskRepository.CreateTaskAsync(new CreateUserTask
             {
-                Title = task.Title,
-                Description = task.Description,
-                UserId = task.AssignedUser.Id,
-                DueDate = task.DueDate,
-                LinkedObjectId = task.LinkedObject?.Id,
+                Title = taskToCreate.Title,
+                Description = taskToCreate.Description,
+                UserId = taskToCreate.AssignedUser.Id,
+                DueDate = taskToCreate.DueDate,
                 CreatorName = taskCreator.Firstname
             });
-            
+
+            if (taskToCreate.LinkedObject is not null)
+            {
+                await linkedObjectService.CreateLinkedObjectAsync(createdTask, taskToCreate.LinkedObject);
+            }
+
             return true;
         }
         catch (Exception e)
@@ -46,13 +54,12 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
             return false;
         }
     }
-
-
+    
     public async Task<bool> UpdateTaskAsync(UserTask task, Guid taskId)
     {
         try
         {
-            await repository.UpdateTaskAsync(new UpdateUserTask
+            await taskRepository.UpdateTaskAsync(new UpdateUserTask
             {
                 Id = taskId,
                 Title = task.Title,
@@ -61,7 +68,7 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
                 DueDate = task.DueDate,
                 LinkedObjectId = task.LinkedObject?.Id
             });
-            
+
             return true;
         }
         catch (Exception e)
@@ -70,13 +77,12 @@ public class TaskService(IUserContext userContext, ITaskRepository repository, A
             return false;
         }
     }
-
-
+    
     public async Task<bool> CloseTaskAsync(Guid taskId)
     {
         try
         {
-            await repository.CloseTasksAsync(taskId);
+            await taskRepository.CloseTasksAsync(taskId);
             return true;
         }
         catch (Exception e)

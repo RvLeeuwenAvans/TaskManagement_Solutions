@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.DTO.Office.User.Task;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
-using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -29,7 +27,9 @@ public partial class TaskFormViewModel : ObservableObject
     private readonly IUserContext _userContext;
     private readonly UserTaskResponse? _existingTask;
 
-    public TaskFormViewModel(TaskService taskService, LinkedObjectService linkedObjectService,
+    public TaskFormViewModel(
+        TaskService taskService, 
+        LinkedObjectService linkedObjectService,
         OfficeService officeService,
         IUserContext userContext,
         UserTaskResponse? task = null)
@@ -68,7 +68,7 @@ public partial class TaskFormViewModel : ObservableObject
                 LinkedObject
             );
 
-            var success = false;
+            bool success;
 
             if (_existingTask == null)
             {

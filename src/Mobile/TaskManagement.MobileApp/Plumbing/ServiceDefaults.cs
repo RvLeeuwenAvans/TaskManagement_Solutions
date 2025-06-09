@@ -36,6 +36,9 @@ public static class ServiceDefaults
         services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddSingleton<TaskService>();
 
+        services.AddSingleton<ILinkedObjectRepository, LinkedObjectRepository>();
+        services.AddSingleton<LinkedObjectService>();
+        
         return services;
     }
 }

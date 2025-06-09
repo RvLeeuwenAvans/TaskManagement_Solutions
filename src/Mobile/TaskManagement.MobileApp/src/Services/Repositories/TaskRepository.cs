@@ -17,9 +17,9 @@ public class TaskRepository(UserTaskClient client) : ITaskRepository
         return await client.GetTaskByIdAsync(taskId);
     }
 
-    public async Task CreateTaskAsync(CreateUserTask task)
+    public async Task<UserTaskResponse> CreateTaskAsync(CreateUserTask task)
     {
-        await client.CreateTaskAsync(task);
+        return await client.CreateTaskAsync(task);
     }
 
     public async Task UpdateTaskAsync(UpdateUserTask task)

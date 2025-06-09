@@ -8,7 +8,7 @@ public interface ITaskRepository
     
     Task<UserTaskResponse> GetTaskAsync(Guid taskId);
     
-    Task CreateTaskAsync(CreateUserTask task);
+    Task<UserTaskResponse> CreateTaskAsync(CreateUserTask task);
 
     Task UpdateTaskAsync(UpdateUserTask task);
     

@@ -1,4 +1,5 @@
-﻿using TaskManagement.DTO.Office.User.Task.LinkedObject;
+﻿using TaskManagement.DTO.Office.User.Task;
+using TaskManagement.DTO.Office.User.Task.LinkedObject;
 using TaskManagement.MobileApp.Helpers.Builders;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services.Repositories.Interfaces;
@@ -6,6 +7,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 namespace TaskManagement.MobileApp.Services;
 
 public class LinkedObjectService(
+    ILinkedObjectRepository linkedObjectRepository,
     IRelationRepository relationRepository,
     IPolicyRepository policyRepository,
     IDamageClaimRepository damageClaimRepository)
@@ -36,6 +38,27 @@ public class LinkedObjectService(
         {
             var response = await damageClaimRepository.GetDamageClaimAsync(id);
             return LinkedObjectModelBuilder.FromDamageClaim(response).WithType(LinkedObjectType.DamageClaim).Build();
+        }
+    }
+
+    public async Task CreateLinkedObjectAsync(UserTaskResponse task, LinkedObjectItem linkedObject)
+    {
+        try
+        {
+            var dto = new CreateLinkedObject
+            {
+                UserTaskId = task.Id,
+                RelationId = linkedObject.Type == LinkedObjectType.Relation ? linkedObject.Id : null,
+                DamageClaimId = linkedObject.Type == LinkedObjectType.DamageClaim ? linkedObject.Id : null,
+                InsurancePolicyId = linkedObject.Type == LinkedObjectType.InsurancePolicy ? linkedObject.Id : null
+            };
+
+            await linkedObjectRepository.CreateLinkedObjectAsync(dto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 }
