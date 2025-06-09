@@ -17,7 +17,7 @@ public class TaskService(
 {
     public async Task<List<UserTaskCardItem>> GetUserTasksAsync()
     {
-        await authService.AuthenticateUser("john.doe@example.com", "hashedpassword12");
+        await authService.AuthenticateUser("jane.smith@example.com", "hashedpassword23");
 
         var userTasks = await taskRepository.GetTasksAsync(userContext.UserId);
         return userTasks.Select(task => TaskCardModelBuilder.From(task).Build()).ToList();
