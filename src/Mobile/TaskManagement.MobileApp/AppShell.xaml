@@ -1,14 +1,26 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <Shell
     x:Class="TaskManagement.MobileApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:TaskManagement.MobileApp.Views.Pages"
-    Shell.FlyoutBehavior="Disabled"
-    Title="TaskManagement.MobileApp">
-
+    BackgroundColor="{StaticResource Primary}"
+    FlyoutBehavior="Disabled"
+    Title="TaskManagement.MobileApp"
+    TitleColor="{StaticResource White}"
+    ForegroundColor="{OnPlatform Default={StaticResource White}, WinUI={StaticResource Black}}">
+    <!-- WinUI needs to have this behavior explicitly defined so here it is -->
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="{OnPlatform WinUI=True}" />
+    </Shell.BackButtonBehavior>
     <ShellContent
         ContentTemplate="{DataTemplate pages:MainPage}"
         Route="MainPage" />
-
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:AddTaskPage}"
+        Route="AddTaskPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:UpdateTaskPage}"
+        Route="UpdateTaskPage" />
 </Shell>

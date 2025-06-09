@@ -10,4 +10,10 @@ public class InsurancePolicyRepository(InsurancePolicyClient client) : IPolicyRe
     {
         return await client.GetPolicyByIdAsync(policyId);
     }
+
+    public async Task<List<InsurancePolicyResponse>> GetInsurancePoliciesByOfficeAsync(Guid officeId)
+    {
+        var response = await client.GetPoliciesByOfficeAsync(officeId);
+        return response.ToList();
+    }
 }

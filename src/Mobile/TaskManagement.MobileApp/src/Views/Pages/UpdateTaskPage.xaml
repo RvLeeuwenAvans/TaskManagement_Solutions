@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
+             x:Class="TaskManagement.MobileApp.Views.Pages.UpdateTaskPage"
+             x:DataType="viewModels:UpdateTaskViewModel"
+             BackgroundColor="{StaticResource LightGray}">
+    <Shell.TitleView>
+        <Label
+            Text="{Binding FormViewModel.Title, FallbackValue='Taak'}"
+            Style="{StaticResource NavHeaderLabel}" />
+    </Shell.TitleView>
+    <Grid RowDefinitions="Auto, Auto, *">
+        <!-- Spacer -->
+        <Grid Grid.Row="0"
+              BackgroundColor="{StaticResource PrimaryDark}"
+              HorizontalOptions="FillAndExpand">
+            <Label Text="Bewerken" Style="{StaticResource SubheaderText}" />
+        </Grid>
+
+        <StackLayout Grid.Row="1" Grid.RowSpan="2"
+                     IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
+                     Style="{StaticResource StateStack}">
+            <ActivityIndicator IsRunning="True" />
+            <Label Text="Taak laden..." />
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.RowSpan="2"
+                     IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Empty}"
+                     Style="{StaticResource StateStack}">
+            <Label Text="Taak niet gevonden." />
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.RowSpan="2"
+                     IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Error}"
+                     Style="{StaticResource StateStack}">
+            <Label Text="Er is een fout opgetreden bij het laden van de taak."
+                   Style="{StaticResource ErrorLabel}" />
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.RowSpan="2"
+                     IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Success}">
+
+            <views:TaskFormView
+                BindingContext="{Binding FormViewModel}" />
+
+            <VerticalStackLayout>
+                <Button Text="Bijwerken"
+                        Style="{StaticResource PrimaryActionButton}"
+                        Command="{Binding UpdateTaskCommand}" />
+                <Button Text="Taak verwijderen"
+                        Style="{StaticResource SecondaryActionButton}"
+                        Command="{Binding DeleteTaskCommand}" />
+            </VerticalStackLayout>
+        </StackLayout>
+    </Grid>
+</ContentPage>

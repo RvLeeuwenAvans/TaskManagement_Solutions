@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Domain", "Ta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Infrastructure", "TaskManagement.Infrastructure\TaskManagement.Infrastructure.csproj", "{EDC98E54-C3E6-4F63-989E-4E7F472A1AEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Test", "TaskManagement.Test\TaskManagement.Test.csproj", "{33D7B751-2D03-4FD3-8C2C-6C3B00623CFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Tests", "TaskManagement.Tests\TaskManagement.Tests.csproj", "{33D7B751-2D03-4FD3-8C2C-6C3B00623CFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Application", "TaskManagement.Application\TaskManagement.Application.csproj", "{37435801-D884-4C4E-B6CF-D921862D2FEE}"
 EndProject

@@ -1,5 +1,6 @@
 ﻿using TaskManagement.DTO.Office.User.Task;
 using TaskManagement.MobileApp.Models;
+using TaskManagement.MobileApp.Models.Collections;
 
 namespace TaskManagement.MobileApp.Services.Helpers.Builders;
 
@@ -17,9 +18,10 @@ public class TaskCardModelBuilder
         return new TaskCardModelBuilder(taskItem);
     }
 
-    public TaskCardModel Build()
+    public UserTaskCardItem Build()
     {
-        return new TaskCardModel(
+        return new UserTaskCardItem(
+            _taskItem.Id,
             _taskItem.User.FirstName.ToCharArray().First(),
             _taskItem.Title,
             _taskItem.LinkedObject,

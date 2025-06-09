@@ -147,7 +147,7 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<Guid?>("DamageClaimId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("InsuranceId")
+                    b.Property<Guid?>("InsurancePolicyId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("RelationId")
@@ -160,7 +160,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("DamageClaimId");
 
-                    b.HasIndex("InsuranceId");
+                    b.HasIndex("InsurancePolicyId");
 
                     b.HasIndex("RelationId");
 
@@ -224,8 +224,6 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LinkedObjectId");
 
                     b.HasIndex("UserId");
 
@@ -307,18 +305,21 @@ namespace TaskManagement.Infrastructure.Migrations
                 {
                     b.HasOne("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", "DamageClaim")
                         .WithMany()
-                        .HasForeignKey("DamageClaimId");
+                        .HasForeignKey("DamageClaimId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
                         .WithMany()
-                        .HasForeignKey("InsuranceId");
+                        .HasForeignKey("InsurancePolicyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
                         .WithMany()
-                        .HasForeignKey("RelationId");
+                        .HasForeignKey("RelationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TaskManagement.Domain.Office.User.Task.UserTask", "UserTask")
-                        .WithOne()
+                        .WithOne("LinkedObject")
                         .HasForeignKey("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", "TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -345,17 +346,11 @@ namespace TaskManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.UserTask", b =>
                 {
-                    b.HasOne("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", "LinkedObject")
-                        .WithMany()
-                        .HasForeignKey("LinkedObjectId");
-
                     b.HasOne("TaskManagement.Domain.Office.User.User", "User")
                         .WithMany("Tasks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("LinkedObject");
 
                     b.Navigation("User");
                 });
@@ -387,6 +382,8 @@ namespace TaskManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.UserTask", b =>
                 {
+                    b.Navigation("LinkedObject");
+
                     b.Navigation("Notes");
                 });
 

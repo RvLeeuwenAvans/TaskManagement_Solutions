@@ -7,9 +7,9 @@ using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Application.Services;
 using TaskManagement.Domain.Office.Relation.InsurancePolicy;
 using TaskManagement.DTO.Office.Relation.InsurancePolicy;
-using TaskManagement.Test.ServiceTests.Helpers;
+using TaskManagement.Tests.ServiceTests.Helpers;
 
-namespace TaskManagement.Test.ServiceTests;
+namespace TaskManagement.Tests.ServicesTests;
 
 public class InsurancePolicyServiceTests
 {

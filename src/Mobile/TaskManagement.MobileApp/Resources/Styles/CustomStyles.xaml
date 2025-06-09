@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Style x:Key="TitleHeaderLabel" TargetType="Label">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+    
+    <Style x:Key="SubheaderText" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding" Value="7" />
+    </Style>
+    
+    <!-- Label used in pages with a back button; on mobile we allign it with the backbutton; on windows we just center it.
+    Because the Back button is in a different location -->
+    <Style x:Key="NavHeaderLabel" TargetType="Label" BasedOn="{StaticResource TitleHeaderLabel}">
+        <Setter Property="HorizontalTextAlignment" Value="{ OnPlatform Default=Start, WinUI=Center}" />
+    </Style>
+
+    <Style x:Key="PrimaryActionButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{StaticResource ShadowColor}" Offset="0,2" Radius="4" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="16,20,16, 0" />
+    </Style>
+
+    <Style x:Key="SecondaryActionButton" TargetType="Button" BasedOn="{StaticResource PrimaryActionButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Red}" />
+    </Style>
+
+    <Style x:Key="LabelHeader" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+    </Style>
+
+    <Style x:Key="BaseEntry" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource TextGray}" />
+    </Style>
+
+    <Style x:Key="BaseEditor" TargetType="Editor">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource TextGray}" />
+        <Setter Property="HeightRequest" Value="100" />
+    </Style>
+
+    <Style x:Key="PickerBorder" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="StrokeThickness" Value="1" />
+    </Style>
+
+    <Style x:Key="BasePicker" TargetType="Picker">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{StaticResource ShadowColor}" Offset="0,0" Radius="4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BaseDatePicker" TargetType="DatePicker">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+    </Style>
+
+    <!-- Card styles -->
+    <!-- Avatar Border -->
+    <Style x:Key="CardAvatarBorder" TargetType="Border">
+        <Setter Property="HeightRequest" Value="44" />
+        <Setter Property="WidthRequest" Value="44" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 22" />
+        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundIcon}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="CardAvatarInitial" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="CardTitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+        <Setter Property="MaxLines" Value="1" />
+    </Style>
+
+    <Style x:Key="CardSubtitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+        <Setter Property="MaxLines" Value="1" />
+    </Style>
+
+    <Style x:Key="CardIconButton" TargetType="ImageButton">
+        <Setter Property="HeightRequest" Value="8" />
+        <Setter Property="WidthRequest" Value="8" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+    </Style>
+
+    <Style x:Key="DateBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource DateLabelBackground}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 9" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Padding" Value="20,0" />
+    </Style>
+
+    <Style x:Key="DateLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource DateLabelText}" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="CardBorder" TargetType="Border">
+        <Setter Property="Margin" Value="16,8" />
+        <Setter Property="Padding" Value="0,7" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{StaticResource ShadowColor}" Offset="0,2" Radius="4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- end -->
+
+    <!-- Main page styles -->
+    <Style x:Key="FilterButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="FilterUnderline" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="2" />
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+    </Style>
+
+    <Style x:Key="FilterIconButton" TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+        <Setter Property="HeightRequest" Value="5" />
+        <Setter Property="WidthRequest" Value="5" />
+        <Setter Property="Scale" Value="0.7" />
+        <Setter Property="HorizontalOptions" Value="End" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="StateStack" TargetType="StackLayout">
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="ErrorLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Red}" />
+    </Style>
+
+    <!-- FAB -->
+    <Style x:Key="FabBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+        <Setter Property="Stroke" Value="{StaticResource Transparent}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 35" />
+        <Setter Property="Margin" Value="0,0,16,16" />
+        <Setter Property="HorizontalOptions" Value="End" />
+        <Setter Property="VerticalOptions" Value="End" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{StaticResource ShadowColor}" Offset="0,2" Radius="8" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FabButton" TargetType="Button">
+        <Setter Property="Text" Value="+" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="WidthRequest" Value="70" />
+        <Setter Property="HeightRequest" Value="70" />
+        <Setter Property="CornerRadius" Value="35" />
+        <Setter Property="Padding" Value="0,-2,0,0" />
+    </Style>
+    <!-- end -->
+    <!-- end -->
+</ResourceDictionary>

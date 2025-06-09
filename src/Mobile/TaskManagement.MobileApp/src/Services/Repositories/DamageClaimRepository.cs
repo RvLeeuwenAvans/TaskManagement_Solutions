@@ -10,4 +10,10 @@ public class DamageClaimRepository(DamageClaimClient client) : IDamageClaimRepos
     {
         return await client.GetClaimByIdAsync(damageClaimId);
     }
+
+    public async Task<List<DamageClaimResponse>> GetDamageClaimsByOfficeAsync(Guid officeId)
+    {
+      var response = await client.GetClaimsByOfficeAsync(officeId);
+      return response.ToList();
+    }
 }

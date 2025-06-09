@@ -10,4 +10,10 @@ public class RelationRepository(RelationClient client) : IRelationRepository
     {
         return await client.GetRelationByIdAsync(relationId);
     }
+
+    public async Task<List<RelationResponse>> GetRelationsByOfficeAsync(Guid officeId)
+    {
+        var response = await client.GetRelationsByOfficeAsync(officeId);
+        return response.ToList();
+    }
 }

@@ -14,15 +14,23 @@ public class LinkedObject
     public Guid Id { get; init; } = Guid.NewGuid();
     
     [Required]
+    public Guid TaskId { get; init; } 
+    
     [ForeignKey("TaskId")]
     public virtual required UserTask UserTask { get; init; }
+    
+    public Guid? RelationId { get; set; }
     
     [ForeignKey("RelationId")]
     public virtual Relation.Relation? Relation  { get; init; }
     
+    public Guid? DamageClaimId { get; set; }
+    
     [ForeignKey("DamageClaimId")]
     public virtual DamageClaim?  DamageClaim { get; init; }
+
+    public Guid? InsurancePolicyId { get; set; }
     
-    [ForeignKey("InsuranceId")]
+    [ForeignKey("InsurancePolicyId")]
     public virtual InsurancePolicy? InsurancePolicy { get; init; }
 }

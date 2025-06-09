@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using TaskManagement.MobileApp.Models;
+using CommunityToolkit.Mvvm.Messaging;
+using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels.messages;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -29,6 +31,10 @@ public partial class MainPageViewModel : ObservableObject
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
         _linkedObjectService = linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
+        WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, async void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskEditedMessage>(this, async void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskClosedMessage>(this, async void (_, _) => { InitializeAsync(); });
+
         InitializeAsync();
     }
 
@@ -47,18 +53,18 @@ public partial class MainPageViewModel : ObservableObject
 
     private async Task LoadTasksAsync()
     {
-        var userTasks = await _taskService.GetUserTasks();
+        var userTasks = await _taskService.GetUserTasksAsync();
         var taskCardViewModels = new List<TaskCardViewModel>();
 
         foreach (var model in userTasks)
         {
-            LinkedObjectModel? linkedObject = null;
+            LinkedObjectItem? linkedObject = null;
             if (model.LinkedObjectResponse != null)
             {
                 linkedObject = await _linkedObjectService.GetLinkedObjectByResponse(model.LinkedObjectResponse);
             }
 
-            taskCardViewModels.Add(new TaskCardViewModel(model, linkedObject));
+            taskCardViewModels.Add(new TaskCardViewModel(model, _taskService, linkedObject));
         }
 
         _allTasks = new ObservableCollection<TaskCardViewModel>(taskCardViewModels);
@@ -73,6 +79,12 @@ public partial class MainPageViewModel : ObservableObject
             CurrentState = Views.ViewState.Success;
             ApplyFilter(SelectedFilter);
         }
+    }
+
+    [RelayCommand]
+    private static async Task NavigateToAddTask()
+    {
+        await Shell.Current.GoToAsync("AddTaskPage");
     }
 
     [RelayCommand]

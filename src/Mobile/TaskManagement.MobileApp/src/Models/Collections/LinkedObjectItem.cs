@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.MobileApp.Models;
+﻿namespace TaskManagement.MobileApp.Models.Collections;
 
 public enum LinkedObjectType
 {
@@ -7,6 +7,7 @@ public enum LinkedObjectType
     InsurancePolicy
 }
 
-public record LinkedObjectModel(
+public record LinkedObjectItem(
+    Guid Id,
     LinkedObjectType Type,
     string Name);

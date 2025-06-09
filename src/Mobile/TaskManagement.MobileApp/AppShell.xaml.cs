@@ -1,9 +1,15 @@
-﻿namespace TaskManagement.MobileApp;
+﻿using TaskManagement.MobileApp.Views.Pages;
+
+namespace TaskManagement.MobileApp;
 
 public partial class AppShell : Shell
 {
     public AppShell()
     {
         InitializeComponent();
+        
+        Routing.RegisterRoute("MainPage", typeof(MainPage));
+        Routing.RegisterRoute("AddTaskPage", typeof(AddTaskPage));
+        Routing.RegisterRoute("UpdateTaskPage", typeof(UpdateTaskPage));
     }
 }

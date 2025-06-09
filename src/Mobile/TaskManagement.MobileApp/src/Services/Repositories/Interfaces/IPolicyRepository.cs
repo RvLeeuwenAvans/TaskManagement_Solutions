@@ -5,4 +5,6 @@ namespace TaskManagement.MobileApp.Services.Repositories.Interfaces;
 public interface IPolicyRepository
 {
     Task<InsurancePolicyResponse> GetInsurancePolicyAsync(Guid policyId);
+    
+    Task<List<InsurancePolicyResponse>> GetInsurancePoliciesByOfficeAsync(Guid officeId);
 }
