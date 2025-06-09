@@ -57,10 +57,11 @@ that should be allowed -->
                                  IsVisible="{Binding IsNewTask}">
                 <Label Text="Object:" Style="{StaticResource LabelHeader}" />
                 <!-- The title below might seem weird, picker doesn't have a placeholder and instead uses the Title property.
-                Which i find a bit odd but: https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/picker?view=net-maui-9.0 -->
+                Which i find a bit odd but: https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/picker?view=net-maui-9.0
+                Also this doesnt work on winUI so we only set it on IOS and android. -->
                 <Border Style="{StaticResource PickerBorder}">
                     <Picker Style="{StaticResource BasePicker}"
-                            Title="Geen"
+                            Title="{OnPlatform iOS='Geen', Android='Geen'}"
                             ItemsSource="{Binding ManagedObjects}"
                             SelectedItem="{Binding LinkedObject}"
                             ItemDisplayBinding="{Binding Name}"
