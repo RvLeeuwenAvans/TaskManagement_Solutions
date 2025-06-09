@@ -62,7 +62,7 @@ public class TaskManagementDatabaseContext(DbContextOptions<TaskManagementDataba
         modelBuilder.Entity<LinkedObject>()
             .HasOne(lo => lo.InsurancePolicy)
             .WithMany()
-            .HasForeignKey(lo => lo.InsuranceId)
+            .HasForeignKey(lo => lo.InsurancePolicyId)
             .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<LinkedObject>()

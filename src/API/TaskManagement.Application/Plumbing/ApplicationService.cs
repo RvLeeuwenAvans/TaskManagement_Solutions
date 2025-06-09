@@ -72,6 +72,7 @@ public static class ApplicationService
         services.AddScoped<RelationService>();
         services.AddScoped<DamageClaimService>();
         services.AddScoped<InsurancePolicyService>();
+        services.AddScoped<LinkedObjectService>();
 
         return services;
     }

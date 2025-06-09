@@ -29,8 +29,8 @@ public class LinkedObject
     [ForeignKey("DamageClaimId")]
     public virtual DamageClaim?  DamageClaim { get; init; }
 
-    public Guid? InsuranceId { get; set; }
+    public Guid? InsurancePolicyId { get; set; }
     
-    [ForeignKey("InsuranceId")]
+    [ForeignKey("InsurancePolicyId")]
     public virtual InsurancePolicy? InsurancePolicy { get; init; }
 }

@@ -147,7 +147,7 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<Guid?>("DamageClaimId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("InsuranceId")
+                    b.Property<Guid?>("InsurancePolicyId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("RelationId")
@@ -160,7 +160,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("DamageClaimId");
 
-                    b.HasIndex("InsuranceId");
+                    b.HasIndex("InsurancePolicyId");
 
                     b.HasIndex("RelationId");
 
@@ -310,7 +310,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
                         .WithMany()
-                        .HasForeignKey("InsuranceId")
+                        .HasForeignKey("InsurancePolicyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
