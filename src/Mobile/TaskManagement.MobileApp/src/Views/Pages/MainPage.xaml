@@ -7,8 +7,7 @@
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage"
              x:DataType="viewModels:MainPageViewModel">
     <Shell.TitleView>
-        <!-- todo: make bindable -->
-        <Label Text="Kantoornaam"
+        <Label Text="{Binding OfficeName, FallbackValue=Kantoor}"
                Style="{StaticResource TitleHeaderLabel}" />
     </Shell.TitleView>
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryDark}">

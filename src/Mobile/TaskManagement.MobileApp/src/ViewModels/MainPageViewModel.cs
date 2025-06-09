@@ -18,17 +18,21 @@ public enum TaskFilter
 public partial class MainPageViewModel : ObservableObject
 {
     private readonly TaskService _taskService;
+    private readonly OfficeService _officeService;
     private readonly LinkedObjectService _linkedObjectService;
 
     private ObservableCollection<TaskCardViewModel> _allTasks = [];
 
+    [ObservableProperty] private string _officeName = string.Empty;
     [ObservableProperty] private ObservableCollection<TaskCardViewModel> _filteredTaskCards = [];
     [ObservableProperty] private Views.ViewState _currentState;
     [ObservableProperty] private TaskFilter _selectedFilter = TaskFilter.All;
 
-    public MainPageViewModel(TaskService taskService, LinkedObjectService linkedObjectService)
+    public MainPageViewModel(TaskService taskService, OfficeService officeService,
+        LinkedObjectService linkedObjectService)
     {
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
+        _officeService = officeService ?? throw new ArgumentNullException(nameof(officeService));
         _linkedObjectService = linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
         WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, async void (_, _) => { InitializeAsync(); });
@@ -44,6 +48,8 @@ public partial class MainPageViewModel : ObservableObject
         {
             CurrentState = Views.ViewState.Loading;
             await LoadTasksAsync();
+            var office = await _officeService.GetCurrentUserOfficeAsync();
+            OfficeName = office.Name;
         }
         catch
         {
@@ -53,7 +59,7 @@ public partial class MainPageViewModel : ObservableObject
 
     private async Task LoadTasksAsync()
     {
-        var userTasks = await _taskService.GetUserTasksAsync();
+        var userTasks = await _taskService.GetCurrentUserTasksAsync();
         var taskCardViewModels = new List<TaskCardViewModel>();
 
         foreach (var model in userTasks)

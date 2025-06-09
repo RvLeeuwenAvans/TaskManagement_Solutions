@@ -15,7 +15,7 @@ public class TaskService(
     LinkedObjectService linkedObjectService,
     AuthService authService)
 {
-    public async Task<List<UserTaskCardItem>> GetUserTasksAsync()
+    public async Task<List<UserTaskCardItem>> GetCurrentUserTasksAsync()
     {
         await authService.AuthenticateUser("jane.smith@example.com", "hashedpassword23");
 

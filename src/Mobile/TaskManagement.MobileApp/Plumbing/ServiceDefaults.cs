@@ -30,6 +30,7 @@ public static class ServiceDefaults
         services.AddSingleton<IRelationRepository, RelationRepository>();
         services.AddSingleton<LinkedObjectService>();
         
+        services.AddSingleton<IOfficeRepository, OfficeRepository>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<OfficeService>();
 
