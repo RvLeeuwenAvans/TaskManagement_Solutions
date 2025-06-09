@@ -108,13 +108,9 @@ public partial class TaskFormViewModel : ObservableObject
             return false;
         }
 
-        if (DueDate < DateTime.Today)
-        {
-            Shell.Current.DisplayAlert("Validation Error", "Deadline kan niet in het verleden liggen.", "OK");
-            return false;
-        }
-
-        return true;
+        if (DueDate >= DateTime.Today) return true;
+        Shell.Current.DisplayAlert("Validation Error", "Deadline kan niet in het verleden liggen.", "OK");
+        return false;
     }
 
     private async void InitializeAsync()

@@ -41,9 +41,17 @@ public class TaskService(
                 CreatorName = taskCreator.Firstname
             });
 
-            if (taskToCreate.LinkedObject is not null)
+            if (taskToCreate.LinkedObject is null) return true;
+            
+            try
             {
                 await linkedObjectService.CreateLinkedObjectAsync(createdTask, taskToCreate.LinkedObject);
+            }
+            catch (Exception e)
+            {
+                // Task is created, but linked object fails; still return true
+                await Shell.Current.DisplayAlert("Warning", "The task was created, but linking the object failed.", "OK");
+                Console.WriteLine(e);
             }
 
             return true;
@@ -54,7 +62,7 @@ public class TaskService(
             return false;
         }
     }
-    
+
     public async Task<bool> UpdateTaskAsync(UserTask task, Guid taskId)
     {
         try
@@ -77,7 +85,7 @@ public class TaskService(
             return false;
         }
     }
-    
+
     public async Task<bool> CloseTaskAsync(Guid taskId)
     {
         try
