@@ -1,4 +1,5 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TaskManagement.MobileApp"
@@ -13,6 +14,14 @@
             </ResourceDictionary.MergedDictionaries>
             <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
             <converters:LinkedObjectTypeToColorConverter x:Key="TypeToColorConverter" />
+            <converters:DateToBackgroundColorConverter x:Key="DateToBackgroundColorConverter"
+                                                       PastDueColor="{StaticResource DateLabelPastBackground}"
+                                                       TodayColor="{StaticResource DateLabelTodayBackground}"
+                                                       FutureColor="{StaticResource DateLabelFutureBackground}" />
+            <converters:DateToTextColorConverter x:Key="DateToTextColorConverter"
+                                                 PastDueColor="{StaticResource DateLabelPastText}"
+                                                 TodayColor="{StaticResource DateLabelTodayText}"
+                                                 FutureColor="{StaticResource DateLabelFutureText}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -18,8 +18,7 @@ public class UserTaskUpdateDtoValidator : AbstractValidator<UpdateUserTask>
         When(x => x.DueDate.HasValue, () =>
         {
             RuleFor(x => x.DueDate)
-                .Must(date => date > DateTime.UtcNow)
-                .WithMessage("Due date must be in the future.");
+                .GreaterThanOrEqualTo(DateTime.Today).WithMessage("Due date must be in the future. Or Today.");
         });
 
         When(x => x.Title is not null, () =>

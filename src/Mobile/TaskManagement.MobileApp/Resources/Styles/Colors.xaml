@@ -15,8 +15,12 @@
     <Color x:Key="Red">Red</Color>
     <Color x:Key="ShadowColor">#1000000</Color>
     <Color x:Key="BackgroundIcon">#A1CACD</Color>
-    <Color x:Key="DateLabelBackground">#EFE1B3</Color>
-    <Color x:Key="DateLabelText">#B09969</Color>
+    <Color x:Key="DateLabelFutureBackground">#EFE1B3</Color>
+    <Color x:Key="DateLabelTodayBackground">#b3efb6</Color>
+    <Color x:Key="DateLabelPastBackground">#d9d9d9</Color>
+    <Color x:Key="DateLabelFutureText">#B09969</Color>
+    <Color x:Key="DateLabelTodayText">#009951</Color>
+    <Color x:Key="DateLabelPastText">#919191</Color>
     <Color x:Key="TextGray">Gray</Color>
     <Color x:Key="PolicyBrown">#723A13</Color>
     <!-- end custom -->
