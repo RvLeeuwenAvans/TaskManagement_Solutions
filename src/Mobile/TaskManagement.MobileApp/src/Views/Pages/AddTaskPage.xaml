@@ -8,7 +8,6 @@
              x:DataType="viewModels:AddTaskViewModel"
              BackgroundColor="{StaticResource LightGray}">
     <Shell.TitleView>
-        <!-- todo: Make bindable -->
         <Label Text="Nieuwe taak"
                Style="{StaticResource NavHeaderLabel}" />
     </Shell.TitleView>

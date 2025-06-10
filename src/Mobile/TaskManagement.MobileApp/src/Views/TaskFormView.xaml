@@ -3,9 +3,7 @@
 so i probably forgot to add a log somewhere
 
 todo: I need to look at steamlining the eror handling 
-
-todo: there's a bug in my request validator for the API, cant make tasks for today; tho
-that should be allowed -->
+-->
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
