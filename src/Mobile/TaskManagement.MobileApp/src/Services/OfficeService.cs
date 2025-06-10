@@ -1,4 +1,5 @@
-﻿using TaskManagement.DTO.Office.User;
+﻿using TaskManagement.DTO.Office;
+using TaskManagement.DTO.Office.User;
 using TaskManagement.MobileApp.Helpers.Builders;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
@@ -9,6 +10,7 @@ namespace TaskManagement.MobileApp.Services;
 public class OfficeService(
     IUserContext userContext,
     IUserRepository userRepository,
+    IOfficeRepository officeRepository,
     IDamageClaimRepository damageClaimRepository,
     IPolicyRepository policyRepository,
     IRelationRepository relationRepository)
@@ -41,16 +43,21 @@ public class OfficeService(
 
         return linkedObjects;
     }
-    
+
     public async Task<List<UserItem>> GetUsersByOfficeAsync()
     {
         var response = await userRepository.GetUsersByOfficeAsync(userContext.OfficeId);
         return response.Select(userResponse => UserItemBuilder.From(userResponse).Build()).ToList();
     }
-    
+
     public async Task<UserItem> GetOfficeUserByIdAsync(Guid userId)
     {
         var response = await userRepository.GetUserById(userId);
         return UserItemBuilder.From(response).Build();
+    }
+
+    public async Task<OfficeResponse> GetCurrentUserOfficeAsync()
+    {
+        return await officeRepository.GetOfficeById(userContext.OfficeId);
     }
 }

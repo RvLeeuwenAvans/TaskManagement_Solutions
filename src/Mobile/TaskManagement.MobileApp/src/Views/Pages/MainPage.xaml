@@ -7,8 +7,7 @@
              x:Class="TaskManagement.MobileApp.Views.Pages.MainPage"
              x:DataType="viewModels:MainPageViewModel">
     <Shell.TitleView>
-        <!-- todo: make bindable -->
-        <Label Text="Kantoornaam"
+        <Label Text="{Binding OfficeName, FallbackValue=Kantoor}"
                Style="{StaticResource TitleHeaderLabel}" />
     </Shell.TitleView>
     <Grid RowDefinitions="Auto, Auto, *" BackgroundColor="{StaticResource PrimaryDark}">
@@ -24,33 +23,34 @@
                                    Padding="10,0">
                 <VerticalStackLayout>
                     <Button Text="Alle"
-                            Style="{StaticResource FilterButton}"
-                            Command="{Binding FilterCommand}"
+                            Style="{StaticResource FilterDateButton}"
+                            Command="{Binding FilterByDateRangeCommand}"
                             CommandParameter="All" />
                     <BoxView Style="{StaticResource FilterUnderline}"
-                             IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=All}" />
+                             IsVisible="{Binding SelectedDateRangeDateRangeFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=All}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Button Text="Vandaag"
-                            Style="{StaticResource FilterButton}"
-                            Command="{Binding FilterCommand}"
+                            Style="{StaticResource FilterDateButton}"
+                            Command="{Binding FilterByDateRangeCommand}"
                             CommandParameter="Today" />
                     <BoxView Style="{StaticResource FilterUnderline}"
-                             IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Today}" />
+                             IsVisible="{Binding SelectedDateRangeDateRangeFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Today}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Button Text="Week"
-                            Style="{StaticResource FilterButton}"
-                            Command="{Binding FilterCommand}"
+                            Style="{StaticResource FilterDateButton}"
+                            Command="{Binding FilterByDateRangeCommand}"
                             CommandParameter="Week" />
                     <BoxView Style="{StaticResource FilterUnderline}"
-                             IsVisible="{Binding SelectedFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Week}" />
+                             IsVisible="{Binding SelectedDateRangeDateRangeFilter, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Week}" />
                 </VerticalStackLayout>
             </HorizontalStackLayout>
 
             <ImageButton Grid.Column="1"
                          Style="{StaticResource FilterIconButton}"
-                         Source="filter_icon.png" />
+                         Source="filter_icon.png"
+                         Command="{Binding ShowTaskTypeModalCommand}" />
         </Grid>
 
         <Grid Grid.Row="2" BackgroundColor="{StaticResource LightGray}">

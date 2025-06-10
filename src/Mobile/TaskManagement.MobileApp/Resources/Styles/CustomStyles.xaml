@@ -87,7 +87,6 @@
     </Style>
 
     <!-- Card styles -->
-    <!-- Avatar Border -->
     <Style x:Key="CardAvatarBorder" TargetType="Border">
         <Setter Property="HeightRequest" Value="44" />
         <Setter Property="WidthRequest" Value="44" />
@@ -155,7 +154,7 @@
     <!-- end -->
 
     <!-- Main page styles -->
-    <Style x:Key="FilterButton" TargetType="Button">
+    <Style x:Key="FilterDateButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
         <Setter Property="TextColor" Value="{StaticResource White}" />
         <Setter Property="FontAttributes" Value="Bold" />
@@ -185,33 +184,52 @@
         <Setter Property="TextColor" Value="{StaticResource Red}" />
     </Style>
 
-    <!-- FAB -->
-    <Style x:Key="FabBorder" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
-        <Setter Property="Stroke" Value="{StaticResource Transparent}" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 35" />
-        <Setter Property="Margin" Value="0,0,16,16" />
-        <Setter Property="HorizontalOptions" Value="End" />
-        <Setter Property="VerticalOptions" Value="End" />
-        <Setter Property="Shadow">
-            <Setter.Value>
-                <Shadow Brush="{StaticResource ShadowColor}" Offset="0,2" Radius="8" />
-            </Setter.Value>
-        </Setter>
-    </Style>
+        <!-- FAB -->
+        <Style x:Key="FabBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+            <Setter Property="Stroke" Value="{StaticResource Transparent}" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 35" />
+            <Setter Property="Margin" Value="0,0,16,16" />
+            <Setter Property="HorizontalOptions" Value="End" />
+            <Setter Property="VerticalOptions" Value="End" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="{StaticResource ShadowColor}" Offset="0,2" Radius="8" />
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Style x:Key="FabButton" TargetType="Button">
-        <Setter Property="Text" Value="+" />
-        <Setter Property="FontSize" Value="40" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="{StaticResource White}" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="WidthRequest" Value="70" />
-        <Setter Property="HeightRequest" Value="70" />
-        <Setter Property="CornerRadius" Value="35" />
-        <Setter Property="Padding" Value="0,-2,0,0" />
-    </Style>
+        <Style x:Key="FabButton" TargetType="Button">
+            <Setter Property="Text" Value="+" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource White}" />
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="WidthRequest" Value="70" />
+            <Setter Property="HeightRequest" Value="70" />
+            <Setter Property="CornerRadius" Value="35" />
+            <Setter Property="Padding" Value="0,-2,0,0" />
+        </Style>
+        <!-- end -->
     <!-- end -->
+    <!-- Filter popup styles -->
+        <Style x:Key="FilterButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="TextColor" Value="{StaticResource White}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="{StaticResource ShadowColor}" Offset="0,2" Radius="4" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    <Style x:Key="FilterCancelButton" TargetType="Button" BasedOn="{StaticResource FilterButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="FontAttributes" Value="None" />
+    </Style>
     <!-- end -->
 </ResourceDictionary>
