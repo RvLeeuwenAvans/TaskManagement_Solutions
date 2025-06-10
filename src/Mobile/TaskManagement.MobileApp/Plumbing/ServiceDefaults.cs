@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui;
-using TaskManagement.Client;
+﻿using TaskManagement.Client;
 using TaskManagement.Client.Plumbing;
 using Microsoft.Extensions.Configuration;
 using TaskManagement.MobileApp.Models;
@@ -22,7 +21,7 @@ public static class ServiceDefaults
         var settings = configuration.GetRequiredSection("ApiSettings").Get<ApiSettings>();
         services.AddSingleton(new ApiClientConfig { BaseUrl = settings!.BaseUrl });
         services.RegisterClients();
-
+        
         // Auth
         services.AddSingleton<IUserContext, UserContext>();
         services.AddSingleton<IAuthRepository, AuthRepository>();
