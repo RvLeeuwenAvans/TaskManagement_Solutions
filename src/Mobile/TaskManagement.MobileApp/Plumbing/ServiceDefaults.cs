@@ -1,4 +1,5 @@
-﻿using TaskManagement.Client;
+﻿using CommunityToolkit.Maui;
+using TaskManagement.Client;
 using TaskManagement.Client.Plumbing;
 using Microsoft.Extensions.Configuration;
 using TaskManagement.MobileApp.Models;
@@ -8,6 +9,8 @@ using TaskManagement.MobileApp.Services;
 using TaskManagement.MobileApp.Services.Authentication;
 using TaskManagement.MobileApp.Services.Repositories;
 using TaskManagement.MobileApp.Services.Repositories.Interfaces;
+using TaskManagement.MobileApp.ViewModels.Modals;
+using TaskManagement.MobileApp.Views.Modals;
 
 namespace TaskManagement.MobileApp.Plumbing;
 
@@ -39,6 +42,10 @@ public static class ServiceDefaults
 
         services.AddSingleton<ILinkedObjectRepository, LinkedObjectRepository>();
         services.AddSingleton<LinkedObjectService>();
+
+        // Popups; using ContentPages as Model; because the toolkit version is way too unstable on android.
+        services.AddTransient<TaskTypeFilterModalViewModel>();
+        services.AddTransient<TaskTypeFilterModal>();
         
         return services;
     }

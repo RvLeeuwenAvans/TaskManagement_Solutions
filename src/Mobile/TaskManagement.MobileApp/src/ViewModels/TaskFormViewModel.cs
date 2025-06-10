@@ -5,6 +5,7 @@ using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
+using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -13,7 +14,7 @@ public partial class TaskFormViewModel : ObservableObject
     [ObservableProperty] private string _title = string.Empty;
     [ObservableProperty] private string? _description = string.Empty;
     [ObservableProperty] private DateTime _dueDate = DateTime.Today.AddDays(7);
-    [ObservableProperty] private Views.ViewState _currentState = Views.ViewState.Loading;
+    [ObservableProperty] private ViewState _currentState = ViewState.Loading;
     [ObservableProperty] private bool _isNewTask = true;
     [ObservableProperty] private UserItem? _assignedUser;
     [ObservableProperty] private LinkedObjectItem? _linkedObject;
@@ -58,7 +59,7 @@ public partial class TaskFormViewModel : ObservableObject
 
         try
         {
-            CurrentState = Views.ViewState.Loading;
+            CurrentState = ViewState.Loading;
 
             var task = new UserTask(
                 Title,
@@ -83,12 +84,12 @@ public partial class TaskFormViewModel : ObservableObject
                 success = await _taskService.UpdateTaskAsync(task, _existingTask.Id);
             }
 
-            CurrentState = success ? Views.ViewState.Success : Views.ViewState.Error;
+            CurrentState = success ? ViewState.Success : ViewState.Error;
             return success;
         }
         catch (Exception ex)
         {
-            CurrentState = Views.ViewState.Error;
+            CurrentState = ViewState.Error;
             await Shell.Current.DisplayAlert("Error", $"Failed to save task: {ex.Message}", "OK");
             return false;
         }
@@ -117,7 +118,7 @@ public partial class TaskFormViewModel : ObservableObject
     {
         try
         {
-            CurrentState = Views.ViewState.Loading;
+            CurrentState = ViewState.Loading;
             await PopulateFormCollections();
 
             AssignedUser = Colleagues.FirstOrDefault(u => u.Id == _userContext.UserId);
@@ -132,11 +133,11 @@ public partial class TaskFormViewModel : ObservableObject
                 }
             }
 
-            CurrentState = Views.ViewState.Success;
+            CurrentState = ViewState.Success;
         }
         catch
         {
-            CurrentState = Views.ViewState.Error;
+            CurrentState = ViewState.Error;
         }
     }
 

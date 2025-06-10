@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
 using TaskManagement.MobileApp.ViewModels.messages;
+using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
@@ -22,7 +23,7 @@ public partial class UpdateTaskViewModel(
     private Guid _taskId;
 
     [ObservableProperty] private TaskFormViewModel? _formViewModel;
-    [ObservableProperty] private Views.ViewState _currentState = Views.ViewState.Loading;
+    [ObservableProperty] private ViewState _currentState = ViewState.Loading;
 
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -37,12 +38,12 @@ public partial class UpdateTaskViewModel(
             }
             else
             {
-                CurrentState = Views.ViewState.Error;
+                CurrentState = ViewState.Error;
             }
         }
         else
         {
-            CurrentState = Views.ViewState.Error;
+            CurrentState = ViewState.Error;
         }
     }
 
@@ -50,18 +51,18 @@ public partial class UpdateTaskViewModel(
     {
         try
         {
-            CurrentState = Views.ViewState.Loading;
+            CurrentState = ViewState.Loading;
 
             var existingTask = await _taskService.GetTaskByIdAsync(_taskId);
 
             FormViewModel = new TaskFormViewModel(_taskService, _linkedObjectService,
                 officeService, userContext, existingTask);
 
-            CurrentState = Views.ViewState.Success;
+            CurrentState = ViewState.Success;
         }
         catch
         {
-            CurrentState = Views.ViewState.Error;
+            CurrentState = ViewState.Error;
         }
     }
 

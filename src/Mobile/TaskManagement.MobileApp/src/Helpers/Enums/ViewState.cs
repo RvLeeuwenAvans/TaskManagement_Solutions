@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.MobileApp.Views;
+﻿namespace TaskManagement.MobileApp.Helpers.Enums;
 
 public enum ViewState
 {

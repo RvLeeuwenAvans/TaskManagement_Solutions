@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels.Modals"
+             x:Class="TaskManagement.MobileApp.Views.Modals.TaskTypeFilterModal"
+             x:DataType="viewModels:TaskTypeFilterModalViewModel"
+             BackgroundColor="Transparent">
+    <Grid>
+        <BoxView BackgroundColor="Black" 
+                 Opacity="0.3"
+                 VerticalOptions="Fill"
+                 HorizontalOptions="Fill">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CancelCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <Border VerticalOptions="End"
+                BackgroundColor="{StaticResource White}"
+                StrokeShape="RoundRectangle 20,20,0,0"
+                StrokeThickness="0"
+                Margin="0">
+            <Grid RowDefinitions="Auto,Auto,Auto">
+                <VerticalStackLayout Grid.Row="1" 
+                                     Padding="24,20,24,0" 
+                                     Spacing="20">
+                    <Label Text="Filter taaktype" 
+                           FontAttributes="Bold" 
+                           FontSize="20" 
+                           HorizontalOptions="Center" />
+                    
+                    <VerticalStackLayout Spacing="8">
+                        <RadioButton Content="Alles"
+                                     GroupName="LinkedObjectTypeGroup"
+                                     FontSize="16"
+                                     IsChecked="{Binding SelectedType, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=All}" />
+                        <RadioButton Content="Zonder object"
+                                     GroupName="LinkedObjectTypeGroup"
+                                     FontSize="16"
+                                     IsChecked="{Binding SelectedType, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=None}" />
+                        <RadioButton Content="Op Relatie"
+                                     GroupName="LinkedObjectTypeGroup"
+                                     FontSize="16"
+                                     IsChecked="{Binding SelectedType, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Relation}" />
+                        <RadioButton Content="Op Schade"
+                                     GroupName="LinkedObjectTypeGroup"
+                                     FontSize="16"
+                                     IsChecked="{Binding SelectedType, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=DamageClaim}" />
+                        <RadioButton Content="Op Polis"
+                                     GroupName="LinkedObjectTypeGroup"
+                                     FontSize="16"
+                                     IsChecked="{Binding SelectedType, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=InsurancePolicy}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <Grid Grid.Row="2" 
+                      Padding="24,20,24,34"
+                      ColumnDefinitions="*,*" 
+                      ColumnSpacing="12">
+                    <Button Grid.Column="0"
+                            Text="Annuleren"
+                            Style="{StaticResource FilterCancelButton}"
+                            Command="{Binding CancelCommand}" />
+                    <Button Grid.Column="1"
+                            Text="Filteren"
+                            Style="{StaticResource FilterButton}"
+                            HeightRequest="44"
+                            Command="{Binding ConfirmCommand}" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

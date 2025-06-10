@@ -1,19 +1,16 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Services;
 using TaskManagement.MobileApp.ViewModels.messages;
+using TaskManagement.MobileApp.ViewModels.Modals;
+using TaskManagement.MobileApp.Views.Modals;
+using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
 namespace TaskManagement.MobileApp.ViewModels;
-
-public enum TaskFilter
-{
-    All,
-    Today,
-    Week
-}
 
 public partial class MainPageViewModel : ObservableObject
 {
@@ -25,8 +22,10 @@ public partial class MainPageViewModel : ObservableObject
 
     [ObservableProperty] private string _officeName = string.Empty;
     [ObservableProperty] private ObservableCollection<TaskCardViewModel> _filteredTaskCards = [];
-    [ObservableProperty] private Views.ViewState _currentState;
-    [ObservableProperty] private TaskFilter _selectedFilter = TaskFilter.All;
+    [ObservableProperty] private ViewState _currentState;
+
+    [ObservableProperty] private TaskTypeFilter _selectedTaskTypeFilter = TaskTypeFilter.All;
+    [ObservableProperty] private TaskDateRangeFilter _selectedDateRangeDateRangeFilter = TaskDateRangeFilter.All;
 
     public MainPageViewModel(TaskService taskService, OfficeService officeService,
         LinkedObjectService linkedObjectService)
@@ -35,9 +34,11 @@ public partial class MainPageViewModel : ObservableObject
         _officeService = officeService ?? throw new ArgumentNullException(nameof(officeService));
         _linkedObjectService = linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
-        WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, async void (_, _) => { InitializeAsync(); });
-        WeakReferenceMessenger.Default.Register<TaskEditedMessage>(this, async void (_, _) => { InitializeAsync(); });
-        WeakReferenceMessenger.Default.Register<TaskClosedMessage>(this, async void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskEditedMessage>(this, void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TaskClosedMessage>(this, void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<TypeFilterSelectedMessage>(this,
+            (f, filter) => { FilterByTaskTypeCommand.Execute(filter.Value); });
 
         InitializeAsync();
     }
@@ -46,14 +47,14 @@ public partial class MainPageViewModel : ObservableObject
     {
         try
         {
-            CurrentState = Views.ViewState.Loading;
+            CurrentState = ViewState.Loading;
             await LoadTasksAsync();
             var office = await _officeService.GetCurrentUserOfficeAsync();
             OfficeName = office.Name;
         }
         catch
         {
-            CurrentState = Views.ViewState.Error;
+            CurrentState = ViewState.Error;
         }
     }
 
@@ -77,13 +78,13 @@ public partial class MainPageViewModel : ObservableObject
 
         if (_allTasks.Count == 0)
         {
-            CurrentState = Views.ViewState.Empty;
+            CurrentState = ViewState.Empty;
             FilteredTaskCards = [];
         }
         else
         {
-            CurrentState = Views.ViewState.Success;
-            ApplyFilter(SelectedFilter);
+            CurrentState = ViewState.Success;
+            ApplyFilters();
         }
     }
 
@@ -94,35 +95,83 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Filter(string filter)
+    private void FilterByDateRange(string filter)
     {
-        if (!Enum.TryParse<TaskFilter>(filter, out var parsedFilter)) return;
-        SelectedFilter = parsedFilter;
-        ApplyFilter(parsedFilter);
+        if (!Enum.TryParse<TaskDateRangeFilter>(filter, out var parsedFilter)) return;
+        SelectedDateRangeDateRangeFilter = parsedFilter;
     }
 
-    partial void OnSelectedFilterChanged(TaskFilter value)
+    [RelayCommand]
+    private void FilterByTaskType(TaskTypeFilter type)
     {
-        ApplyFilter(value);
+        SelectedTaskTypeFilter = type;
     }
 
-    /**
-    * The tabs on the main page are not actually tabs but filters; but to mock tab behavior, we show/hide the underline.
-    */
-    private void ApplyFilter(TaskFilter filter)
+    [RelayCommand]
+    private async Task ShowTaskTypeModalAsync()
     {
-        if (CurrentState != Views.ViewState.Success)
+        var modal = new TaskTypeFilterModal(new TaskTypeFilterModalViewModel(SelectedTaskTypeFilter));
+        await Shell.Current.Navigation.PushModalAsync(modal);
+    }
+
+    partial void OnSelectedTaskTypeFilterChanged(TaskTypeFilter value)
+    {
+        if (!Enum.IsDefined(typeof(TaskTypeFilter), value))
+            throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(TaskTypeFilter));
+
+        ApplyFilters();
+    }
+
+    partial void OnSelectedDateRangeDateRangeFilterChanged(TaskDateRangeFilter value)
+    {
+        if (!Enum.IsDefined(typeof(TaskDateRangeFilter), value))
+            throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(TaskDateRangeFilter));
+
+        ApplyFilters();
+    }
+
+    private void ApplyFilters()
+    {
+        if (CurrentState is not (ViewState.Success or ViewState.Empty))
             return;
 
-        var filtered = filter switch
-        {
-            TaskFilter.Today => _allTasks.Where(t => t.DueDate.Date == DateTime.Today),
-            TaskFilter.Week => _allTasks.Where(t =>
-                t.DueDate.Date >= DateTime.Today &&
-                t.DueDate.Date <= DateTime.Today.AddDays(7)),
-            _ => _allTasks
-        };
+        CurrentState = ViewState.Loading;
+
+        IEnumerable<TaskCardViewModel> unfiltered = _allTasks;
+
+        var filtered = ApplyDateRangeFilter(unfiltered, SelectedDateRangeDateRangeFilter);
+        filtered = ApplyTaskTypeFilter(filtered, SelectedTaskTypeFilter);
 
         FilteredTaskCards = new ObservableCollection<TaskCardViewModel>(filtered);
+        CurrentState = FilteredTaskCards.Count == 0
+            ? ViewState.Empty
+            : ViewState.Success;
+    }
+
+    private static IEnumerable<TaskCardViewModel> ApplyDateRangeFilter(IEnumerable<TaskCardViewModel> tasks,
+        TaskDateRangeFilter dateRangeFilter)
+    {
+        return dateRangeFilter switch
+        {
+            TaskDateRangeFilter.Today => tasks.Where(t => t.DueDate.Date == DateTime.Today),
+            TaskDateRangeFilter.Week => tasks.Where(t =>
+                t.DueDate.Date >= DateTime.Today &&
+                t.DueDate.Date <= DateTime.Today.AddDays(7)),
+            _ => tasks
+        };
+    }
+
+    private static IEnumerable<TaskCardViewModel> ApplyTaskTypeFilter(IEnumerable<TaskCardViewModel> tasks,
+        TaskTypeFilter typeFilter)
+    {
+        return typeFilter switch
+        {
+            TaskTypeFilter.Relation => tasks.Where(t => t.LinkedObjectType == LinkedObjectType.Relation),
+            TaskTypeFilter.DamageClaim => tasks.Where(t => t.LinkedObjectType == LinkedObjectType.DamageClaim),
+            TaskTypeFilter.InsurancePolicy =>
+                tasks.Where(t => t.LinkedObjectType == LinkedObjectType.InsurancePolicy),
+            TaskTypeFilter.None => tasks.Where(t => t.LinkedObjectType == null),
+            _ => tasks
+        };
     }
 }
