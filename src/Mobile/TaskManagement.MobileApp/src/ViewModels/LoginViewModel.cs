@@ -20,6 +20,7 @@ public partial class LoginViewModel(AuthService authService) : ObservableObject
         if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
         {
             ErrorMessage = "Vul zowel e-mail als wachtwoord in.";
+            CurrentState = ViewState.Error;
             return;
         }
 
@@ -29,7 +30,7 @@ public partial class LoginViewModel(AuthService authService) : ObservableObject
             var success = await authService.AuthenticateUser(Email, Password);
             if (success)
             {
-                await Shell.Current.GoToAsync("MainPage");
+                    await Shell.Current.GoToAsync("//OverviewPage");
             }
             else
             {

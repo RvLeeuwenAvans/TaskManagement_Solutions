@@ -62,7 +62,7 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0"/>
@@ -70,16 +70,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\Pages\MainPage.xaml">
+      <MauiXaml Update="Views\Pages\OverviewPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\Pages\MainPage.xaml.cs">
-        <DependentUpon>MainPage.xaml</DependentUpon>
+      <Compile Update="Views\Pages\OverviewPage.xaml.cs">
+        <DependentUpon>OverviewPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Remove="src\ViewModels\messages\AuthenticatedMessage.cs" />
     </ItemGroup>
 
     <ItemGroup>

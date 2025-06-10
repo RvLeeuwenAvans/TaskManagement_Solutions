@@ -12,7 +12,7 @@ using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
-public partial class MainPageViewModel : ObservableObject
+public partial class OverviewPageViewModel : ObservableObject
 {
     private readonly TaskService _taskService;
     private readonly OfficeService _officeService;
@@ -27,7 +27,7 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty] private TaskTypeFilter _selectedTaskTypeFilter = TaskTypeFilter.All;
     [ObservableProperty] private TaskDateRangeFilter _selectedDateRangeDateRangeFilter = TaskDateRangeFilter.All;
 
-    public MainPageViewModel(TaskService taskService, OfficeService officeService,
+    public OverviewPageViewModel(TaskService taskService, OfficeService officeService,
         LinkedObjectService linkedObjectService)
     {
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
@@ -38,11 +38,11 @@ public partial class MainPageViewModel : ObservableObject
         WeakReferenceMessenger.Default.Register<TaskEditedMessage>(this, void (_, _) => { InitializeAsync(); });
         WeakReferenceMessenger.Default.Register<TaskClosedMessage>(this, void (_, _) => { InitializeAsync(); });
         WeakReferenceMessenger.Default.Register<TypeFilterSelectedMessage>(this,
-            (f, filter) => { FilterByTaskTypeCommand.Execute(filter.Value); });
-
+            (_, filter) => { FilterByTaskTypeCommand.Execute(filter.Value); });
+        
         InitializeAsync();
     }
-
+    
     private async void InitializeAsync()
     {
         try
