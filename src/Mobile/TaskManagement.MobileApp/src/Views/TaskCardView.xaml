@@ -44,9 +44,11 @@
 
             <Border Grid.Column="2"
                     Grid.Row="1"
-                    Style="{StaticResource DateBorder}">
+                    Style="{StaticResource DateBorder}"
+                    BackgroundColor="{Binding DueDate, Converter={StaticResource DateToBackgroundColorConverter}}">
                 <Label Text="{Binding DueDate, StringFormat='{0:dd MMM yyyy}'}"
-                       Style="{StaticResource DateLabel}" />
+                       Style="{StaticResource DateLabel}"
+                       TextColor="{Binding DueDate, Converter={StaticResource DateToTextColorConverter}}" />
             </Border>
         </Grid>
     </Border>
