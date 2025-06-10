@@ -14,7 +14,7 @@ public class UserTaskCreateDtoValidator : AbstractValidator<CreateUserTask>
 
         RuleFor(x => x.DueDate)
             .NotEmpty()
-            .GreaterThan(DateTime.UtcNow).WithMessage("Due date must be in the future.");
+            .GreaterThanOrEqualTo(DateTime.Today).WithMessage("Due date must be in the future. Or Today.");
 
         RuleFor(x => x.Title)
             .NotEmpty()
