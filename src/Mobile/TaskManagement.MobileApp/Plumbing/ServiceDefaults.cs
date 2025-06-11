@@ -18,6 +18,8 @@ public static class ServiceDefaults
     public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddSingleton<AuthenticatedEndpointExecutor>();
+        
         var settings = configuration.GetRequiredSection("ApiSettings").Get<ApiSettings>();
         services.AddSingleton(new ApiClientConfig { BaseUrl = settings!.BaseUrl });
         services.RegisterClients();

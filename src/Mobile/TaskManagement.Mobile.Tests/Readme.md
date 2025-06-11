@@ -47,6 +47,7 @@ This guide explains how to set up and run the UI tests for the TaskManagement.Mo
 1. **Ensure the Emulator and API are Running**
    - Start the Android emulator and confirm the app is installed and can be launched.
    - Make sure the backend API is running and accessible, and all tables are seeded.
+   - You should also be authenticated. So the user should be on the main task overview.
 
 2. **Set Environment Variables (Optional)**
    - If Appium is not running on the default `http://127.0.0.1:4723/`, set the `APPIUM_HOST` environment variable.
