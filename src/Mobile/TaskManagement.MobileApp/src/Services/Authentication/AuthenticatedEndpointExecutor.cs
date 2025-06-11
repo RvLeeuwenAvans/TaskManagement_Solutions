@@ -16,9 +16,10 @@ public class AuthenticatedEndpointExecutor(IAuthRepository authRepository)
         catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
         {
             AuthRepository.Logout();
-            await Shell.Current.GoToAsync("//LoginPage");
-            throw;
+            await Shell.Current.GoToAsync("//Login");
         }
+
+        throw new Exception("Unexpected flow during logout");
     }
 
     public async Task Execute(Func<Task> action)
@@ -30,7 +31,7 @@ public class AuthenticatedEndpointExecutor(IAuthRepository authRepository)
         catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
         {
             AuthRepository.Logout();
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("//Login");
         }
     }
 }
