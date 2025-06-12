@@ -10,13 +10,13 @@
     Title="TaskManagement.MobileApp"
     TitleColor="{StaticResource White}"
     ForegroundColor="{OnPlatform Default={StaticResource White}, WinUI={StaticResource Black}}">
-    <!-- WinUI needs to have this behavior explicitly defined so here it is -->
+    <!-- WinUI needs to have this behavior explicitly defined, so here it is -->
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="{OnPlatform WinUI=True}" />
     </Shell.BackButtonBehavior>
     <ShellContent
         ContentTemplate="{DataTemplate pages:LoginPage}"
-        Route="Login" />
+        Route="LoginPage" />
     <ShellContent
         ContentTemplate="{DataTemplate pages:OverviewPage}"
         Route="OverviewPage" />

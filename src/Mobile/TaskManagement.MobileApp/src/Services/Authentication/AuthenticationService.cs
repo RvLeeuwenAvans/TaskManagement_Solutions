@@ -4,7 +4,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Authentication;
 
-public class AuthService(IUserContext userContext, IAuthRepository authRepository, IUserRepository userRepository)
+public class AuthenticationService(IUserContext userContext, IAuthRepository authRepository, IUserRepository userRepository)
 {
     /**
      * Will return true if the user is authenticated, false otherwise.
@@ -26,16 +26,20 @@ public class AuthService(IUserContext userContext, IAuthRepository authRepositor
 
     private async Task SetUserContextFromJwt(string jwtToken)
     {
+        userContext.UserId = ParseJwtToken(jwtToken);
+        var user = await userRepository.GetUserById(userContext.UserId);
+        userContext.OfficeId = user.OfficeId;
+    }
+    
+    private static Guid ParseJwtToken(string jwtToken)
+    {
         var handler = new JwtSecurityTokenHandler();
         var jwt = handler.ReadJwtToken(jwtToken);
-
-        var userIdClaim = jwt.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Sub);
+        var userIdClaim = jwt.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
 
         if (userIdClaim == null)
             throw new Exception("UserId not found");
 
-        userContext.UserId = Guid.Parse(userIdClaim.Value);
-        var user = await userRepository.GetUserById(userContext.UserId);
-        userContext.OfficeId = user.OfficeId;
+        return Guid.Parse(userIdClaim.Value);
     }
 }

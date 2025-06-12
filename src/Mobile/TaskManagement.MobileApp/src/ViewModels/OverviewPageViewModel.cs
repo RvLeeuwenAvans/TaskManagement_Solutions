@@ -37,12 +37,13 @@ public partial class OverviewPageViewModel : ObservableObject
         WeakReferenceMessenger.Default.Register<TaskAddedMessage>(this, void (_, _) => { InitializeAsync(); });
         WeakReferenceMessenger.Default.Register<TaskEditedMessage>(this, void (_, _) => { InitializeAsync(); });
         WeakReferenceMessenger.Default.Register<TaskClosedMessage>(this, void (_, _) => { InitializeAsync(); });
+        WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this, void (_, _) => { InitializeAsync(); });
         WeakReferenceMessenger.Default.Register<TypeFilterSelectedMessage>(this,
             (_, filter) => { FilterByTaskTypeCommand.Execute(filter.Value); });
-        
+
         InitializeAsync();
     }
-    
+
     private async void InitializeAsync()
     {
         try

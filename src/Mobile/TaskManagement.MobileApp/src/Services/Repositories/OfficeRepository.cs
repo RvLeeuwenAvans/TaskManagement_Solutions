@@ -5,7 +5,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Repositories;
 
-public class OfficeRepository(OfficeClient client, AuthenticatedEndpointExecutor executor) : IOfficeRepository
+public class OfficeRepository(OfficeClient client, AuthenticatedRequestExecutor executor) : IOfficeRepository
 {
     public async Task<OfficeResponse> GetOfficeById(Guid officeId)
     {

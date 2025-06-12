@@ -126,44 +126,16 @@ namespace TaskManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "LinkedObjects",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    TaskId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    RelationId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    DamageClaimId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    InsuranceId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LinkedObjects", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LinkedObjects_DamageClaims_DamageClaimId",
-                        column: x => x.DamageClaimId,
-                        principalTable: "DamageClaims",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_LinkedObjects_InsurancePolicies_InsuranceId",
-                        column: x => x.InsuranceId,
-                        principalTable: "InsurancePolicies",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_LinkedObjects_Relations_RelationId",
-                        column: x => x.RelationId,
-                        principalTable: "Relations",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Tasks",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Title = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatorName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     LinkedObjectId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
@@ -172,14 +144,49 @@ namespace TaskManagement.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Tasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tasks_LinkedObjects_LinkedObjectId",
-                        column: x => x.LinkedObjectId,
-                        principalTable: "LinkedObjects",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Tasks_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "LinkedObjects",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TaskId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RelationId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    DamageClaimId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    InsurancePolicyId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LinkedObjects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LinkedObjects_DamageClaims_DamageClaimId",
+                        column: x => x.DamageClaimId,
+                        principalTable: "DamageClaims",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LinkedObjects_InsurancePolicies_InsurancePolicyId",
+                        column: x => x.InsurancePolicyId,
+                        principalTable: "InsurancePolicies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LinkedObjects_Relations_RelationId",
+                        column: x => x.RelationId,
+                        principalTable: "Relations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LinkedObjects_Tasks_TaskId",
+                        column: x => x.TaskId,
+                        principalTable: "Tasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -235,9 +242,9 @@ namespace TaskManagement.Infrastructure.Migrations
                 column: "DamageClaimId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LinkedObjects_InsuranceId",
+                name: "IX_LinkedObjects_InsurancePolicyId",
                 table: "LinkedObjects",
-                column: "InsuranceId");
+                column: "InsurancePolicyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LinkedObjects_RelationId",
@@ -273,11 +280,6 @@ namespace TaskManagement.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_LinkedObjectId",
-                table: "Tasks",
-                column: "LinkedObjectId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_UserId",
                 table: "Tasks",
                 column: "UserId");
@@ -292,48 +294,16 @@ namespace TaskManagement.Infrastructure.Migrations
                 name: "IX_Users_OfficeId",
                 table: "Users",
                 column: "OfficeId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_LinkedObjects_Tasks_TaskId",
-                table: "LinkedObjects",
-                column: "TaskId",
-                principalTable: "Tasks",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_DamageClaims_Relations_RelationId",
-                table: "DamageClaims");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_InsurancePolicies_Relations_RelationId",
-                table: "InsurancePolicies");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_LinkedObjects_Relations_RelationId",
-                table: "LinkedObjects");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_LinkedObjects_DamageClaims_DamageClaimId",
-                table: "LinkedObjects");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_LinkedObjects_InsurancePolicies_InsuranceId",
-                table: "LinkedObjects");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_LinkedObjects_Tasks_TaskId",
-                table: "LinkedObjects");
+            migrationBuilder.DropTable(
+                name: "LinkedObjects");
 
             migrationBuilder.DropTable(
                 name: "Notes");
-
-            migrationBuilder.DropTable(
-                name: "Relations");
 
             migrationBuilder.DropTable(
                 name: "DamageClaims");
@@ -345,7 +315,7 @@ namespace TaskManagement.Infrastructure.Migrations
                 name: "Tasks");
 
             migrationBuilder.DropTable(
-                name: "LinkedObjects");
+                name: "Relations");
 
             migrationBuilder.DropTable(
                 name: "Users");

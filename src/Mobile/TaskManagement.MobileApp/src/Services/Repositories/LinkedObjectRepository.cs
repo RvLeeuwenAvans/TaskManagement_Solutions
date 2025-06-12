@@ -5,7 +5,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Repositories;
 
-public class LinkedObjectRepository(LinkedObjectClient client, AuthenticatedEndpointExecutor executor) : ILinkedObjectRepository
+public class LinkedObjectRepository(LinkedObjectClient client, AuthenticatedRequestExecutor executor) : ILinkedObjectRepository
 {
     public async Task<LinkedObjectResponse> CreateLinkedObjectAsync(CreateLinkedObject dto)
     {

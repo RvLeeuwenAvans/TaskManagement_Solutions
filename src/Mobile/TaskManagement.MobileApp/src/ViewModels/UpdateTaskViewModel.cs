@@ -74,7 +74,7 @@ public partial class UpdateTaskViewModel(
         var success = await FormViewModel.SaveTaskAsync();
         if (success)
         {
-            WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
+            WeakReferenceMessenger.Default.Send(new TaskEditedMessage(true));
             await Shell.Current.Navigation.PopAsync();
         }
     }

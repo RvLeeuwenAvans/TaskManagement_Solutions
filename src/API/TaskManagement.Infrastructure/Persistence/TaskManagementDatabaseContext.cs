@@ -34,7 +34,6 @@ public class TaskManagementDatabaseContext(DbContextOptions<TaskManagementDataba
             .HasForeignKey(u => u.OfficeId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        
         modelBuilder.Entity<Relation>()
             .HasOne(r => r.Office)
             .WithMany(o => o.Relations)
@@ -55,19 +54,19 @@ public class TaskManagementDatabaseContext(DbContextOptions<TaskManagementDataba
         
         modelBuilder.Entity<LinkedObject>()
             .HasOne(lo => lo.Relation)
-            .WithMany()
+            .WithMany(r => r.LinkedObjects)
             .HasForeignKey(lo => lo.RelationId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<LinkedObject>()
             .HasOne(lo => lo.InsurancePolicy)
-            .WithMany()
+            .WithMany(i => i.LinkedObjects)
             .HasForeignKey(lo => lo.InsurancePolicyId)
             .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<LinkedObject>()
             .HasOne(lo => lo.DamageClaim)
-            .WithMany()
+            .WithMany(d => d.LinkedObjects)
             .HasForeignKey(lo => lo.DamageClaimId)
             .OnDelete(DeleteBehavior.Cascade);
         

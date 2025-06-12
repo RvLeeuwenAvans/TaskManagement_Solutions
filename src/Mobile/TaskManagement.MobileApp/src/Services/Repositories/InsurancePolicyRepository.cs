@@ -5,7 +5,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Repositories;
 
-public class InsurancePolicyRepository(InsurancePolicyClient client, AuthenticatedEndpointExecutor executor) : IPolicyRepository
+public class InsurancePolicyRepository(InsurancePolicyClient client, AuthenticatedRequestExecutor executor) : IPolicyRepository
 {
     public async Task<InsurancePolicyResponse> GetInsurancePolicyAsync(Guid policyId)
     {

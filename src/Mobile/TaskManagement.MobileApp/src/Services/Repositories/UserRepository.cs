@@ -5,7 +5,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Repositories;
 
-public class UserRepository(UserClient client, AuthenticatedEndpointExecutor executor) : IUserRepository
+public class UserRepository(UserClient client, AuthenticatedRequestExecutor executor) : IUserRepository
 {
     public async Task<UserResponse> GetUserById(Guid userId)
     {

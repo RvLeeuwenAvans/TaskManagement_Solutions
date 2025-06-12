@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Domain.Office.User.Task.LinkedObject;
 
 namespace TaskManagement.Domain.Office.Relation.InsurancePolicy;
 
@@ -11,21 +12,18 @@ namespace TaskManagement.Domain.Office.Relation.InsurancePolicy;
 public class InsurancePolicy
 {
     [Key] public Guid Id { get; init; } = Guid.NewGuid();
-    
+
     // non mutable; generated in database; to simulate existing logic.
     [MaxLength(50)]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int PolicyNumber { get; private set; } = new Random().Next(1, 1000);
-    
-    [Required]
-    [MaxLength(100)]
-    public required string Type { get; set; }
-    
-    // Parent Foreign key attributes:
-    [Required]
-    public Guid RelationId { get; init; }
-    
-    [ForeignKey("RelationId")]
-    public virtual required Relation Relation { get; init; }
 
+    [Required] [MaxLength(100)] public required string Type { get; set; }
+
+    // Parent Foreign key attributes:
+    [Required] public Guid RelationId { get; init; }
+
+    [ForeignKey("RelationId")] public virtual required Relation Relation { get; init; }
+
+    public virtual ICollection<LinkedObject> LinkedObjects { get; set; } = new List<LinkedObject>();
 }

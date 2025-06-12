@@ -5,7 +5,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Repositories;
 
-public class DamageClaimRepository(DamageClaimClient client, AuthenticatedEndpointExecutor executor) : IDamageClaimRepository
+public class DamageClaimRepository(DamageClaimClient client, AuthenticatedRequestExecutor executor) : IDamageClaimRepository
 {
     public async Task<DamageClaimResponse> GetDamageClaimAsync(Guid damageClaimId)
     {

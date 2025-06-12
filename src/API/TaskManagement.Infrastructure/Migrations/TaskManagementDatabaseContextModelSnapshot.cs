@@ -304,17 +304,17 @@ namespace TaskManagement.Infrastructure.Migrations
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.LinkedObject.LinkedObject", b =>
                 {
                     b.HasOne("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", "DamageClaim")
-                        .WithMany()
+                        .WithMany("LinkedObjects")
                         .HasForeignKey("DamageClaimId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", "InsurancePolicy")
-                        .WithMany()
+                        .WithMany("LinkedObjects")
                         .HasForeignKey("InsurancePolicyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TaskManagement.Domain.Office.Relation.Relation", "Relation")
-                        .WithMany()
+                        .WithMany("LinkedObjects")
                         .HasForeignKey("RelationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -373,11 +373,23 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.DamageClaim.DamageClaim", b =>
+                {
+                    b.Navigation("LinkedObjects");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Office.Relation.InsurancePolicy.InsurancePolicy", b =>
+                {
+                    b.Navigation("LinkedObjects");
+                });
+
             modelBuilder.Entity("TaskManagement.Domain.Office.Relation.Relation", b =>
                 {
                     b.Navigation("DamageClaims");
 
                     b.Navigation("InsurancePolicies");
+
+                    b.Navigation("LinkedObjects");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Office.User.Task.UserTask", b =>

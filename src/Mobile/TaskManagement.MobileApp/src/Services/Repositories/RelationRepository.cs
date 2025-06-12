@@ -5,7 +5,7 @@ using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services.Repositories;
 
-public class RelationRepository(RelationClient client, AuthenticatedEndpointExecutor executor) : IRelationRepository
+public class RelationRepository(RelationClient client, AuthenticatedRequestExecutor executor) : IRelationRepository
 {
     public async Task<RelationResponse> GetRelationAsync(Guid relationId)
     {
