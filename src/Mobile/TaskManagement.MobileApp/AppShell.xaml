@@ -26,4 +26,7 @@
     <ShellContent
         ContentTemplate="{DataTemplate pages:UpdateTaskPage}"
         Route="UpdateTaskPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:TaskDetailsPage}"
+        Route="TaskDetails" />
 </Shell>

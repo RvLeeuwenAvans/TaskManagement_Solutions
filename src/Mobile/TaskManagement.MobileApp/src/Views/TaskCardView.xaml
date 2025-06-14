@@ -7,6 +7,9 @@
              x:DataType="viewModels:TaskCardViewModel">
 
     <Border Style="{StaticResource CardBorder}">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding NavigateToTaskDetailsCommand}" />
+        </Border.GestureRecognizers>
         <Grid ColumnDefinitions="Auto,*,Auto,Auto"
               RowDefinitions="*,Auto"
               ColumnSpacing="8"

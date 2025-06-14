@@ -73,6 +73,9 @@
       <MauiXaml Update="Views\Pages\OverviewPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="src\Views\Controls\RoundedTopShadowView.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -81,6 +84,10 @@
         <SubType>Code</SubType>
       </Compile>
       <Compile Remove="src\ViewModels\messages\AuthenticatedMessage.cs" />
+      <Compile Update="src\Views\Controls\RoundedTopShadowView.xaml.cs">
+        <DependentUpon>TopShadowViewRounded.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
