@@ -2,23 +2,18 @@
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
-using TaskManagement.MobileApp.Services.Authentication;
 using TaskManagement.MobileApp.Services.Helpers.Builders;
 using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
 namespace TaskManagement.MobileApp.Services;
 
-//todo: remove auth service
 public class TaskService(
     IUserContext userContext,
     ITaskRepository taskRepository,
-    LinkedObjectService linkedObjectService,
-    AuthService authService)
+    LinkedObjectService linkedObjectService)
 {
     public async Task<List<UserTaskCardItem>> GetCurrentUserTasksAsync()
     {
-        await authService.AuthenticateUser("jane.smith@example.com", "hashedpassword23");
-
         var userTasks = await taskRepository.GetTasksAsync(userContext.UserId);
         return userTasks.Select(task => TaskCardModelBuilder.From(task).Build()).ToList();
     }

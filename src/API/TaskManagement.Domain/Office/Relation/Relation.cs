@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Domain.Office.User.Task.LinkedObject;
 
 namespace TaskManagement.Domain.Office.Relation;
 
@@ -16,18 +17,13 @@ public class Relation
     [MaxLength(50)]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int RelationNumber { get; private set; } = new Random().Next(1, 1000);
-    
-    [Required]
-    [MaxLength(50)]
-    public required string FirstName { get; set; }
-    
-    [Required]
-    [MaxLength(50)]
-    public required string LastName { get; set; }
-    
+
+    [Required] [MaxLength(50)] public required string FirstName { get; set; }
+
+    [Required] [MaxLength(50)] public required string LastName { get; set; }
+
     // Parent Foreign key attributes:
-    [Required]
-    public Guid OfficeId { get; init; }
+    [Required] public Guid OfficeId { get; init; }
 
     [ForeignKey("OfficeId")] public virtual required Office Office { get; init; }
 
@@ -37,4 +33,6 @@ public class Relation
 
     public virtual ICollection<DamageClaim.DamageClaim> DamageClaims { get; set; } =
         new List<DamageClaim.DamageClaim>();
+
+    public virtual ICollection<LinkedObject> LinkedObjects { get; set; } = new List<LinkedObject>();
 }

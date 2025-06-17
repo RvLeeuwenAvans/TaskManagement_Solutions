@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskManagement.MobileApp.Views.Pages.LoginPage"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
+             xmlns:controls="clr-namespace:TaskManagement.MobileApp.Views.Controls"
+             x:DataType="viewModels:LoginViewModel"
+             BackgroundColor="{StaticResource LightGray}">
+    <Shell.TitleView>
+        <Label Text="Inloggen" Style="{StaticResource TitleHeaderLabel}" />
+    </Shell.TitleView>
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- just a spacer; has no use here besides looking pretty -->
+        <BoxView Grid.Row="0"
+                 HeightRequest="20"
+                 BackgroundColor="{StaticResource PrimaryDark}"
+                 HorizontalOptions="FillAndExpand" />
+        <Grid Grid.Row="1">
+            <!-- Loader -->
+            <StackLayout
+                IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Spacing="10">
+                <ActivityIndicator IsRunning="True" />
+            </StackLayout>
+            <!-- Login Form -->
+            <VerticalStackLayout Padding="25, 0"
+                                 Spacing="16"
+                                 VerticalOptions="Center"
+                                 IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter='Success,Error'}">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Email:" Style="{StaticResource LabelHeader}" />
+                    <Grid>
+                        <Entry x:Name="EmailEntry"
+                               Keyboard="Email"
+                               Style="{StaticResource BaseEntry}"
+                               Text="{Binding Email}"
+                               Placeholder="Email..." />
+                        <controls:TopShadowView />
+                    </Grid>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Wachtwoord:" Style="{StaticResource LabelHeader}" />
+                    <Grid>
+                        <Entry x:Name="PasswordEntry"
+                               Keyboard="Password"
+                               Style="{StaticResource BaseEntry}"
+                               Text="{Binding Password}"
+                               Placeholder="Wachtwoord..." />
+                        <controls:TopShadowView />
+                    </Grid>
+                </VerticalStackLayout>
+                <StackLayout
+                    IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Error}"
+                    Style="{StaticResource StateStack}">
+                    <Label Text="{Binding ErrorMessage}"
+                           Style="{StaticResource ErrorLabel}" />
+                </StackLayout>
+                <Button Text="Inloggen"
+                        Command="{Binding LoginCommand}"
+                        Style="{StaticResource PrimaryActionButton}"
+                        Margin="0,20" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

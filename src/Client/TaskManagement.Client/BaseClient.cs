@@ -18,8 +18,11 @@ public abstract class BaseClient
         _httpClient = httpClient;
         _jsonOptions = config.JsonOptions;
 
-        _httpClient.BaseAddress = new Uri(config.BaseUrl);
-        SetAuthToken(config.AuthToken);
+        if (_httpClient.BaseAddress == null)
+            _httpClient.BaseAddress = new Uri(config.BaseUrl);
+
+        if (config.AuthToken is not null)
+            SetAuthToken(config.AuthToken);
     }
 
     protected void SetAuthToken(string? token) =>

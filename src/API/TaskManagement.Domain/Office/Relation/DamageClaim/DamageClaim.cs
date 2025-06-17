@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Domain.Office.User.Task.LinkedObject;
 
 namespace TaskManagement.Domain.Office.Relation.DamageClaim;
 
@@ -28,4 +29,6 @@ public class DamageClaim
     [Required] public Guid RelationId { get; init; }
 
     [ForeignKey("RelationId")] public virtual required Relation Relation { get; init; }
+
+    public virtual ICollection<LinkedObject> LinkedObjects { get; set; } = new List<LinkedObject>();
 }
