@@ -16,17 +16,8 @@
     </Shell.BackButtonBehavior>
     <ShellContent
         ContentTemplate="{DataTemplate pages:LoginPage}"
-        Route="LoginPage" />
+        Route="Login" />
     <ShellContent
         ContentTemplate="{DataTemplate pages:OverviewPage}"
-        Route="OverviewPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate pages:AddTaskPage}"
-        Route="AddTaskPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate pages:UpdateTaskPage}"
-        Route="UpdateTaskPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate pages:TaskDetailsPage}"
-        Route="TaskDetails" />
+        Route="Overview" />
 </Shell>

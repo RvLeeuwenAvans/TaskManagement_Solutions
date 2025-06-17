@@ -38,7 +38,7 @@
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
                 <ImageButton Style="{StaticResource CardIconButton}" AutomationId="EditTaskButton"
-                             Source="edit_icon.png" Scale="0.6"
+                             Source="edit_icon_grey.png" Scale="0.6"
                              Command="{Binding NavigateToUpdateTaskCommand}" />
                 <ImageButton Style="{StaticResource CardIconButton}" AutomationId="CloseTaskButton"
                              Source="check_icon.png" Scale="0.7"

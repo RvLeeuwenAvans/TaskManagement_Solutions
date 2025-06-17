@@ -33,7 +33,7 @@ public partial class LoginViewModel(AuthenticationService authenticationService)
             if (success)
             {
                 WeakReferenceMessenger.Default.Send(new UserAuthenticatedMessage(true));
-                await Shell.Current.GoToAsync("///OverviewPage");
+                await Shell.Current.GoToAsync("//Overview");
             }
             else
             {

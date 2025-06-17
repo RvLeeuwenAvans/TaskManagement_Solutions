@@ -7,6 +7,6 @@ public class SessionManager(IAuthRepository authRepository)
     public async Task InvalidateSessionAsync()
     {
         authRepository.Logout();
-        await Shell.Current.GoToAsync("///LoginPage");
+        await Shell.Current.GoToAsync("//Login");
     }
 }

@@ -13,10 +13,9 @@
         <Label Text="Taak:"
                Style="{StaticResource NavHeaderLabel}" />
     </Shell.TitleView>
-    <Grid RowDefinitions="Auto, *">
+    <VerticalStackLayout>
         <!-- Spacer with task name and edit button -->
-        <Grid Grid.Row="0"
-              BackgroundColor="{StaticResource PrimaryDark}"
+        <Grid BackgroundColor="{StaticResource PrimaryDark}"
               HorizontalOptions="FillAndExpand"
               Padding="16,8">
             <Grid.ColumnDefinitions>
@@ -25,16 +24,18 @@
             </Grid.ColumnDefinitions>
             <Label Text="{Binding TaskTitle}"
                    Style="{StaticResource SubheaderText}"
-                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalOptions="Center"
                    VerticalOptions="Center" />
-            <ImageButton Source="edit_icon.png"
+            <ImageButton Source="edit_icon_white.png"
                          Grid.Column="1"
                          BackgroundColor="Transparent"
                          WidthRequest="28"
                          HeightRequest="28"
                          VerticalOptions="Center"
                          HorizontalOptions="End"
-                         Command="{Binding EditTaskCommand}" />
+                         Scale="0.7"
+                         Command="{Binding NavigateToUpdateTaskCommand}" />
         </Grid>
         <!-- Darker gray container -->
         <Border BackgroundColor="#E0E0E0"
@@ -119,7 +120,8 @@
                                TextColor="#2E2E2E"
                                FontSize="18"
                                FontAttributes="Bold"
-                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               HorizontalOptions="Center"
                                VerticalOptions="Center" />
                         <Button Text="+"
                                 Grid.Column="1"
@@ -134,7 +136,7 @@
             </VerticalStackLayout>
         </Border>
         <!-- Main content -->
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="2">
             <!-- Notes List -->
             <CollectionView ItemsSource="{Binding Notes}"
                             SelectionMode="None"
@@ -146,5 +148,5 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </ScrollView>
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>

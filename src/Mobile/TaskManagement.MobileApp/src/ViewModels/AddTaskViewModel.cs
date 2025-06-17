@@ -23,7 +23,7 @@ namespace TaskManagement.MobileApp.ViewModels
             if (await FormViewModel.SaveTaskAsync())
             {
                 WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
-                await Shell.Current.Navigation.PopAsync();
+                await Shell.Current.GoToAsync("//Overview");
             }
         }
     }

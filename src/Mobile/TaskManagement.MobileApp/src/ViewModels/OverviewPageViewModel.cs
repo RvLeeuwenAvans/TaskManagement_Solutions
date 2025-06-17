@@ -92,7 +92,7 @@ public partial class OverviewPageViewModel : ObservableObject
     [RelayCommand]
     private static async Task NavigateToAddTask()
     {
-        await Shell.Current.GoToAsync("AddTaskPage");
+        await Shell.Current.GoToAsync("task/add");
     }
 
     [RelayCommand]

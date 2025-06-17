@@ -38,13 +38,13 @@ public partial class TaskCardViewModel(
     [RelayCommand]
     private async Task NavigateToUpdateTask()
     {
-        await Shell.Current.GoToAsync($"UpdateTaskPage?taskId={Model.Id}");
+        await Shell.Current.GoToAsync($"task/edit?taskId={Model.Id}");
     }
     
     
     [RelayCommand]
     private async Task NavigateToTaskDetails()
     {
-        await Shell.Current.GoToAsync($"TaskDetailsPage?taskId={Model.Id}");
+        await Shell.Current.GoToAsync($"task/details?taskId={Model.Id}");
     }
 }

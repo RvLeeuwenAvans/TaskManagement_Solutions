@@ -25,7 +25,6 @@ public partial class UpdateTaskViewModel(
     [ObservableProperty] private TaskFormViewModel? _formViewModel;
     [ObservableProperty] private ViewState _currentState = ViewState.Loading;
 
-
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.TryGetValue("taskId", out var value))
@@ -75,7 +74,16 @@ public partial class UpdateTaskViewModel(
         if (success)
         {
             WeakReferenceMessenger.Default.Send(new TaskEditedMessage(true));
-            await Shell.Current.Navigation.PopAsync();
+
+            // either go back to the taskdetails page if possible or overview page
+            if (Shell.Current.Navigation.NavigationStack.Count > 1)
+            {
+                await Shell.Current.Navigation.PopAsync();
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("//Overview");
+            }
         }
     }
 
@@ -93,7 +101,8 @@ public partial class UpdateTaskViewModel(
                 if (success)
                 {
                     WeakReferenceMessenger.Default.Send(new TaskClosedMessage(true));
-                    await Shell.Current.Navigation.PopAsync();
+                    // always back to overview after deletion. unlike on edit as the taskdetails should now be avaiable anymore.
+                    await Shell.Current.GoToAsync("//Overview");
                 }
                 else
                 {
