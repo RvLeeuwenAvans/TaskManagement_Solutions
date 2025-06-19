@@ -1,16 +1,15 @@
-﻿using TaskManagement.MobileApp.ViewModels;
+﻿using TaskManagement.MobileApp.Models.Interfaces;
+using TaskManagement.MobileApp.Services;
+using TaskManagement.MobileApp.ViewModels;
 
 namespace TaskManagement.MobileApp.Views.Pages;
 
 public partial class TaskDetailsPage : ContentPage
 {
-    public TaskDetailsPage()
+    public TaskDetailsPage(IUserContext userContext, TaskService taskService, LinkedObjectService linkedObjectService)
     {
-        InitializeComponent();
-    }
 
-    public TaskDetailsPage(TaskDetailsViewModel viewModel) : this()
-    {
-        BindingContext = viewModel;
+        InitializeComponent();
+        BindingContext = new TaskDetailsViewModel(taskService, linkedObjectService, userContext);
     }
 }

@@ -1,48 +1,111 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using TaskManagement.MobileApp.Models.Collections;
+using TaskManagement.MobileApp.Models.Interfaces;
+using TaskManagement.MobileApp.Services;
+using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
-public partial class TaskDetailsViewModel : ObservableObject
+public partial class TaskDetailsViewModel(
+    TaskService taskService,
+    LinkedObjectService linkedObjectService,
+    IUserContext userContext)
+    : ObservableObject, IQueryAttributable
 {
-    [ObservableProperty]
-    private string _taskTitle = "Foto toevoegen";
+    private readonly TaskService _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
 
-    [ObservableProperty]
-    private string _deadlineText = "Deadline: 15-7-2024";
+    private readonly LinkedObjectService _linkedObjectService =
+        linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
-    [ObservableProperty]
-    private string _description = "Voeg sub foto's toe voor de inbedel op deze relatie 👍";
+    private readonly IUserContext _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
 
-    [ObservableProperty]
-    private string _relationName = "Henk van de takkenboom";
+    private Guid _taskId;
 
-    [ObservableProperty]
-    private ObservableCollection<NoteItemViewModel> _notes = [];
-    
-    public static void ApplyQueryAttributes(IDictionary<string, object> query)
+    [ObservableProperty] private ViewState _currentState = ViewState.Loading;
+
+    [ObservableProperty] private string? _taskTitle;
+
+    [ObservableProperty] private string? _description;
+
+    [ObservableProperty] private DateTime? _dueDate;
+
+    [ObservableProperty] private LinkedObjectItem? _linkedObject;
+
+    [ObservableProperty] private ObservableCollection<NoteItemViewModel> _notes = [];
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.TryGetValue("taskId", out var value))
         {
-            var taskId = int.Parse(value.ToString() ?? string.Empty);
-            // Load task details
+            var taskIdString = value.ToString();
+            if (Guid.TryParse(taskIdString, out var taskId))
+            {
+                _taskId = taskId;
+                _ = Task.Run(InitializeAsync);
+            }
+            else
+            {
+                CurrentState = ViewState.Error;
+            }
+        }
+        else
+        {
+            CurrentState = ViewState.Error;
         }
     }
 
-    public TaskDetailsViewModel()
+    private async void InitializeAsync()
     {
-        LoadSampleData();
+        try
+        {
+            CurrentState = ViewState.Loading;
+
+            var task = await _taskService.GetTaskByIdAsync(_taskId);
+
+            TaskTitle = task.Title;
+            Description = task.Description ?? "No description provided.";
+            DueDate = task.DueDate;
+            if (task.LinkedObject != null)
+                LinkedObject = await _linkedObjectService.GetLinkedObjectByResponse(task.LinkedObject);
+            // Load notes
+            await LoadNotesAsync();
+
+            CurrentState = ViewState.Success;
+        }
+        catch (Exception ex)
+        {
+            // Log the exception if you have logging
+            CurrentState = ViewState.Error;
+        }
     }
 
-    private void LoadSampleData()
+    private async Task LoadNotesAsync()
     {
-        Notes.Add(new NoteItemViewModel
+        try
         {
-            Id = 1,
-            Content = "Relatie zal foto's nog mailen",
-            CanDelete = true
-        });
+            // Assuming you have a method to get notes for a task
+            // If not, you might need to add this to your TaskService
+            var notes = await _taskService.GetNotesByTaskIdAsync(_taskId);
+
+            Notes.Clear();
+            foreach (var note in notes)
+            {
+                Notes.Add(new NoteItemViewModel
+                {
+                    Id = note.Id,
+                    Content = note.Content,
+                    CreatedAt = note.CreatedAt,
+                });
+            }
+        }
+        catch
+        {
+            // Handle notes loading error silently or show a message
+            // For now, just clear notes if there's an error
+            Notes.Clear();
+        }
     }
 
     [RelayCommand]
@@ -52,56 +115,80 @@ public partial class TaskDetailsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task EditTask()
+    private async Task NavigateToUpdateTask()
     {
-        // Navigate to edit task page or show edit dialog
-        await Shell.Current.DisplayAlert("Edit", "Edit task functionality", "OK");
+        await Shell.Current.GoToAsync($"task/edit?taskId={_taskId}");
     }
 
     [RelayCommand]
     private async Task AddNote()
     {
-        string result = await Shell.Current.DisplayPromptAsync(
-            "Nieuwe Notitie", 
-            "Voer de notitie in:", 
-            "Toevoegen", 
-            "Annuleren", 
+        var result = await Shell.Current.DisplayPromptAsync(
+            "Nieuwe Notitie",
+            "Voer de notitie in:",
+            "Toevoegen",
+            "Annuleren",
             placeholder: "Notitie tekst...");
 
         if (!string.IsNullOrWhiteSpace(result))
         {
-            var newNote = new NoteItemViewModel
+            try
             {
-                Id = Notes.Count + 1,
-                Content = result,
-                CanDelete = true
-            };
+                // Assuming you have a method to add notes to a task
+                var success = await _taskService.CreateNoteAsync(_taskId, result);
 
-            Notes.Add(newNote);
+                if (success)
+                {
+                    // Reload notes to get the updated list with proper IDs
+                    await LoadNotesAsync();
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Fout", "Notitie kon niet worden toegevoegd.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Fout", $"Fout bij toevoegen notitie: {ex.Message}", "OK");
+            }
         }
     }
 
     [RelayCommand]
-    private void DeleteNote(NoteItemViewModel note)
+    private async Task DeleteNote(NoteItemViewModel note)
     {
-        if (Notes.Contains(note))
+        try
         {
-            Notes.Remove(note);
+            var confirmed = await Shell.Current.DisplayAlert("Bevestigen",
+                "Weet je zeker dat je deze notitie wilt verwijderen?", "Ja", "Nee");
+
+            if (confirmed)
+            {
+                // Assuming you have a method to delete notes
+                var success = await _taskService.DeleteNoteIdAsync(note.Id);
+
+                if (success)
+                {
+                    Notes.Remove(note);
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Fout", "Notitie kon niet worden verwijderd.", "OK");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Fout", $"Fout bij verwijderen notitie: {ex.Message}", "OK");
         }
     }
 }
 
 public partial class NoteItemViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private int _id;
+    [ObservableProperty] private Guid _id;
 
-    [ObservableProperty]
-    private string _content = string.Empty;
+    [ObservableProperty] private string _content = string.Empty;
 
-    [ObservableProperty]
-    private bool _canDelete = true;
-
-    [ObservableProperty]
-    private DateTime _createdAt = DateTime.Now;
+    [ObservableProperty] private DateTime _createdAt = DateTime.Now;
 }

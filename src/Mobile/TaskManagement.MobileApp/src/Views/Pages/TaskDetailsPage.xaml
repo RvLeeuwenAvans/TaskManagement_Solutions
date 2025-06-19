@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:TaskManagement.MobileApp.Views.Controls"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
+             xmlns:models="clr-namespace:TaskManagement.MobileApp.Models"
              x:Class="TaskManagement.MobileApp.Views.Pages.TaskDetailsPage"
              x:DataType="viewModels:TaskDetailsViewModel"
              BackgroundColor="{StaticResource LightGray}">
@@ -16,8 +17,7 @@
     <VerticalStackLayout>
         <!-- Spacer with task name and edit button -->
         <Grid BackgroundColor="{StaticResource PrimaryDark}"
-              HorizontalOptions="FillAndExpand"
-              Padding="16,8">
+              HorizontalOptions="FillAndExpand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -51,7 +51,7 @@
                         StrokeShape="RoundRectangle 12"
                         HeightRequest="24"
                         VerticalOptions="Start">
-                    <Label Text="{Binding DeadlineText}"
+                    <Label Text="{Binding DueDate, StringFormat='Deadline: {0:dd MMM yyyy}'}"
                            TextColor="#6D4C00"
                            FontSize="12"
                            FontAttributes="Bold"
@@ -60,11 +60,12 @@
                            Padding="12,0" />
                 </Border>
                 <!-- Description Card -->
-                <Grid>
-                    <Border BackgroundColor="#FFE082"
-                            StrokeThickness="0"
-                            StrokeShape="Rectangle"
-                            Shadow="2,2,6, #55000000">
+                <Border BackgroundColor="#FFE082"
+                        StrokeThickness="0"
+                        StrokeShape="Rectangle"
+                        HeightRequest="150"
+                        Shadow="2,2,6, #55000000">
+                    <ScrollView>
                         <VerticalStackLayout Spacing="4" Padding="8">
                             <Label Text="Omschrijving:"
                                    TextColor="#6D4C00"
@@ -74,10 +75,10 @@
                                    TextColor="Black"
                                    FontSize="14" />
                         </VerticalStackLayout>
-                    </Border>
-                </Grid>
+                    </ScrollView>
+                </Border>
                 <!-- Relation Card with Top Inset Shadow -->
-                <Grid Margin="0,0,0,0">
+                <Grid Margin="0, 8, 0, 0">
                     <Border BackgroundColor="White"
                             Padding="12,8"
                             StrokeThickness="0"
@@ -89,7 +90,7 @@
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 20"
                                     VerticalOptions="Center">
-                                <Label Text="H"
+                                <Label Text="{Binding LinkedObject.Name[0], FallbackValue='X'}"
                                        TextColor="#2196F3"
                                        FontSize="20"
                                        FontAttributes="Bold"
@@ -97,11 +98,11 @@
                                        VerticalOptions="Center" />
                             </Border>
                             <VerticalStackLayout VerticalOptions="Center">
-                                <Label Text="Relatie:"
-                                       TextColor="Gray"
+                                <Label Text="Gerelateerd object:"
+                                       TextColor="{StaticResource TextGray}"
                                        FontSize="12" />
-                                <Label Text="{Binding RelationName}"
-                                       TextColor="#009444"
+                                <Label Text="{Binding LinkedObject.Name, FallbackValue='geen gekoppeld object'}"
+                                       TextColor="{Binding LinkedObject.Type, Converter={StaticResource TypeToColorConverter}, FallbackValue='{StaticResource TextGray}'}"
                                        FontSize="14"
                                        FontAttributes="Bold" />
                             </VerticalStackLayout>
@@ -135,15 +136,15 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </Border>
-        <!-- Main content -->
-        <ScrollView Grid.Row="2">
+        <!-- TODO: get scroll working -->
+        <ScrollView>
             <!-- Notes List -->
             <CollectionView ItemsSource="{Binding Notes}"
                             SelectionMode="None"
                             Margin="0,8,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:NoteItemViewModel">
-                        <views:NoteItemView />
+                        <views:NoteCardView />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

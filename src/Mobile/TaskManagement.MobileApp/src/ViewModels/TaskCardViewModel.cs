@@ -30,7 +30,7 @@ public partial class TaskCardViewModel(
     {
         if (await taskService.CloseTaskAsync(Model.Id))
         {
-            WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
+            WeakReferenceMessenger.Default.Send(new TaskClosedMessage(true));
             await Shell.Current.Navigation.PopAsync();
         }
     }
@@ -40,7 +40,6 @@ public partial class TaskCardViewModel(
     {
         await Shell.Current.GoToAsync($"task/edit?taskId={Model.Id}");
     }
-    
     
     [RelayCommand]
     private async Task NavigateToTaskDetails()

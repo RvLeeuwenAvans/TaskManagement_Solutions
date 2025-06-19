@@ -1,8 +1,8 @@
 ﻿namespace TaskManagement.MobileApp.Views;
 
-public partial class NoteItemView : ContentView
+public partial class NoteCardView : ContentView
 {
-    public NoteItemView()
+    public NoteCardView()
     {
         InitializeComponent();
     }

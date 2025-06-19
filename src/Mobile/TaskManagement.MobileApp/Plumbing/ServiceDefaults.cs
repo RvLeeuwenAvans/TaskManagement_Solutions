@@ -39,7 +39,8 @@ public static class ServiceDefaults
         services.AddSingleton<IOfficeRepository, OfficeRepository>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<OfficeService>();
-
+        
+        services.AddSingleton<INoteRepository, NoteRepository>();
         services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddSingleton<TaskService>();
 
