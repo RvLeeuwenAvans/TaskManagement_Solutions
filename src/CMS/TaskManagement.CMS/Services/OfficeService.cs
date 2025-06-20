@@ -16,14 +16,16 @@ public class OfficeService(OfficeClient officeClient, UserAuthenticationClient a
         return await officeClient.GetOfficeByIdAsync(id, cancellationToken);
     }
 
-    public async Task<OfficeResponse> CreateAsync(CreateOffice office, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(string name, CancellationToken cancellationToken = default)
     {
-        return await officeClient.CreateOfficeAsync(office, cancellationToken);
+        var dto = new CreateOffice { Name = name };
+        await officeClient.CreateOfficeAsync(dto, cancellationToken);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateOffice office, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, string name, CancellationToken cancellationToken = default)
     {
-        await officeClient.UpdateOfficeAsync(id, office, cancellationToken);
+        var dto = new UpdateOffice { Id = id, Name = name };
+        await officeClient.UpdateOfficeAsync(id, dto, cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
