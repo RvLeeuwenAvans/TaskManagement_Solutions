@@ -16,8 +16,7 @@ public class UserService(UserClient userClient)
         return await userClient.GetUserByIdAsync(id, cancellationToken);
     }
 
-    public async Task<UserResponse> CreateAsync(
-        Guid officeId,
+    public async Task CreateAsync(Guid officeId,
         string firstName,
         string lastName,
         string email,
@@ -33,7 +32,7 @@ public class UserService(UserClient userClient)
             Password = password
         };
 
-        return await userClient.CreateUserAsync(dto, cancellationToken);
+        await userClient.CreateUserAsync(dto, cancellationToken);
     }
 
     public async Task UpdateAsync(

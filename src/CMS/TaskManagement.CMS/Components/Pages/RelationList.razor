@@ -1,39 +1,40 @@
-﻿@page "/offices/{OfficeId:guid}/users"
+﻿@page "/offices/{OfficeId:guid}/relations"
 @using TaskManagement.CMS.Services
-@using TaskManagement.DTO.Office.User
+@using TaskManagement.DTO.Office.Relation
 
-@inject UserService UserService
+@inject RelationService RelationService
 @inject NavigationManager NavManager
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
-<PageTitle>Users</PageTitle>
+<PageTitle>Relations</PageTitle>
 
 <MudPaper Class="pa-4">
 
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
-        <MudText Typo="Typo.h5">Users in Office</MudText>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CreateUser">
-            <MudIcon Icon="@Icons.Material.Filled.PersonAdd"/>
-            Add User
+        <MudText Typo="Typo.h5">Relations in Office</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CreateRelation">
+            <MudIcon Icon="@Icons.Material.Filled.Person"/>
+            Add Relation
         </MudButton>
     </MudStack>
 
-    <MudTable Items="_users" Hover="true" Dense="true">
+    <MudTable Items="_relations" Hover="true" Dense="true">
         <HeaderContent>
             <MudTh>First Name</MudTh>
             <MudTh>Last Name</MudTh>
-            <MudTh>Email</MudTh>
+            <MudTh>Relation Number</MudTh>
             <MudTh>Edit</MudTh>
             <MudTh>Delete</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.FirstName</MudTd>
             <MudTd>@context.LastName</MudTd>
-            <MudTd>@context.Email</MudTd>
+            <MudTd>@context.RelationNumber</MudTd>
             <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                Color="Color.Primary"
-                               OnClick="@(() => EditUser(context.Id))"/>
+                               OnClick="@(() => EditRelation(context.Id))"/>
             </MudTd>
             <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Delete"
@@ -48,51 +49,50 @@
 @code {
     [Parameter] public Guid OfficeId { get; set; }
 
-    private List<UserResponse> _users = [];
+    private List<RelationResponse> _relations = [];
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            _users = await UserService.GetByOfficeAsync(OfficeId);
+            _relations = (await RelationService.GetByOfficeAsync(OfficeId)).ToList();
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Failed to load users: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Failed to load relations: {ex.Message}", Severity.Error);
         }
     }
 
-    private void CreateUser()
+    private void CreateRelation()
     {
-        NavManager.NavigateTo($"/offices/{OfficeId}/users/create");
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/create");
     }
 
-    private void EditUser(Guid userId)
+    private void EditRelation(Guid relationId)
     {
-        NavManager.NavigateTo($"/offices/{OfficeId}/users/edit/{userId}");
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/edit/{relationId}");
     }
 
-    private async Task ConfirmDelete(Guid userId)
+    private async Task ConfirmDelete(Guid relationId)
     {
         var result = await DialogService.ShowMessageBox(
             "Delete Confirmation",
-            "Are you sure you want to delete this user?",
+            "Are you sure you want to delete this relation?",
             yesText: "Delete", cancelText: "Cancel");
 
         if (result == true)
         {
             try
             {
-                await UserService.DeleteAsync(userId);
-                _users = await UserService.GetByOfficeAsync(OfficeId);
-                Snackbar.Add("User deleted", Severity.Success);
+                await RelationService.DeleteAsync(relationId);
+                _relations = (await RelationService.GetByOfficeAsync(OfficeId)).ToList();
+                Snackbar.Add("Relation deleted", Severity.Success);
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Failed to delete user: {ex.Message}", Severity.Error);
+                Snackbar.Add($"Failed to delete relation: {ex.Message}", Severity.Error);
             }
         }
     }
 
-    [Inject] IDialogService DialogService { get; set; } = null!;
 }
