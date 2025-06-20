@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // add configuration file into proj.        
 var assembly = Assembly.GetExecutingAssembly();
-using var stream = assembly.GetManifestResourceStream("TaskManagement.MobileApp.Properties.appsettings.json");
+using var stream = assembly.GetManifestResourceStream("TaskManagement.CMS.Properties.appsettings.json");
 // I mean; we ignore the possible null. but uh… just make sure to not delete the appsettings.json.
 var config = new ConfigurationBuilder()
     .AddJsonStream(stream!)
