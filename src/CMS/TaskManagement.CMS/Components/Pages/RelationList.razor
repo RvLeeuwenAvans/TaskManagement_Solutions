@@ -24,6 +24,7 @@
             <MudTh>First Name</MudTh>
             <MudTh>Last Name</MudTh>
             <MudTh>Relation Number</MudTh>
+            <MudTh>Damage Claims</MudTh>
             <MudTh>Edit</MudTh>
             <MudTh>Delete</MudTh>
         </HeaderContent>
@@ -31,6 +32,12 @@
             <MudTd>@context.FirstName</MudTd>
             <MudTd>@context.LastName</MudTd>
             <MudTd>@context.RelationNumber</MudTd>
+            <MudTd>
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small"
+                           OnClick="@(() => GoToDamageClaims(context.Id))">
+                    Damage Claims
+                </MudButton>
+            </MudTd>
             <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                Color="Color.Primary"
@@ -61,6 +68,11 @@
         {
             Snackbar.Add($"Failed to load relations: {ex.Message}", Severity.Error);
         }
+    }
+    
+    private void GoToDamageClaims(Guid relationId)
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{relationId}/damageclaims");
     }
 
     private void CreateRelation()

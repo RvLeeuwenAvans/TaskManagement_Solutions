@@ -3,32 +3,43 @@ using TaskManagement.DTO.Office.Relation.DamageClaim;
 
 namespace TaskManagement.CMS.Services;
 
-public class DamageClaimService(DamageClaimClient damageClaimClient)
+public class DamageClaimService(DamageClaimClient client)
 {
-    public async Task<List<DamageClaimResponse>> GetByOfficeAsync(Guid officeId,
-        CancellationToken cancellationToken = default)
+    public async Task<List<DamageClaimResponse>> GetByOfficeAsync(Guid officeId)
     {
-        return (await damageClaimClient.GetClaimsByOfficeAsync(officeId, cancellationToken)).ToList();
+        var claims = await client.GetClaimsByOfficeAsync(officeId);
+        return claims.ToList();
     }
 
-    public async Task<DamageClaimResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<DamageClaimResponse?> GetByIdAsync(Guid id)
     {
-        return await damageClaimClient.GetClaimByIdAsync(id, cancellationToken);
+        return await client.GetClaimByIdAsync(id);
     }
 
-    public async Task<DamageClaimResponse> CreateAsync(CreateDamageClaim claim,
-        CancellationToken cancellationToken = default)
+    public async Task<DamageClaimResponse> CreateAsync(Guid relationId, string type)
     {
-        return await damageClaimClient.CreateClaimAsync(claim, cancellationToken);
+        var createDto = new CreateDamageClaim
+        {
+            RelationId = relationId,
+            Type = type
+        };
+
+        return await client.CreateClaimAsync(createDto);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateDamageClaim claim, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, string type)
     {
-        await damageClaimClient.UpdateClaimAsync(id, claim, cancellationToken);
+        var updateDto = new UpdateDamageClaim
+        {
+            Id = id,
+            Type = type
+        };
+
+        await client.UpdateClaimAsync(id, updateDto);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id)
     {
-        await damageClaimClient.DeleteClaimAsync(id, cancellationToken);
+        await client.DeleteClaimAsync(id);
     }
 }

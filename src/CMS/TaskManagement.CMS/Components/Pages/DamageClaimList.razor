@@ -1,0 +1,102 @@
+﻿@page "/offices/{OfficeId:guid}/relations/{RelationId:guid}/damageclaims"
+@using TaskManagement.CMS.Services
+@using TaskManagement.DTO.Office.Relation.DamageClaim
+
+@inject DamageClaimService DamageClaimService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<PageTitle>Damage Claims</PageTitle>
+
+<MudPaper Class="pa-4">
+
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+        <MudText Typo="Typo.h5">Damage Claims</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateDamageClaim">
+            <MudIcon Icon="@Icons.Material.Filled.Add"/>
+            Add Damage Claim
+        </MudButton>
+    </MudStack>
+
+    <MudTable Items="_damageClaims" Hover="true" Dense="true">
+        <HeaderContent>
+            <MudTh>Damage Number</MudTh>
+            <MudTh>Damage Number Sub</MudTh>
+            <MudTh>Type</MudTh>
+            <MudTh>Edit</MudTh>
+            <MudTh>Delete</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.DamageNumber</MudTd>
+            <MudTd>@context.DamageNumberSub</MudTd>
+            <MudTd>@context.Type</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                               OnClick="@(() => EditDamageClaim(context.Id))"/>
+            </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
+                               OnClick="@(() => ConfirmDelete(context.Id))"/>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    [Parameter] public Guid RelationId { get; set; }
+
+    private List<DamageClaimResponse> _damageClaims = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDamageClaims();
+    }
+
+    private async Task LoadDamageClaims()
+    {
+        try
+        {
+            _damageClaims = await DamageClaimService.GetByOfficeAsync(OfficeId);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to load damage claims: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void CreateDamageClaim()
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/damageclaims/create");
+    }
+
+    private void EditDamageClaim(Guid id)
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/damageclaims/edit/{id}");
+    }
+
+    private async Task ConfirmDelete(Guid id)
+    {
+        var result = await DialogService.ShowMessageBox(
+            "Delete Confirmation",
+            "Are you sure you want to delete this damage claim?",
+            yesText: "Delete", cancelText: "Cancel");
+
+        if (result == true)
+        {
+            try
+            {
+                await DamageClaimService.DeleteAsync(id);
+                await LoadDamageClaims();
+                Snackbar.Add("Damage claim deleted", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Failed to delete damage claim: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+}
