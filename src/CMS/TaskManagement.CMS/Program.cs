@@ -1,10 +1,24 @@
+using System.Reflection;
 using MudBlazor.Services;
 using TaskManagement.CMS.Components;
+using TaskManagement.CMS.Plumbing;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
+
+// add configuration file into proj.        
+var assembly = Assembly.GetExecutingAssembly();
+using var stream = assembly.GetManifestResourceStream("TaskManagement.CMS.Properties.appsettings.json");
+// I mean; we ignore the possible null. but uh… just make sure to not delete the appsettings.json.
+var config = new ConfigurationBuilder()
+    .AddJsonStream(stream!)
+    .Build();
+
+builder.Configuration.AddConfiguration(config);
+
+builder.Services.ConfigureDefaultServices(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
