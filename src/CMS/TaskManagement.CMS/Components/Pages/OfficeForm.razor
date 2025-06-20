@@ -37,7 +37,10 @@
 
     private bool IsEdit => Id.HasValue;
 
-    private readonly OfficeFormModel _model = new();
+    private readonly OfficeFormModel _model = new()
+    {
+        Name = null
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,11 +65,23 @@
         {
             if (IsEdit)
             {
-                await OfficeService.UpdateAsync(Id!.Value, _model.Name);
+                if (Id is null || string.IsNullOrWhiteSpace(_model.Name))
+                {
+                    Snackbar.Add("Invalid data: Office ID or Name is missing.", Severity.Error);
+                    return;
+                }
+
+                await OfficeService.UpdateAsync(Id.Value, _model.Name);
                 Snackbar.Add("Office updated successfully", Severity.Success);
             }
             else
             {
+                if (string.IsNullOrWhiteSpace(_model.Name))
+                {
+                    Snackbar.Add("Office name is required.", Severity.Error);
+                    return;
+                }
+
                 await OfficeService.CreateAsync(_model.Name);
                 Snackbar.Add("Office created successfully", Severity.Success);
             }
@@ -84,9 +99,8 @@
         NavManager.NavigateTo("/offices");
     }
 
-    private class OfficeFormModel
+    private record OfficeFormModel
     {
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
     }
-
 }

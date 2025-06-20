@@ -7,7 +7,8 @@ public class UserService(UserClient userClient)
 {
     public async Task<List<UserResponse>> GetByOfficeAsync(Guid officeId, CancellationToken cancellationToken = default)
     {
-        return (await userClient.GetUsersByOfficeAsync(officeId, cancellationToken)).ToList();
+        var users = await userClient.GetUsersByOfficeAsync(officeId, cancellationToken);
+        return users.ToList();
     }
 
     public async Task<UserResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -15,14 +16,44 @@ public class UserService(UserClient userClient)
         return await userClient.GetUserByIdAsync(id, cancellationToken);
     }
 
-    public async Task<UserResponse> CreateAsync(CreateUser user, CancellationToken cancellationToken = default)
+    public async Task<UserResponse> CreateAsync(
+        Guid officeId,
+        string firstName,
+        string lastName,
+        string email,
+        string password,
+        CancellationToken cancellationToken = default)
     {
-        return await userClient.CreateUserAsync(user, cancellationToken);
+        var dto = new CreateUser
+        {
+            OfficeId = officeId,
+            FirstName = firstName,
+            LastName = lastName,
+            Email = email,
+            Password = password
+        };
+
+        return await userClient.CreateUserAsync(dto, cancellationToken);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateUser user, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(
+        Guid id,
+        string? firstName,
+        string? lastName,
+        string? email,
+        string? password,
+        CancellationToken cancellationToken = default)
     {
-        await userClient.UpdateUserAsync(id, user, cancellationToken);
+        var dto = new UpdateUser
+        {
+            Id = id,
+            FirstName = firstName,
+            LastName = lastName,
+            Email = email,
+            Password = password
+        };
+
+        await userClient.UpdateUserAsync(id, dto, cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)

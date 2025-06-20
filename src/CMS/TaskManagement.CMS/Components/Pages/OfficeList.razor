@@ -26,8 +26,11 @@
             <MudTd DataLabel="Office Code">@context.OfficeCode</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@(() => EditOffice(context.Id))" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => ConfirmDelete(context.Id))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@(() => EditOffice(context.Id))"/>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => ConfirmDelete(context.Id))"/>
+                <MudIconButton Icon="@Icons.Material.Filled.People"
+                               Color="Color.Info"
+                               OnClick="@(() => ViewUsers(context.Id))" />
             </MudTd>
         </RowTemplate>
     </MudTable>
@@ -69,6 +72,11 @@
         NavManager.NavigateTo($"/offices/edit/{id}");
     }
 
+    private void ViewUsers(Guid officeId)
+    {
+        NavManager.NavigateTo($"/offices/{officeId}/users");
+    }
+    
     private async Task ConfirmDelete(Guid id)
     {
         var result = await DialogService.ShowMessageBox(
