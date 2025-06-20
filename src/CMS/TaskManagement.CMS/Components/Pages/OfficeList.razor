@@ -1,4 +1,5 @@
-﻿@page "/offices"
+﻿@page "/"
+@page "/offices"
 @using TaskManagement.CMS.Services
 @using TaskManagement.DTO.Office
 @inject OfficeService OfficeService
@@ -12,7 +13,8 @@
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
         <MudText Typo="Typo.h5">Office Management</MudText>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CreateNewOffice">
-            <MudIcon Icon="@Icons.Material.Filled.Add" /> Add Office
+            <MudIcon Icon="@Icons.Material.Filled.Add"/>
+            Add Office
         </MudButton>
     </MudStack>
 
@@ -20,17 +22,22 @@
         <HeaderContent>
             <MudTh>Office Code</MudTh>
             <MudTh>Name</MudTh>
+            <MudTh>Users</MudTh>
             <MudTh>Actions</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Office Code">@context.OfficeCode</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
-            <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@(() => EditOffice(context.Id))"/>
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => ConfirmDelete(context.Id))"/>
+            <MudTd DataLabel="Users">
                 <MudIconButton Icon="@Icons.Material.Filled.People"
                                Color="Color.Info"
-                               OnClick="@(() => ViewUsers(context.Id))" />
+                               OnClick="@(() => ViewUsers(context.Id))"/>
+            </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                               OnClick="@(() => EditOffice(context.Id))"/>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
+                               OnClick="@(() => ConfirmDelete(context.Id))"/>
             </MudTd>
         </RowTemplate>
     </MudTable>
@@ -76,7 +83,7 @@
     {
         NavManager.NavigateTo($"/offices/{officeId}/users");
     }
-    
+
     private async Task ConfirmDelete(Guid id)
     {
         var result = await DialogService.ShowMessageBox(
