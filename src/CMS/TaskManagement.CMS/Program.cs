@@ -5,6 +5,9 @@ using TaskManagement.CMS.Plumbing;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add MudBlazor services
+builder.Services.AddMudServices();
+
 // add configuration file into proj.        
 var assembly = Assembly.GetExecutingAssembly();
 using var stream = assembly.GetManifestResourceStream("TaskManagement.CMS.Properties.appsettings.json");
@@ -16,9 +19,6 @@ var config = new ConfigurationBuilder()
 builder.Configuration.AddConfiguration(config);
 
 builder.Services.ConfigureDefaultServices(builder.Configuration);
-
-// Add MudBlazor services
-builder.Services.AddMudServices();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

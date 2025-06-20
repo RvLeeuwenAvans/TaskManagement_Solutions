@@ -1,4 +1,5 @@
-﻿using TaskManagement.Client;
+﻿using MudBlazor;
+using TaskManagement.Client;
 using TaskManagement.Client.Plumbing;
 using TaskManagement.CMS.Services;
 using TaskManagement.MobileApp.Properties;
@@ -19,6 +20,9 @@ public static class ServiceDefaults
         services.AddScoped<RelationService>();
         services.AddScoped<DamageClaimService>();
         services.AddScoped<InsurancePolicyService>();
+        
+        services.AddScoped<OfficeService>();
+        services.AddScoped<IDialogService, DialogService>();
 
         return services;
     }

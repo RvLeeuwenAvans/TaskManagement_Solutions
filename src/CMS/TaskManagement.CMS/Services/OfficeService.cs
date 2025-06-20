@@ -3,10 +3,11 @@ using TaskManagement.DTO.Office;
 
 namespace TaskManagement.CMS.Services;
 
-public class OfficeService(OfficeClient officeClient)
+public class OfficeService(OfficeClient officeClient, UserAuthenticationClient authenticationClient)
 {
     public async Task<List<OfficeResponse>> GetAllAsync(CancellationToken cancellationToken = default)
     {
+        await authenticationClient.AuthenticateUserAsync("jane.smith@example.com", "hashedpassword23");
         return (await officeClient.GetAllOfficesAsync(cancellationToken)).ToList();
     }
 
