@@ -1,0 +1,90 @@
+﻿@page "/offices/{OfficeId:guid}/relations/{RelationId:guid}/policies/create"
+@page "/offices/{OfficeId:guid}/relations/{RelationId:guid}/policies/edit/{Id:guid}"
+
+@using TaskManagement.CMS.Services
+
+@inject InsurancePolicyService InsurancePolicyService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>@(IsEdit ? "Edit Insurance Policy" : "Create Insurance Policy")</PageTitle>
+
+<MudPaper Class="pa-4 max-width-500 mx-auto">
+
+    <MudText Typo="Typo.h5" Class="mb-4">@(IsEdit ? "Edit Insurance Policy" : "Create Insurance Policy")</MudText>
+
+    <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <MudTextField Label="Type" Required="true" @bind-Value="_model.Type" RequiredError="Type is required" />
+
+        <MudStack Class="mt-4" Row="true" Justify="Justify.FlexEnd" Spacing="2">
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">
+                Save
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="@Cancel">
+                Cancel
+            </MudButton>
+        </MudStack>
+    </EditForm>
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    [Parameter] public Guid RelationId { get; set; }
+    [Parameter] public Guid? Id { get; set; }
+
+    private bool IsEdit => Id.HasValue;
+
+    private readonly InsurancePolicyFormModel _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var policy = await InsurancePolicyService.GetByIdAsync(Id!.Value);
+            if (policy is not null)
+            {
+                _model.Type = policy.Type;
+            }
+            else
+            {
+                Snackbar.Add("Policy not found", Severity.Warning);
+                NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/policies");
+            }
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            if (IsEdit)
+            {
+                await InsurancePolicyService.UpdateAsync(Id!.Value, _model.Type);
+                Snackbar.Add("Policy updated successfully", Severity.Success);
+            }
+            else
+            {
+                await InsurancePolicyService.CreateAsync(RelationId, _model.Type);
+                Snackbar.Add("Policy created successfully", Severity.Success);
+            }
+
+            NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/policies");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void Cancel()
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/policies");
+    }
+
+    private class InsurancePolicyFormModel
+    {
+        public string Type { get; set; } = string.Empty;
+    }
+}

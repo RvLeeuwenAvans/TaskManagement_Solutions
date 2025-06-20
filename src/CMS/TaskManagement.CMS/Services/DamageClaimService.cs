@@ -16,7 +16,7 @@ public class DamageClaimService(DamageClaimClient client)
         return await client.GetClaimByIdAsync(id);
     }
 
-    public async Task<DamageClaimResponse> CreateAsync(Guid relationId, string type)
+    public async Task CreateAsync(Guid relationId, string type)
     {
         var createDto = new CreateDamageClaim
         {
@@ -24,7 +24,7 @@ public class DamageClaimService(DamageClaimClient client)
             Type = type
         };
 
-        return await client.CreateClaimAsync(createDto);
+        await client.CreateClaimAsync(createDto);
     }
 
     public async Task UpdateAsync(Guid id, string type)
