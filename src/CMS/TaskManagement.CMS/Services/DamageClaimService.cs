@@ -5,9 +5,9 @@ namespace TaskManagement.CMS.Services;
 
 public class DamageClaimService(DamageClaimClient client)
 {
-    public async Task<List<DamageClaimResponse>> GetByOfficeAsync(Guid officeId)
+    public async Task<List<DamageClaimResponse>> GetByRelationAsync(Guid relationId)
     {
-        var claims = await client.GetClaimsByOfficeAsync(officeId);
+        var claims = await client.GetClaimsByRelationAsync(relationId);
         return claims.ToList();
     }
 

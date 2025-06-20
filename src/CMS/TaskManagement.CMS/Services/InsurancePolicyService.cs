@@ -5,9 +5,9 @@ namespace TaskManagement.CMS.Services;
 
 public class InsurancePolicyService(InsurancePolicyClient client)
 {
-    public async Task<List<InsurancePolicyResponse>> GetByOfficeAsync(Guid officeId)
+    public async Task<List<InsurancePolicyResponse>> GetByRelationAsync(Guid relationId)
     {
-        var policies = await client.GetPoliciesByOfficeAsync(officeId);
+        var policies = await client.GetPoliciesByRelationAsync(relationId);
         return policies.ToList();
     }
 

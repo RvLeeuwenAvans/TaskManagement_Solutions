@@ -64,7 +64,7 @@
     {
         try
         {
-            _policies = (await InsurancePolicyService.GetByOfficeAsync(OfficeId)).ToList();
+            _policies = (await InsurancePolicyService.GetByRelationAsync(RelationId)).ToList();
         }
         catch (Exception ex)
         {

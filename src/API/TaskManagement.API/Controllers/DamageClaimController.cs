@@ -16,6 +16,13 @@ public class DamageClaimController(DamageClaimService damageClaimService) : Cont
         var claims = await damageClaimService.GetDamageClaimsByOffice(id);
         return Ok(claims);
     }
+    
+    [HttpGet("relation/{id:guid}")]
+    public async Task<IActionResult> GetClaimsByRelation(Guid id)
+    {
+        var claims = await damageClaimService.GetDamageClaimsByRelation(id);
+        return Ok(claims);
+    }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetClaimById(Guid id)

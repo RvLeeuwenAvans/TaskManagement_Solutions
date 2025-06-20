@@ -59,7 +59,7 @@
     {
         try
         {
-            _damageClaims = await DamageClaimService.GetByOfficeAsync(OfficeId);
+            _damageClaims = await DamageClaimService.GetByRelationAsync(RelationId);
         }
         catch (Exception ex)
         {
