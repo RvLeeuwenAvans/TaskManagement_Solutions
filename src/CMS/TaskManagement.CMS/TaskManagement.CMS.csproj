@@ -16,4 +16,9 @@
     <ProjectReference Include="..\..\Client\TaskManagement.Client\TaskManagement.Client.csproj" />
     <ProjectReference Include="..\..\Shared\TaskManagement.DTO\TaskManagement.DTO.csproj" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\appsettings.json" />
+  </ItemGroup>
 </Project>
