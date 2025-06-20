@@ -1,6 +1,7 @@
 using System.Reflection;
 using MudBlazor.Services;
 using TaskManagement.CMS.Components;
+using TaskManagement.CMS.Plumbing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ using var stream = assembly.GetManifestResourceStream("TaskManagement.MobileApp.
 var config = new ConfigurationBuilder()
     .AddJsonStream(stream!)
     .Build();
+
+builder.Configuration.AddConfiguration(config);
+
+builder.Services.ConfigureDefaultServices(builder.Configuration);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
