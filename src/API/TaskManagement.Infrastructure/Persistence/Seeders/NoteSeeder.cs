@@ -1,22 +1,35 @@
-﻿using TaskManagement.Domain.Office.User.Task.Note;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using TaskManagement.Domain.Office.User.Task.Note;
 
 namespace TaskManagement.Infrastructure.Persistence.Seeders;
 
-public static class NoteSeeder
+public class NoteSeeder(TaskManagementDatabaseContext context, ILogger<NoteSeeder> logger)
+    : BaseSeeder(context, logger)
 {
-    public static async Task SeedAsync(TaskManagementDatabaseContext context)
-    {
-        if (!context.Notes.Any())
-        {
-            var task = context.Tasks.First();
-            var notes = new List<Note>
-            {
-                new() { Content = "Note: Fix stuff", TaskId = task.Id, UserTask = task },
-                new() { Content = "Note: More stuff", TaskId = task.Id, UserTask = task }
-            };
+    public override int Order => 7;
+    public override string Name => "Notes";
 
-            await context.Notes.AddRangeAsync(notes);
-            await context.SaveChangesAsync();
+    public override async Task SeedAsync()
+    {
+        if (await HasDataAsync<Note>()) 
+        {
+            Logger.LogInformation("Notes already seeded, skipping...");
+            return;
         }
+
+        Logger.LogInformation("Seeding notes...");
+
+        var task = await Context.Tasks.FirstAsync();
+        var notes = new List<Note>
+        {
+            new() { Content = "Note: Fix stuff", TaskId = task.Id, UserTask = task },
+            new() { Content = "Note: More stuff", TaskId = task.Id, UserTask = task }
+        };
+
+        await Context.Notes.AddRangeAsync(notes);
+        await Context.SaveChangesAsync();
+        
+        Logger.LogInformation("Seeded {Count} notes", notes.Count);
     }
 }
