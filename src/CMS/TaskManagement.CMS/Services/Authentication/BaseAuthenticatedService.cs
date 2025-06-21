@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.CMS.Services.Authentication;
 
-public abstract class AuthenticatedServiceBase(AuthenticationService authenticationService)
+public abstract class BaseAuthenticatedService(AuthenticationService authenticationService)
 {
     protected async Task<T> ExecuteIfAuthenticatedAsync<T>(Func<Task<T>> action)
     {

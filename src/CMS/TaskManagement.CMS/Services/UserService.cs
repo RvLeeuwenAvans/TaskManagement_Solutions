@@ -5,7 +5,7 @@ using TaskManagement.DTO.Office.User;
 namespace TaskManagement.CMS.Services;
 
 public class UserService(UserClient userClient, AuthenticationService authenticationService)
-    : AuthenticatedServiceBase(authenticationService)
+    : BaseAuthenticatedService(authenticationService)
 {
     public async Task<List<UserResponse>>
         GetByOfficeAsync(Guid officeId, CancellationToken cancellationToken = default) =>

@@ -5,7 +5,7 @@ using TaskManagement.DTO.Office;
 namespace TaskManagement.CMS.Services;
 
 public class OfficeService(OfficeClient officeClient, AuthenticationService authenticationService)
-    : AuthenticatedServiceBase(authenticationService)
+    : BaseAuthenticatedService(authenticationService)
 {
     public async Task<List<OfficeResponse>> GetAllAsync(CancellationToken cancellationToken = default) =>
         await ExecuteIfAuthenticatedAsync(() =>
