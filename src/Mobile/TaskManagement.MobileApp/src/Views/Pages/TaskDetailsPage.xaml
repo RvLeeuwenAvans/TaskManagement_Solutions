@@ -7,24 +7,20 @@
              x:DataType="viewModels:TaskDetailsViewModel"
              BackgroundColor="{StaticResource LightGray}">
     <Shell.TitleView>
-        <Label Text="Taak:"
-               Style="{StaticResource NavHeaderLabel}" />
+        <Label Text="Taak:" Style="{StaticResource NavHeaderLabel}" />
     </Shell.TitleView>
-    
+
     <Grid RowDefinitions="Auto,*">
         <VerticalStackLayout Grid.Row="0" ZIndex="1">
-            <!-- edit button -->
-            <Grid BackgroundColor="{StaticResource PrimaryDark}"
-                  HorizontalOptions="FillAndExpand">
+            <!-- Task Header Bar -->
+            <Grid Style="{StaticResource TaskHeaderBar}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Label Text="{Binding TaskTitle}"
                        Style="{StaticResource SubheaderText}"
-                       Grid.ColumnSpan="2"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                       Grid.ColumnSpan="2" />
                 <ImageButton Source="edit_icon_white.png"
                              Grid.Column="1"
                              BackgroundColor="Transparent"
@@ -39,102 +35,62 @@
                     Padding="0"
                     StrokeThickness="0"
                     Shadow="2,2,4, #55000000">
-                <VerticalStackLayout Spacing="12"
-                                     Padding="16, 16, 16, 0">
-                    <!-- Deadline -->
-                    <Border BackgroundColor="#FFE082"
-                            Margin="8,0,8,0"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 12"
-                            HeightRequest="24"
-                            VerticalOptions="Start">
+                <VerticalStackLayout Spacing="12" Padding="16,16,16,0">
+                    <!-- Deadline Badge -->
+                    <Border Style="{StaticResource DeadlineBadgeBorder}">
                         <Label Text="{Binding DueDate, StringFormat='Deadline: {0:dd MMM yyyy}'}"
-                               TextColor="#6D4C00"
-                               FontSize="12"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"
-                               Padding="12,0" />
+                               Style="{StaticResource DeadlineLabel}" />
                     </Border>
                     <!-- Description -->
-                    <Border BackgroundColor="#FFE082"
-                            StrokeThickness="0"
-                            StrokeShape="Rectangle"
-                            HeightRequest="150"
-                            Shadow="2,2,6, #55000000">
+                    <Border Style="{StaticResource DescriptionBorder}">
                         <ScrollView>
                             <VerticalStackLayout Spacing="4" Padding="8">
                                 <Label Text="Omschrijving:"
-                                       TextColor="#6D4C00"
-                                       FontSize="14"
-                                       FontAttributes="Bold" />
+                                       Style="{StaticResource DescriptionHeaderLabel}" />
                                 <Label Text="{Binding Description}"
-                                       TextColor="Black"
-                                       FontSize="14" />
+                                       Style="{StaticResource DescriptionTextLabel}" />
                             </VerticalStackLayout>
                         </ScrollView>
                     </Border>
                     <!-- Linked Object -->
-                    <Grid Margin="0, 8, 0, 0">
-                        <Border BackgroundColor="White"
-                                Padding="12,8"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 8">
+                    <Grid Margin="0,8,0,0">
+                        <Border Style="{StaticResource LinkedObjectBorder}">
                             <HorizontalStackLayout Spacing="12">
-                                <Border BackgroundColor="#E3F2FD"
-                                        WidthRequest="40"
-                                        HeightRequest="40"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 20"
-                                        VerticalOptions="Center">
+                                <Border Style="{StaticResource CardAvatarBorder}">
                                     <Label Text="{Binding LinkedObject.Name[0], FallbackValue='X'}"
-                                           TextColor="#2196F3"
-                                           FontSize="20"
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center" />
+                                           Style="{StaticResource CardAvatarInitial}" />
                                 </Border>
                                 <VerticalStackLayout VerticalOptions="Center">
                                     <Label Text="Gerelateerd object:"
-                                           TextColor="{StaticResource TextGray}"
-                                           FontSize="12" />
+                                           Style="{StaticResource LinkedObjectTitleLabel}" />
+
                                     <Label Text="{Binding LinkedObject.Name, FallbackValue='geen gekoppeld object'}"
-                                           TextColor="{Binding LinkedObject.Type, Converter={StaticResource TypeToColorConverter}, FallbackValue='{StaticResource TextGray}'}"
-                                           FontSize="14"
-                                           FontAttributes="Bold" />
+                                           Style="{StaticResource LinkedObjectNameLabel}"
+                                           TextColor="{Binding LinkedObject.Type, Converter={StaticResource TypeToColorConverter}, FallbackValue={StaticResource TextGray}}" />
                                 </VerticalStackLayout>
                             </HorizontalStackLayout>
                         </Border>
                         <controls:RoundedTopShadowView />
                     </Grid>
                     <!-- Notes Header -->
-                    <VerticalStackLayout Padding="0,0,0, 4" Spacing="8">
-                        <Grid>
+                    <VerticalStackLayout Padding="0,0,0,4" Spacing="8">
+                        <Grid Style="{StaticResource NotesHeaderGrid}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Label Text="Notities"
-                                   TextColor="#2E2E2E"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
                                    Grid.ColumnSpan="2"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
-                            <Button Text="+"
-                                    Grid.Column="1"
-                                    BackgroundColor="Transparent"
-                                    TextColor="#2E2E2E"
-                                    FontSize="28"
-                                    Command="{Binding AddNoteCommand}"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End" />
+                                   Style="{StaticResource NotesHeaderLabel}" />
+                            <Button Grid.Column="1"
+                                    Style="{StaticResource AddNoteButton}"
+                                    Command="{Binding AddNoteCommand}" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
         </VerticalStackLayout>
-        <!-- notes list -->
+        <!-- Notes List -->
         <CollectionView Grid.Row="1" ZIndex="0"
                         ItemsSource="{Binding Notes}">
             <CollectionView.ItemTemplate>
