@@ -12,7 +12,7 @@ using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
 namespace TaskManagement.MobileApp.ViewModels;
 
-public partial class OverviewPageViewModel : ObservableObject
+public partial class OverviewViewModel : ObservableObject
 {
     private readonly TaskService _taskService;
     private readonly OfficeService _officeService;
@@ -27,7 +27,7 @@ public partial class OverviewPageViewModel : ObservableObject
     [ObservableProperty] private TaskTypeFilter _selectedTaskTypeFilter = TaskTypeFilter.All;
     [ObservableProperty] private TaskDateRangeFilter _selectedDateRangeDateRangeFilter = TaskDateRangeFilter.All;
 
-    public OverviewPageViewModel(TaskService taskService, OfficeService officeService,
+    public OverviewViewModel(TaskService taskService, OfficeService officeService,
         LinkedObjectService linkedObjectService)
     {
         _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));

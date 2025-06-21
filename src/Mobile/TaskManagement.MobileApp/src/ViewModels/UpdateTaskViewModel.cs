@@ -74,7 +74,6 @@ public partial class UpdateTaskViewModel(
         if (success)
         {
             WeakReferenceMessenger.Default.Send(new TaskEditedMessage(true));
-
             // either go back to the taskdetails page if possible or overview page
             if (Shell.Current.Navigation.NavigationStack.Count > 1)
             {

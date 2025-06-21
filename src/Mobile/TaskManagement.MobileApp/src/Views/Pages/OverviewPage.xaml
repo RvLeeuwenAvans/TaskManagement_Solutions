@@ -5,7 +5,7 @@
              xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
              x:Class="TaskManagement.MobileApp.Views.Pages.OverviewPage"
-             x:DataType="viewModels:OverviewPageViewModel">
+             x:DataType="viewModels:OverviewViewModel">
     <Shell.TitleView>
         <Label Text="{Binding OfficeName, FallbackValue=Kantoor}"
                Style="{StaticResource TitleHeaderLabel}" />
