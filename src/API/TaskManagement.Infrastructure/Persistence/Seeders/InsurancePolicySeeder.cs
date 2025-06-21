@@ -20,11 +20,11 @@ public class InsurancePolicySeeder(TaskManagementDatabaseContext context, ILogge
 
         Logger.LogInformation("Seeding insurance policies...");
 
-        var relation = await Context.Relations.FirstAsync();
+        var relation = await Context.Relations.FirstAsync(r => r.FirstName == "Jolijn");
         var insurancePolicies = new List<InsurancePolicy>
         {
-            new() { Type = "Health", RelationId = relation.Id, Relation = relation },
-            new() { Type = "Car", RelationId = relation.Id, Relation = relation }
+            new() { Type = "Inboedelverzekering", RelationId = relation.Id, Relation = relation },
+            new() { Type = "Opstalverzekering", RelationId = relation.Id, Relation = relation }
         };
 
         await Context.InsurancePolicies.AddRangeAsync(insurancePolicies);

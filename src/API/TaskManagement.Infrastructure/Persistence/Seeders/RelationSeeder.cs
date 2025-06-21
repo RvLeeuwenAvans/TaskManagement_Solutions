@@ -20,11 +20,11 @@ public class RelationSeeder(TaskManagementDatabaseContext context, ILogger<Relat
 
         Logger.LogInformation("Seeding relations...");
 
-        var office = await Context.Offices.FirstAsync();
+        var office = await Context.Offices.FirstAsync(o => o.Name == "Veldsink Eindhoven");
         var relations = new List<Relation>
         {
-            new() { FirstName = "Alice", LastName = "Johnson", OfficeId = office.Id, Office = office },
-            new() { FirstName = "Bob", LastName = "Brown", OfficeId = office.Id, Office = office }
+            new() { FirstName = "Henk", LastName = "Bosma", OfficeId = office.Id, Office = office },
+            new() { FirstName = "Jolijn", LastName = "van Vliet", OfficeId = office.Id, Office = office }
         };
 
         await Context.Relations.AddRangeAsync(relations);

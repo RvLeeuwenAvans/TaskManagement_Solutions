@@ -20,11 +20,11 @@ public class DamageClaimSeeder(TaskManagementDatabaseContext context, ILogger<Da
 
         Logger.LogInformation("Seeding damage claims...");
 
-        var relation = await Context.Relations.FirstAsync();
+        var relation = await Context.Relations.FirstAsync(r => r.FirstName == "Henk");
         var damageClaims = new List<DamageClaim>
         {
-            new() { Type = "Fire", RelationId = relation.Id, Relation = relation },
-            new() { Type = "Flood", RelationId = relation.Id, Relation = relation }
+            new() { Type = "Auto ongeluk", RelationId = relation.Id, Relation = relation },
+            new() { Type = "Waterschade", RelationId = relation.Id, Relation = relation },
         };
 
         await Context.DamageClaims.AddRangeAsync(damageClaims);

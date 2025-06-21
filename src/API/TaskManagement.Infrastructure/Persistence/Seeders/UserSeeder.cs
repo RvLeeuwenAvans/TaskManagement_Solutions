@@ -24,25 +24,38 @@ public class UserSeeder(
 
         Logger.LogInformation("Seeding users...");
 
-        var office = await Context.Offices.FirstAsync();
-
+        var office = await Context.Offices.FirstAsync(o => o.Name == "Veldsink Eindhoven");
+        var adminOffice = await Context.Offices.FirstAsync(o => o.Name == "Hoodkantoor");
+        
         var users = new List<User>
         {
+            // mobile app users
             new()
             {
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "john.doe@example.com",
-                Password = "hashedpassword12",
+                FirstName = "Marianne",
+                LastName = "Rodepanne",
+                Email = "Marianne.Rodepanne@vcn.com",
+                Password = "wachtwoord",
                 OfficeId = office.Id,
                 Office = office
             },
+            // setup an Administrator for the CMS
             new()
             {
-                FirstName = "Jane",
-                LastName = "Smith",
-                Email = "jane.smith@example.com",
-                Password = "hashedpassword23",
+                FirstName = "Admin",
+                LastName = "istrator",
+                Email = "Admin.CMS@vcn.com",
+                Password = "admin",
+                OfficeId = adminOffice.Id,
+                Office = adminOffice,
+                Role = UserRole.Admin
+            },
+            new()
+            {
+                FirstName = "Henk",
+                LastName = "de Rooi",
+                Email = "Henk.Rooi@vcn.com",
+                Password = "wachtwoord",
                 OfficeId = office.Id,
                 Office = office
             }

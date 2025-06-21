@@ -24,12 +24,12 @@ public class LinkedObjectSeeder(TaskManagementDatabaseContext context, ILogger<L
         {
             new()
             {
-                UserTask = await Context.Tasks.OrderBy(t => t.Id).FirstAsync(),
+                UserTask = await Context.Tasks.FirstAsync(t => t.Title == "Onderhoud doorvoeren"),
                 Relation = await Context.Relations.OrderBy(r => r.Id).FirstAsync()
             },
             new()
             {
-                UserTask = await Context.Tasks.OrderByDescending(t => t.Id).FirstAsync(),
+                UserTask = await Context.Tasks.FirstAsync(t => t.Title == "Documenten doornemen"),
                 DamageClaim = await Context.DamageClaims.OrderBy(d => d.Id).FirstAsync()
             }
         };

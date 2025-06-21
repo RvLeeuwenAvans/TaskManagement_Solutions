@@ -20,11 +20,11 @@ public class NoteSeeder(TaskManagementDatabaseContext context, ILogger<NoteSeede
 
         Logger.LogInformation("Seeding notes...");
 
-        var task = await Context.Tasks.FirstAsync();
+        var task = await Context.Tasks.FirstAsync(t => t.Title == "Onderhoud doorvoeren");
         var notes = new List<Note>
         {
-            new() { Content = "Note: Fix stuff", TaskId = task.Id, UserTask = task },
-            new() { Content = "Note: More stuff", TaskId = task.Id, UserTask = task }
+            new() { Content = "Contact opnemen met gebruiker", TaskId = task.Id, UserTask = task },
+            new() { Content = "Documenten opvragen", TaskId = task.Id, UserTask = task }
         };
 
         await Context.Notes.AddRangeAsync(notes);

@@ -20,24 +20,29 @@ public class UserTaskSeeder(TaskManagementDatabaseContext context, ILogger<UserT
 
         Logger.LogInformation("Seeding user tasks...");
 
-        var user = await Context.Users.FirstAsync();
+        var user = await Context.Users.FirstAsync(u => u.Email == "Marianne.Rodepanne@vcn.com");
         var tasks = new List<UserTask>
         {
             new()
             {
-                Title = "Task 1", Description = "Description 1", UserId = user.Id, User = user,
-                CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(1)
+                Title = "Onderhoud doorvoeren", Description = "Klant is al eeen tijd niet gecontacteerd.",
+                UserId = user.Id, User = user,
+                CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(0)
             },
             new()
             {
-                Title = "Task 2", Description = "Description 2", UserId = user.Id, User = user,
-                CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(7)
+                Title = "Controle gesprekken inplannen",
+                Description = "Loop het relatie bestand door en kijk of er controle gesprekken nodig zijn.",
+                UserId = user.Id, User = user,
+                CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(-2)
             },
             new()
             {
-                Title = "Task 3", Description = "Description 3", UserId = user.Id, User = user,
+                Title = "Documenten doornemen",
+                Description = "Documenten toegeovegd op schadeclaim moeten door worden genomen", UserId = user.Id,
+                User = user,
                 CreatorName = user.FirstName, DueDate = DateTime.Now.AddDays(2)
-            }
+            },
         };
 
         await Context.Tasks.AddRangeAsync(tasks);

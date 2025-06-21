@@ -11,7 +11,7 @@ public class OfficeSeeder(TaskManagementDatabaseContext context, ILogger<OfficeS
 
     public override async Task SeedAsync()
     {
-        if (await HasDataAsync<Office>()) 
+        if (await HasDataAsync<Office>())
         {
             Logger.LogInformation("Offices already seeded, skipping...");
             return;
@@ -21,13 +21,14 @@ public class OfficeSeeder(TaskManagementDatabaseContext context, ILogger<OfficeS
 
         var offices = new List<Office>
         {
-            new() { Name = "Neunen" },
-            new() { Name = "Eindhoven" }
+            new() { Name = "Veldsink Neunen" },
+            new() { Name = "Hoodkantoor" },
+            new() { Name = "Veldsink Eindhoven" }
         };
 
         await Context.Offices.AddRangeAsync(offices);
         await Context.SaveChangesAsync();
-        
+
         Logger.LogInformation("Seeded {Count} offices", offices.Count);
     }
 }
