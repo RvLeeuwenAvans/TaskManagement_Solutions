@@ -1,0 +1,107 @@
+﻿@page "/offices/{OfficeId:guid}/relations/{RelationId:guid}/policies"
+@using TaskManagement.CMS.Services
+@using TaskManagement.DTO.Office.Relation.InsurancePolicy
+
+@inject InsurancePolicyService InsurancePolicyService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<PageTitle>Insurance Policies</PageTitle>
+
+<MudPaper Class="pa-4">
+
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+        <MudText Typo="Typo.h5">Insurance Policies</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CreatePolicy">
+            <MudIcon Icon="@Icons.Material.Filled.Add"/>
+            Add Policy
+        </MudButton>
+    </MudStack>
+
+    <MudTable Items="_policies" Hover="true" Dense="true">
+        <HeaderContent>
+            <MudTh>Policy Number</MudTh>
+            <MudTh>Type</MudTh>
+            <MudTh>Edit</MudTh>
+            <MudTh>Delete</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.PolicyNumber</MudTd>
+            <MudTd>@context.Type</MudTd>
+            <MudTd Align="Align.Center">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                               OnClick="@(() => EditPolicy(context.Id))"/>
+            </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
+                               OnClick="@(() => ConfirmDelete(context.Id))"/>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    [Parameter] public Guid RelationId { get; set; }
+
+    private List<InsurancePolicyResponse> _policies = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await LoadPolicies();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to load policies: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task LoadPolicies()
+    {
+        try
+        {
+            _policies = (await InsurancePolicyService.GetByRelationAsync(RelationId)).ToList();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to load damage claims: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void CreatePolicy()
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/policies/create");
+    }
+
+    private void EditPolicy(Guid policyId)
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/policies/edit/{policyId}");
+    }
+
+    private async Task ConfirmDelete(Guid policyId)
+    {
+        var result = await DialogService.ShowMessageBox(
+            "Delete Confirmation",
+            "Are you sure you want to delete this policy?",
+            yesText: "Delete", cancelText: "Cancel");
+
+        if (result == true)
+        {
+            try
+            {
+                await InsurancePolicyService.DeleteAsync(policyId);
+                await LoadPolicies();
+                Snackbar.Add("Policy deleted", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Failed to delete policy: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+}

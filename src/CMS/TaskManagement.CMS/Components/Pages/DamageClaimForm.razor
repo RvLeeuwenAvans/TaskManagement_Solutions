@@ -1,0 +1,95 @@
+﻿@page "/offices/{OfficeId:guid}/relations/{RelationId:guid}/damageclaims/create"
+@page "/offices/{OfficeId:guid}/relations/{RelationId:guid}/damageclaims/edit/{Id:guid}"
+
+@using TaskManagement.CMS.Services
+@using System.ComponentModel.DataAnnotations
+
+@inject DamageClaimService DamageClaimService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>@(IsEdit ? "Edit Damage Claim" : "Create Damage Claim")</PageTitle>
+
+<MudPaper Class="pa-4 max-width-500 mx-auto">
+
+    <MudText Typo="Typo.h5" Class="mb-4">@((IsEdit ? "Edit" : "Create") + " Damage Claim")</MudText>
+
+    <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <MudTextField @bind-Value="_model.Type"
+                      Label="Type"
+                      Required="true"
+                      RequiredError="Type is required" />
+
+        <MudStack Class="mt-4" Row="true" Justify="Justify.FlexEnd" Spacing="2">
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">
+                Save
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </MudStack>
+    </EditForm>
+</MudPaper>
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    [Parameter] public Guid RelationId { get; set; }
+    [Parameter] public Guid? Id { get; set; }
+
+    private bool IsEdit => Id.HasValue;
+
+    private readonly DamageClaimFormModel _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var claim = await DamageClaimService.GetByIdAsync(Id!.Value);
+            if (claim is not null)
+            {
+                _model.Type = claim.Type;
+            }
+            else
+            {
+                Snackbar.Add("Damage claim not found", Severity.Warning);
+                NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/damageclaims");
+            }
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            if (IsEdit)
+            {
+                await DamageClaimService.UpdateAsync(Id!.Value, _model.Type);
+                Snackbar.Add("Damage claim updated successfully", Severity.Success);
+            }
+            else
+            {
+                await DamageClaimService.CreateAsync(RelationId, _model.Type);
+                Snackbar.Add("Damage claim created successfully", Severity.Success);
+            }
+
+            NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/damageclaims");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void Cancel()
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations/{RelationId}/damageclaims");
+    }
+
+    private record DamageClaimFormModel
+    {
+        [Required]
+        public string Type { get; set; } = string.Empty;
+    }
+}

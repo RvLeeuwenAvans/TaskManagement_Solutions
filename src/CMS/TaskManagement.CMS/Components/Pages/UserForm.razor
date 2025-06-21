@@ -1,0 +1,119 @@
+﻿@page "/offices/{OfficeId:guid}/users/create"
+@page "/offices/{OfficeId:guid}/users/edit/{UserId:guid}"
+@using System.ComponentModel.DataAnnotations
+@using TaskManagement.CMS.Services
+
+@inject UserService UserService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>@(IsEdit ? "Edit User" : "Create User")</PageTitle>
+
+<MudPaper Class="pa-4 max-width-600 mx-auto">
+    <MudText Typo="Typo.h5" Class="mb-4">@(IsEdit ? "Edit User" : "Create User")</MudText>
+
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator/>
+
+        <MudTextField T="string" Label="First Name" @bind-Value="_model.FirstName" Required="true"/>
+        <MudTextField T="string" Label="Last Name" @bind-Value="_model.LastName" Required="true"/>
+        <MudTextField T="string" Label="Email" @bind-Value="_model.Email" Required="true" For="@(() => _model.Email)"/>
+
+        @if (!IsEdit)
+        {
+            <MudTextField T="string" Label="Password" @bind-Value="_model.Password" Required="true"
+                          InputType="InputType.Password"/>
+        }
+
+        <MudStack Class="mt-4" Row="true" Justify="Justify.FlexEnd" Spacing="2">
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+        </MudStack>
+    </EditForm>
+</MudPaper>
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    [Parameter] public Guid? UserId { get; set; }
+
+    private bool IsEdit => UserId.HasValue;
+
+    private readonly UserFormModel _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            try
+            {
+                var user = await UserService.GetByIdAsync(UserId!.Value);
+                if (user is not null)
+                {
+                    _model.FirstName = user.FirstName;
+                    _model.LastName = user.LastName;
+                    _model.Email = user.Email;
+                }
+                else
+                {
+                    Snackbar.Add("User not found", Severity.Warning);
+                    NavManager.NavigateTo($"/offices/{OfficeId}/users");
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error loading user: {ex.Message}", Severity.Error);
+                NavManager.NavigateTo($"/offices/{OfficeId}/users");
+            }
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            if (IsEdit)
+            {
+                await UserService.UpdateAsync(UserId!.Value, _model.FirstName, _model.LastName, _model.Email, null);
+                Snackbar.Add("User updated successfully", Severity.Success);
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(_model.Password))
+                {
+                    Snackbar.Add("A password is required.", Severity.Error);
+                    return;
+                }
+
+                await UserService.CreateAsync(OfficeId, _model.FirstName, _model.LastName, _model.Email, _model.Password);
+                Snackbar.Add("User created successfully", Severity.Success);
+            }
+
+            NavManager.NavigateTo($"/offices/{OfficeId}/users");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to save user: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void Cancel()
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/users");
+    }
+
+    private record UserFormModel
+    {
+        [Required(ErrorMessage = "First name is required")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Last name is required")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+        // only on create
+        public string? Password { get; set; }
+    }
+
+}

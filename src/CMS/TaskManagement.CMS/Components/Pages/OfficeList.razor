@@ -1,0 +1,124 @@
+﻿@page "/"
+@page "/offices"
+@using TaskManagement.CMS.Services
+@using TaskManagement.DTO.Office
+@inject OfficeService OfficeService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>Offices</PageTitle>
+
+<MudPaper Class="pa-4">
+
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+        <MudText Typo="Typo.h5">Office Management</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CreateNewOffice">
+            <MudIcon Icon="@Icons.Material.Filled.Add"/>
+            Add Office
+        </MudButton>
+    </MudStack>
+
+    <MudTable Items="_offices" Hover="true" Striped="true" Loading="@_loading" Elevation="1">
+        <HeaderContent>
+            <MudTh>Office Code</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Users</MudTh>
+            <MudTh>Relations</MudTh>
+            <MudTh>Edit</MudTh>
+            <MudTh>Delete</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Office Code">@context.OfficeCode</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Users">
+                <MudIconButton Icon="@Icons.Material.Filled.People"
+                               Color="Color.Info"
+                               OnClick="@(() => ViewUsers(context.Id))"/>
+            </MudTd>
+            <MudTd DataLabel="Relations">
+                <MudIconButton Icon="@Icons.Material.Filled.People"
+                               Color="Color.Success"
+                               OnClick="@(() => NavigateToRelations(context.Id))"/>
+            </MudTd>
+            <MudTd DataLabel="Edit">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                               OnClick="@(() => EditOffice(context.Id))"/>
+            </MudTd>
+            <MudTd DataLabel="Delete">
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
+                               OnClick="@(() => ConfirmDelete(context.Id))"/>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
+
+@code {
+    private List<OfficeResponse> _offices = [];
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOfficesAsync();
+    }
+
+    private async Task LoadOfficesAsync()
+    {
+        try
+        {
+            _loading = true;
+            _offices = await OfficeService.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to load offices: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private void CreateNewOffice()
+    {
+        NavManager.NavigateTo("/offices/create");
+    }
+
+    private void EditOffice(Guid id)
+    {
+        NavManager.NavigateTo($"/offices/edit/{id}");
+    }
+
+    private void ViewUsers(Guid officeId)
+    {
+        NavManager.NavigateTo($"/offices/{officeId}/users");
+    }
+
+    private void NavigateToRelations(Guid officeId)
+    {
+        NavManager.NavigateTo($"/offices/{officeId}/relations");
+    }
+
+    private async Task ConfirmDelete(Guid id)
+    {
+        var result = await DialogService.ShowMessageBox(
+            "Delete Confirmation",
+            "Are you sure you want to delete this office?",
+            yesText: "Delete", cancelText: "Cancel");
+
+        if (result == true)
+        {
+            try
+            {
+                await OfficeService.DeleteAsync(id);
+                Snackbar.Add("Office deleted", Severity.Success);
+                await LoadOfficesAsync();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Delete failed: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    [Inject] IDialogService DialogService { get; set; } = null!;
+}

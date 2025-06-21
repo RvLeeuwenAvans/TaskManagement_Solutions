@@ -17,6 +17,15 @@ public class InsurancePolicyController(InsurancePolicyService insurancePolicySer
         
         return Ok(policies);
     }
+    
+    [HttpGet("relation/{id:guid}")]
+    public async Task<IActionResult> GetInsurancePoliciesByRelation(Guid id)
+    {
+        var policies = await insurancePolicyService.GetInsurancePoliciesByRelation(id);
+        
+        return Ok(policies);
+    }
+
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPolicyById(Guid id)

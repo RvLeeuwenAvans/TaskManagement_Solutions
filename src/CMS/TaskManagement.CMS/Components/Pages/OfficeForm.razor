@@ -1,0 +1,106 @@
+﻿@page "/offices/create"
+@page "/offices/edit/{Id:guid}"
+@using TaskManagement.CMS.Services
+
+@inject OfficeService OfficeService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>@(IsEdit ? "Edit Office" : "Create Office")</PageTitle>
+
+<MudPaper Class="pa-4 max-width-500 mx-auto">
+
+    <MudText Typo="Typo.h5" Class="mb-4">@(IsEdit ? "Edit Office" : "Create Office")</MudText>
+
+    <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator/>
+        <MudTextField T="string"
+                      Label="Name"
+                      @bind-Value="_model.Name"
+                      Required="true"
+                      RequiredError="Name is required"/>
+
+        <MudStack Class="mt-4" Row="true" Justify="Justify.FlexEnd" Spacing="2">
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">
+                Save
+            </MudButton>
+            <MudButton Color="Color.Default" Variant="Variant.Outlined" OnClick="@Cancel">
+                Cancel
+            </MudButton>
+        </MudStack>
+    </EditForm>
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private bool IsEdit => Id.HasValue;
+
+    private readonly OfficeFormModel _model = new()
+    {
+        Name = null
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var office = await OfficeService.GetByIdAsync(Id!.Value);
+            if (office is not null)
+            {
+                _model.Name = office.Name;
+            }
+            else
+            {
+                Snackbar.Add("Office not found", Severity.Warning);
+                NavManager.NavigateTo("/offices");
+            }
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            if (IsEdit)
+            {
+                if (Id is null || string.IsNullOrWhiteSpace(_model.Name))
+                {
+                    Snackbar.Add("Invalid data: Office ID or Name is missing.", Severity.Error);
+                    return;
+                }
+
+                await OfficeService.UpdateAsync(Id.Value, _model.Name);
+                Snackbar.Add("Office updated successfully", Severity.Success);
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(_model.Name))
+                {
+                    Snackbar.Add("Office name is required.", Severity.Error);
+                    return;
+                }
+
+                await OfficeService.CreateAsync(_model.Name);
+                Snackbar.Add("Office created successfully", Severity.Success);
+            }
+
+            NavManager.NavigateTo("/offices");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void Cancel()
+    {
+        NavManager.NavigateTo("/offices");
+    }
+
+    private record OfficeFormModel
+    {
+        public string? Name { get; set; }
+    }
+}

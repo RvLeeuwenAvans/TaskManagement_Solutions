@@ -23,6 +23,17 @@ public class InsurancePolicyService(
         
         return Task.FromResult(response);
     }
+    
+    public Task<List<InsurancePolicyResponse>> GetInsurancePoliciesByRelation(Guid relationId)
+    {
+        var insurancePolicies = insurancePolicyRepository.GetAll()
+            .Where(ip => ip.Relation.Id == relationId)
+            .ToList();
+
+        var response = mapper.Map<List<InsurancePolicyResponse>>(insurancePolicies);
+        
+        return Task.FromResult(response);
+    }
 
     public async Task<InsurancePolicyResponse?> GetInsurancePolicyByIdAsync(Guid id)
     {

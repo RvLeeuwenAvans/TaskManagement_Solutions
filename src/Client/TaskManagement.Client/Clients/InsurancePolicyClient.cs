@@ -11,6 +11,13 @@ public class InsurancePolicyClient(HttpClient httpClient, ApiClientConfig config
             cancellationToken);
     }
 
+    public async Task<IEnumerable<InsurancePolicyResponse>> GetPoliciesByRelationAsync(Guid officeId,
+        CancellationToken cancellationToken = default)
+    {
+        return await GetAsync<IEnumerable<InsurancePolicyResponse>>($"/api/InsurancePolicy/relation/{officeId}",
+            cancellationToken);
+    }
+
     public async Task<InsurancePolicyResponse> GetPolicyByIdAsync(Guid id,
         CancellationToken cancellationToken = default)
     {
