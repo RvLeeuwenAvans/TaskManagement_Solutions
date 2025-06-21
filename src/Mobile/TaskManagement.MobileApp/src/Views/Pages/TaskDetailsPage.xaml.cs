@@ -6,10 +6,10 @@ namespace TaskManagement.MobileApp.Views.Pages;
 
 public partial class TaskDetailsPage : ContentPage
 {
-    public TaskDetailsPage(IUserContext userContext, TaskService taskService, LinkedObjectService linkedObjectService)
+    public TaskDetailsPage(TaskService taskService, LinkedObjectService linkedObjectService)
     {
 
         InitializeComponent();
-        BindingContext = new TaskDetailsViewModel(taskService, linkedObjectService, userContext);
+        BindingContext = new TaskDetailsViewModel(taskService, linkedObjectService);
     }
 }

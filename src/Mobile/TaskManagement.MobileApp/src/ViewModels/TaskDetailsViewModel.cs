@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaskManagement.MobileApp.Models.Collections;
-using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services;
 using ViewState = TaskManagement.MobileApp.Helpers.Enums.ViewState;
 
@@ -10,8 +9,7 @@ namespace TaskManagement.MobileApp.ViewModels;
 
 public partial class TaskDetailsViewModel(
     TaskService taskService,
-    LinkedObjectService linkedObjectService,
-    IUserContext userContext)
+    LinkedObjectService linkedObjectService)
     : ObservableObject, IQueryAttributable
 {
     private readonly TaskService _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
@@ -19,20 +17,13 @@ public partial class TaskDetailsViewModel(
     private readonly LinkedObjectService _linkedObjectService =
         linkedObjectService ?? throw new ArgumentNullException(nameof(linkedObjectService));
 
-    private readonly IUserContext _userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-
     private Guid _taskId;
 
     [ObservableProperty] private ViewState _currentState = ViewState.Loading;
-
     [ObservableProperty] private string? _taskTitle;
-
     [ObservableProperty] private string? _description;
-
     [ObservableProperty] private DateTime? _dueDate;
-
     [ObservableProperty] private LinkedObjectItem? _linkedObject;
-
     [ObservableProperty] private ObservableCollection<NoteItemViewModel> _notes = [];
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -69,14 +60,13 @@ public partial class TaskDetailsViewModel(
             DueDate = task.DueDate;
             if (task.LinkedObject != null)
                 LinkedObject = await _linkedObjectService.GetLinkedObjectByResponse(task.LinkedObject);
-            // Load notes
+
             await LoadNotesAsync();
 
             CurrentState = ViewState.Success;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            // Log the exception if you have logging
             CurrentState = ViewState.Error;
         }
     }
@@ -85,8 +75,6 @@ public partial class TaskDetailsViewModel(
     {
         try
         {
-            // Assuming you have a method to get notes for a task
-            // If not, you might need to add this to your TaskService
             var notes = await _taskService.GetNotesByTaskIdAsync(_taskId);
 
             Notes.Clear();
@@ -102,8 +90,7 @@ public partial class TaskDetailsViewModel(
         }
         catch
         {
-            // Handle notes loading error silently or show a message
-            // For now, just clear notes if there's an error
+            await Shell.Current.DisplayAlert("Fout", "Notities konden niet worden geladen.", "OK");
             Notes.Clear();
         }
     }
@@ -134,12 +121,10 @@ public partial class TaskDetailsViewModel(
         {
             try
             {
-                // Assuming you have a method to add notes to a task
                 var success = await _taskService.CreateNoteAsync(_taskId, result);
 
                 if (success)
                 {
-                    // Reload notes to get the updated list with proper IDs
                     await LoadNotesAsync();
                 }
                 else
@@ -164,7 +149,6 @@ public partial class TaskDetailsViewModel(
 
             if (confirmed)
             {
-                // Assuming you have a method to delete notes
                 var success = await _taskService.DeleteNoteIdAsync(note.Id);
 
                 if (success)
@@ -184,11 +168,11 @@ public partial class TaskDetailsViewModel(
     }
 }
 
+// could probably move this into a seperate file; but it's pretty tightly coupled to the details page, and small enough.
+// that i find this clearer.
 public partial class NoteItemViewModel : ObservableObject
 {
     [ObservableProperty] private Guid _id;
-
     [ObservableProperty] private string _content = string.Empty;
-
     [ObservableProperty] private DateTime _createdAt = DateTime.Now;
 }
