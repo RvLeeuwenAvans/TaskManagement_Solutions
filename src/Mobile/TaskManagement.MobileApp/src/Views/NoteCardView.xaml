@@ -30,13 +30,13 @@
                        Style="{StaticResource NoteCardTimestampLabel}" />
             </StackLayout>
             <!-- Delete Button -->
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
             <ImageButton Grid.Row="0"
                          Grid.Column="2"
                          Source="delete_icon.png"
                          Style="{StaticResource NoteCardDeleteButton}"
                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TaskDetailsViewModel}}, Path=DeleteNoteCommand}"
-                         CommandParameter="{Binding .}"
-                         IsVisible="{Binding CanDelete}" />
+                         CommandParameter="{Binding .}" />
         </Grid>
     </Border>
 </ContentView>

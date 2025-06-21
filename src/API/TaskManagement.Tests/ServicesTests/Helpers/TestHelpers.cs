@@ -104,8 +104,7 @@ public static class TestHelpers
             DueDate = dueDate ?? DateTime.UtcNow.AddDays(1)
         };
     }
-
-    // todo: set up the cascades propperly; delete all userobjects and office objects when parent gets deleted.
+    
     public static User CreateTestUser(
         Guid? id = null,
         string? firstName = null,
