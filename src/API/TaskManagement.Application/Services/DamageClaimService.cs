@@ -22,6 +22,17 @@ public class DamageClaimService(
 
         return Task.FromResult(response);
     }
+    
+    public Task<List<DamageClaimResponse>> GetDamageClaimsByRelation(Guid relationId)
+    {
+        var damageClaims = damageClaimRepository.GetAll()
+            .Where(dc => dc.Relation.Id == relationId)
+            .ToList();
+
+        var response = mapper.Map<List<DamageClaimResponse>>(damageClaims);
+
+        return Task.FromResult(response);
+    }
 
     public async Task<DamageClaimResponse?> GetDamageClaimByIdAsync(Guid id)
     {

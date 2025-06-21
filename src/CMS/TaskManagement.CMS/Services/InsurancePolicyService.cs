@@ -3,32 +3,43 @@ using TaskManagement.DTO.Office.Relation.InsurancePolicy;
 
 namespace TaskManagement.CMS.Services;
 
-public class InsurancePolicyService(InsurancePolicyClient insuranceClient)
+public class InsurancePolicyService(InsurancePolicyClient client)
 {
-    public async Task<List<InsurancePolicyResponse>> GetByOfficeAsync(Guid officeId,
-        CancellationToken cancellationToken = default)
+    public async Task<List<InsurancePolicyResponse>> GetByRelationAsync(Guid relationId)
     {
-        return (await insuranceClient.GetPoliciesByOfficeAsync(officeId, cancellationToken)).ToList();
+        var policies = await client.GetPoliciesByRelationAsync(relationId);
+        return policies.ToList();
     }
 
-    public async Task<InsurancePolicyResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<InsurancePolicyResponse?> GetByIdAsync(Guid id)
     {
-        return await insuranceClient.GetPolicyByIdAsync(id, cancellationToken);
+        return await client.GetPolicyByIdAsync(id);
     }
 
-    public async Task<InsurancePolicyResponse> CreateAsync(CreateInsurancePolicy policy,
-        CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Guid relationId, string type)
     {
-        return await insuranceClient.CreatePolicyAsync(policy, cancellationToken);
+        var createDto = new CreateInsurancePolicy
+        {
+            RelationId = relationId,
+            Type = type
+        };
+
+        await client.CreatePolicyAsync(createDto);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateInsurancePolicy policy, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, string? type)
     {
-        await insuranceClient.UpdatePolicyAsync(id, policy, cancellationToken);
+        var updateDto = new UpdateInsurancePolicy
+        {
+            Id = id,
+            Type = type
+        };
+
+        await client.UpdatePolicyAsync(id, updateDto);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id)
     {
-        await insuranceClient.DeletePolicyAsync(id, cancellationToken);
+        await client.DeletePolicyAsync(id);
     }
 }

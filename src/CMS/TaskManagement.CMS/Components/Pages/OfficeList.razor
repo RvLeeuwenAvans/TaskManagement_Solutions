@@ -23,7 +23,9 @@
             <MudTh>Office Code</MudTh>
             <MudTh>Name</MudTh>
             <MudTh>Users</MudTh>
-            <MudTh>Actions</MudTh>
+            <MudTh>Relations</MudTh>
+            <MudTh>Edit</MudTh>
+            <MudTh>Delete</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Office Code">@context.OfficeCode</MudTd>
@@ -33,9 +35,16 @@
                                Color="Color.Info"
                                OnClick="@(() => ViewUsers(context.Id))"/>
             </MudTd>
-            <MudTd>
+            <MudTd DataLabel="Relations">
+                <MudIconButton Icon="@Icons.Material.Filled.People"
+                               Color="Color.Success"
+                               OnClick="@(() => NavigateToRelations(context.Id))"/>
+            </MudTd>
+            <MudTd DataLabel="Edit">
                 <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
                                OnClick="@(() => EditOffice(context.Id))"/>
+            </MudTd>
+            <MudTd DataLabel="Delete">
                 <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
                                OnClick="@(() => ConfirmDelete(context.Id))"/>
             </MudTd>
@@ -82,6 +91,11 @@
     private void ViewUsers(Guid officeId)
     {
         NavManager.NavigateTo($"/offices/{officeId}/users");
+    }
+
+    private void NavigateToRelations(Guid officeId)
+    {
+        NavManager.NavigateTo($"/offices/{officeId}/relations");
     }
 
     private async Task ConfirmDelete(Guid id)

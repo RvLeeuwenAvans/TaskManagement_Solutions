@@ -1,0 +1,100 @@
+﻿@page "/offices/{OfficeId:guid}/relations/create"
+@page "/offices/{OfficeId:guid}/relations/edit/{Id:guid}"
+
+@using TaskManagement.CMS.Services
+
+@inject RelationService RelationService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>@(IsEdit ? "Edit Relation" : "Create Relation")</PageTitle>
+
+<MudPaper Class="pa-4 max-width-500 mx-auto">
+
+    <MudText Typo="Typo.h5" Class="mb-4">@((IsEdit ? "Edit Relation" : "Create Relation"))</MudText>
+
+    <EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <MudTextField Label="First Name"
+                      @bind-Value="_model.FirstName"
+                      Required="true"
+                      RequiredError="First Name is required" />
+
+        <MudTextField Label="Last Name"
+                      @bind-Value="_model.LastName"
+                      Required="true"
+                      RequiredError="Last Name is required" />
+
+        <MudStack Class="mt-4" Row="true" Justify="Justify.FlexEnd" Spacing="2">
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">
+                Save
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </MudStack>
+    </EditForm>
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid OfficeId { get; set; }
+    [Parameter] public Guid? Id { get; set; }
+
+    private bool IsEdit => Id.HasValue;
+
+    private readonly RelationFormModel _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            var relation = await RelationService.GetByIdAsync(Id!.Value);
+            if (relation is not null)
+            {
+                _model.FirstName = relation.FirstName;
+                _model.LastName = relation.LastName;
+            }
+            else
+            {
+                Snackbar.Add("Relation not found", Severity.Warning);
+                NavManager.NavigateTo($"/offices/{OfficeId}/relations");
+            }
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            if (IsEdit)
+            {
+                await RelationService.UpdateAsync(Id!.Value, _model.FirstName, _model.LastName);
+                Snackbar.Add("Relation updated successfully", Severity.Success);
+            }
+            else
+            {
+                await RelationService.CreateAsync(OfficeId, _model.FirstName, _model.LastName);
+                Snackbar.Add("Relation created successfully", Severity.Success);
+            }
+
+            NavManager.NavigateTo($"/offices/{OfficeId}/relations");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void Cancel()
+    {
+        NavManager.NavigateTo($"/offices/{OfficeId}/relations");
+    }
+
+    private record RelationFormModel
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+    }
+}

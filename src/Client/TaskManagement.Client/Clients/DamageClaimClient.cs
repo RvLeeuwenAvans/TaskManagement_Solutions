@@ -10,6 +10,13 @@ public class DamageClaimClient(HttpClient httpClient, ApiClientConfig config) : 
         return await GetAsync<IEnumerable<DamageClaimResponse>>($"/api/DamageClaim/office/{officeId}",
             cancellationToken);
     }
+    
+    public async Task<IEnumerable<DamageClaimResponse>> GetClaimsByRelationAsync(Guid officeId,
+        CancellationToken cancellationToken = default)
+    {
+        return await GetAsync<IEnumerable<DamageClaimResponse>>($"/api/DamageClaim/relation/{officeId}",
+            cancellationToken);
+    }
 
     public async Task<DamageClaimResponse> GetClaimByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {

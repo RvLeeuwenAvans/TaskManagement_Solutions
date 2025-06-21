@@ -13,7 +13,7 @@
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
         <MudText Typo="Typo.h5">Users in Office</MudText>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CreateUser">
-            <MudIcon Icon="@Icons.Material.Filled.PersonAdd" />
+            <MudIcon Icon="@Icons.Material.Filled.PersonAdd"/>
             Add User
         </MudButton>
     </MudStack>
@@ -23,19 +23,22 @@
             <MudTh>First Name</MudTh>
             <MudTh>Last Name</MudTh>
             <MudTh>Email</MudTh>
-            <MudTh></MudTh>
+            <MudTh>Edit</MudTh>
+            <MudTh>Delete</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.FirstName</MudTd>
             <MudTd>@context.LastName</MudTd>
             <MudTd>@context.Email</MudTd>
-            <MudTd Align="Align.Center">
+            <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                Color="Color.Primary"
-                               OnClick="@(() => EditUser(context.Id))" />
+                               OnClick="@(() => EditUser(context.Id))"/>
+            </MudTd>
+            <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Delete"
                                Color="Color.Error"
-                               OnClick="@(() => ConfirmDelete(context.Id))" />
+                               OnClick="@(() => ConfirmDelete(context.Id))"/>
             </MudTd>
         </RowTemplate>
     </MudTable>
@@ -68,7 +71,7 @@
     {
         NavManager.NavigateTo($"/offices/{OfficeId}/users/edit/{userId}");
     }
-    
+
     private async Task ConfirmDelete(Guid userId)
     {
         var result = await DialogService.ShowMessageBox(

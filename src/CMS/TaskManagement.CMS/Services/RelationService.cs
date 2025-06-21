@@ -3,32 +3,52 @@ using TaskManagement.DTO.Office.Relation;
 
 namespace TaskManagement.CMS.Services;
 
-public class RelationService(RelationClient relationClient)
+public class RelationService
 {
-    public async Task<List<RelationResponse>> GetByOfficeAsync(Guid officeId,
-        CancellationToken cancellationToken = default)
+    private readonly RelationClient _client;
+
+    public RelationService(RelationClient client)
     {
-        return (await relationClient.GetRelationsByOfficeAsync(officeId, cancellationToken)).ToList();
+        _client = client;
     }
 
-    public async Task<RelationResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<List<RelationResponse>> GetByOfficeAsync(Guid officeId)
     {
-        return await relationClient.GetRelationByIdAsync(id, cancellationToken);
+        var relations = await _client.GetRelationsByOfficeAsync(officeId);
+        return relations?.ToList() ?? new List<RelationResponse>();
     }
 
-    public async Task<RelationResponse> CreateAsync(CreateRelation relation,
-        CancellationToken cancellationToken = default)
+    public async Task<RelationResponse?> GetByIdAsync(Guid id)
     {
-        return await relationClient.CreateRelationAsync(relation, cancellationToken);
+        return await _client.GetRelationByIdAsync(id);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateRelation relation, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Guid officeId, string firstName, string lastName)
     {
-        await relationClient.UpdateRelationAsync(id, relation, cancellationToken);
+        var createDto = new CreateRelation
+        {
+            OfficeId = officeId,
+            FirstName = firstName,
+            LastName = lastName
+        };
+
+        await _client.CreateRelationAsync(createDto);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, string firstName, string lastName)
     {
-        await relationClient.DeleteRelationAsync(id, cancellationToken);
+        var updateDto = new UpdateRelation
+        {
+            Id = id,
+            FirstName = firstName,
+            LastName = lastName
+        };
+
+        await _client.UpdateRelationAsync(id, updateDto);
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        await _client.DeleteRelationAsync(id);
     }
 }
