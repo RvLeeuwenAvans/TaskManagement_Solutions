@@ -2,6 +2,7 @@
 using TaskManagement.Client;
 using TaskManagement.Client.Plumbing;
 using TaskManagement.CMS.Services;
+using TaskManagement.CMS.Services.Authentication;
 using TaskManagement.MobileApp.Properties;
 
 namespace TaskManagement.CMS.Plumbing;
@@ -15,13 +16,15 @@ public static class ServiceDefaults
         services.AddSingleton(new ApiClientConfig { BaseUrl = settings!.BaseUrl });
         services.RegisterClients();
 
+        // Singleton to maintain state across the application
+        services.AddSingleton<AuthenticationService>();
+        
         services.AddScoped<OfficeService>();
         services.AddScoped<UserService>();
         services.AddScoped<RelationService>();
         services.AddScoped<DamageClaimService>();
         services.AddScoped<InsurancePolicyService>();
         
-        services.AddScoped<OfficeService>();
         services.AddScoped<IDialogService, DialogService>();
 
         return services;

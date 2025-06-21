@@ -1,25 +1,46 @@
 ﻿@inherits LayoutComponentBase
+@using TaskManagement.CMS.Services.Authentication
+@inject AuthenticationService AuthService
+@inject NavigationManager NavManager
+@inject IDialogService DialogService
+@implements IDisposable
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Taskmanagement CMS</MudText>
-        <MudSpacer />
-        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
-    </MudAppBar>
-    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent Class="pt-16 pa-4">
-        @Body
-    </MudMainContent>
-</MudLayout>
 
+@if (AuthService.IsAuthenticated)
+{
+    <MudLayout>
+        <MudAppBar Elevation="1">
+            <MudText Typo="Typo.h5" Class="ml-3">Taskmanagement CMS</MudText>
+            <MudSpacer />
+            <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
+            <!-- User Menu -->
+            <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit" Dense="true" Direction="Direction.Bottom" OffsetY="true">
+                <MudMenuItem>
+                    <div class="d-flex flex-column">
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Signed in as</MudText>
+                        <MudText Typo="Typo.body1">@AuthService.CurrentUserEmail</MudText>
+                    </div>
+                </MudMenuItem>
+                <MudDivider />
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="@HandleLogout">
+                    Sign Out
+                </MudMenuItem>
+            </MudMenu>
+        </MudAppBar>
+        <MudMainContent Class="pt-16 pa-4">
+            @Body
+        </MudMainContent>
+    </MudLayout>
+}
+else
+{
+    <!-- Show login page or redirect to login -->
+    @Body
+}
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -28,30 +49,59 @@
 </div>
 
 @code {
-    private bool _drawerOpen = true;
-    private bool _isDarkMode = true;
-    private MudTheme? _theme = null;
+    private bool _isDarkMode;
+    private MudTheme? _theme;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        _theme = new()
+        _theme = new MudTheme
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties()
         };
+
+        // Subscribe to authentication state changes
+        AuthService.AuthenticationStateChanged += OnAuthenticationStateChanged;
+
+        // Redirect to login if not authenticated
+        if (!AuthService.IsAuthenticated && !NavManager.Uri.EndsWith("/login"))
+        {
+            NavManager.NavigateTo("/login");
+        }
     }
 
-    private void DrawerToggle()
+    private void OnAuthenticationStateChanged()
     {
-        _drawerOpen = !_drawerOpen;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task HandleLogout()
+    {
+        var result = await DialogService.ShowMessageBox(
+            "Sign Out",
+            "Are you sure you want to sign out?",
+            yesText: "Sign Out",
+            cancelText: "Cancel"
+        );
+
+        if (result == true)
+        {
+            await AuthService.LogoutAsync();
+            NavManager.NavigateTo("/login");
+        }
     }
 
     private void DarkModeToggle()
     {
         _isDarkMode = !_isDarkMode;
+    }
+
+    public void Dispose()
+    {
+        AuthService.AuthenticationStateChanged -= OnAuthenticationStateChanged;
     }
 
     private readonly PaletteLight _lightPalette = new()
@@ -93,11 +143,9 @@
         OverlayLight = "#1e1e2d80",
     };
 
-    public string DarkLightModeButtonIcon => _isDarkMode switch
+    private string DarkLightModeButtonIcon => _isDarkMode switch
     {
         true => Icons.Material.Rounded.AutoMode,
         false => Icons.Material.Outlined.DarkMode,
     };
 }
-
-
