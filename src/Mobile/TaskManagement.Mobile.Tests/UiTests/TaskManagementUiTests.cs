@@ -5,9 +5,6 @@ using OpenQA.Selenium.Appium.Enums;
 
 namespace TaskManagement.Mobile.Tests.UiTests;
 
-// todo; streamline the database seeders
-// todo: write readme for the tests, UI tests only work when triggered with a working/seeded emulator
-// todo: see if we can force theses tests to start on the mainpage.
 [TestFixture]
 public class TaskManagementAndroidUiTests
 {

@@ -7,7 +7,7 @@
              x:DataType="viewModels:TaskDetailsViewModel"
              BackgroundColor="{StaticResource LightGray}">
     <Shell.TitleView>
-        <Label Text="Taak:" Style="{StaticResource NavHeaderLabel}" />
+        <Label Text="Taak" Style="{StaticResource NavHeaderLabel}" />
     </Shell.TitleView>
 
     <Grid RowDefinitions="Auto,*">

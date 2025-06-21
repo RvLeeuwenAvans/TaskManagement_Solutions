@@ -39,6 +39,8 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+
+        <NoWarn>$(NoWarn);MVVMTK0045</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -60,51 +62,51 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
+        <PackageReference Include="CommunityToolkit.Maui" Version="11.2.0"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5"/>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\Pages\OverviewPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="src\Views\Controls\RoundedTopShadowView.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
+        <MauiXaml Update="Views\Pages\OverviewPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="src\Views\Controls\RoundedTopShadowView.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\Pages\OverviewPage.xaml.cs">
-        <DependentUpon>OverviewPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Remove="src\ViewModels\messages\AuthenticatedMessage.cs" />
-      <Compile Update="src\Views\Controls\RoundedTopShadowView.xaml.cs">
-        <DependentUpon>TopShadowViewRounded.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Views\Pages\OverviewPage.xaml.cs">
+            <DependentUpon>OverviewPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Remove="src\ViewModels\messages\AuthenticatedMessage.cs"/>
+        <Compile Update="src\Views\Controls\RoundedTopShadowView.xaml.cs">
+            <DependentUpon>TopShadowViewRounded.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Client\TaskManagement.Client\TaskManagement.Client.csproj" />
-      <ProjectReference Include="..\..\Shared\TaskManagement.DTO\TaskManagement.DTO.csproj" />
+        <ProjectReference Include="..\..\Client\TaskManagement.Client\TaskManagement.Client.csproj"/>
+        <ProjectReference Include="..\..\Shared\TaskManagement.DTO\TaskManagement.DTO.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Properties\appsettings.json" />
+        <EmbeddedResource Include="Properties\appsettings.json"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="src\" />
+        <Folder Include="src\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="src\Views\Pages\MainPage.xaml" />
-      <AdditionalFiles Include="src\Views\TaskCardView.xaml" />
+        <AdditionalFiles Include="src\Views\Pages\MainPage.xaml"/>
+        <AdditionalFiles Include="src\Views\TaskCardView.xaml"/>
     </ItemGroup>
 </Project>

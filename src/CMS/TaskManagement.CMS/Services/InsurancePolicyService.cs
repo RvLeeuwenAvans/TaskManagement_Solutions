@@ -5,7 +5,7 @@ using TaskManagement.DTO.Office.Relation.InsurancePolicy;
 namespace TaskManagement.CMS.Services;
 
 public class InsurancePolicyService(InsurancePolicyClient client, AuthenticationService authenticationService)
-    : AuthenticatedServiceBase(authenticationService)
+    : BaseAuthenticatedService(authenticationService)
 {
     public async Task<List<InsurancePolicyResponse>> GetByRelationAsync(Guid relationId,
         CancellationToken cancellationToken = default) =>

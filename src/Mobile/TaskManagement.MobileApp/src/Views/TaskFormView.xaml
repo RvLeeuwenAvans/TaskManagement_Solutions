@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- todo: there's a bug; not showing a warning when a task isnt created; nav stack pop doenst trigger tho
-so i probably forgot to add a log somewhere
 
-todo: I need to look at steamlining the eror handling 
--->
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
@@ -15,8 +11,8 @@ todo: I need to look at steamlining the eror handling
             <VerticalStackLayout Spacing="8">
                 <Label Text="Titel:" Style="{StaticResource LabelHeader}" />
                 <Grid>
-                    <Entry x:Name="TitleEntry"
-                           Style="{StaticResource BaseEntry}"
+                    <Entry
+                        Style="{StaticResource BaseEntry}"
                            Text="{Binding Title}"
                            Placeholder="Voer titel in..." />
                     <controls:TopShadowView />
@@ -64,8 +60,11 @@ todo: I need to look at steamlining the eror handling
                             Title="{OnPlatform iOS='Geen', Android='Geen'}"
                             ItemsSource="{Binding ManagedObjects}"
                             SelectedItem="{Binding LinkedObject}"
-                            ItemDisplayBinding="{Binding Name}"
-                            TextColor="{Binding LinkedObject.Type, Converter={StaticResource TypeToColorConverter}}" />
+                            ItemDisplayBinding="{Binding Name}">
+                        <Picker.TextColor>
+                            <Binding Path="LinkedObject.Type" Converter="{StaticResource TypeToColorConverter}" />
+                        </Picker.TextColor>
+                    </Picker>
                 </Border>
             </VerticalStackLayout>
         </VerticalStackLayout>

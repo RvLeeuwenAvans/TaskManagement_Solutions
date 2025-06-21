@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Interfaces;
 using TaskManagement.Application.Interfaces.Repositories;
+using TaskManagement.Domain.Office.User;
 using TaskManagement.Infrastructure.Persistence;
 using TaskManagement.Infrastructure.Persistence.Repositories;
 using TaskManagement.Infrastructure.Persistence.Seeders;
@@ -36,9 +38,20 @@ public static class InfrastructureService
         return services;
     }
 
-    public static async void SeedDatabase(this IServiceCollection services)
+    public static IServiceCollection AddDatabaseSeeders(this IServiceCollection services)
     {
-            var context = services.BuildServiceProvider().GetRequiredService<TaskManagementDatabaseContext>();
-            await DatabaseSeeder.SeedAsync(context);
+        services.AddScoped<ISeeder, OfficeSeeder>();
+        services.AddScoped<ISeeder, UserSeeder>();
+        services.AddScoped<ISeeder, RelationSeeder>();
+        services.AddScoped<ISeeder, DamageClaimSeeder>();
+        services.AddScoped<ISeeder, InsurancePolicySeeder>();
+        services.AddScoped<ISeeder, UserTaskSeeder>();
+        services.AddScoped<ISeeder, NoteSeeder>();
+        services.AddScoped<ISeeder, LinkedObjectSeeder>();
+
+        services.AddScoped<DatabaseSeederService>();
+        services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+        return services;
     }
 }

@@ -1,21 +1,34 @@
-﻿using TaskManagement.Domain.Office;
+﻿using Microsoft.Extensions.Logging;
+using TaskManagement.Domain.Office;
 
 namespace TaskManagement.Infrastructure.Persistence.Seeders;
 
-public static class OfficeSeeder
+public class OfficeSeeder(TaskManagementDatabaseContext context, ILogger<OfficeSeeder> logger)
+    : BaseSeeder(context, logger)
 {
-    public static async Task SeedAsync(TaskManagementDatabaseContext context)
-    {
-        if (!context.Offices.Any())
-        {
-            var offices = new List<Office>
-            {
-                new() { Name = "Neunen" },
-                new() { Name = "Eindhoven" }
-            };
+    public override int Order => 1;
+    public override string Name => "Offices";
 
-            await context.Offices.AddRangeAsync(offices);
-            await context.SaveChangesAsync();
+    public override async Task SeedAsync()
+    {
+        if (await HasDataAsync<Office>())
+        {
+            Logger.LogInformation("Offices already seeded, skipping...");
+            return;
         }
+
+        Logger.LogInformation("Seeding offices...");
+
+        var offices = new List<Office>
+        {
+            new() { Name = "Veldsink Neunen" },
+            new() { Name = "Hoodkantoor" },
+            new() { Name = "Veldsink Eindhoven" }
+        };
+
+        await Context.Offices.AddRangeAsync(offices);
+        await Context.SaveChangesAsync();
+
+        Logger.LogInformation("Seeded {Count} offices", offices.Count);
     }
 }

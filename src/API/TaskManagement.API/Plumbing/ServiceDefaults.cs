@@ -9,18 +9,12 @@ namespace TaskManagement.API.Plumbing;
 public static class ServiceDefaults
 {
     public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services,
-        IConfiguration configuration, bool development = true)
+        IConfiguration configuration)
     {
         services = ConfigureAuthenticationDefaults(services, configuration);
         
         services.ConfigureInfraDefaults(configuration);
         services.ConfigureAppDefaults();
-        
-        // Comment when running migration for the first time; otherwise it'll fail; i should prob move this.
-        if (development)
-        {
-            services.SeedDatabase();
-        }
 
         return services;
     }

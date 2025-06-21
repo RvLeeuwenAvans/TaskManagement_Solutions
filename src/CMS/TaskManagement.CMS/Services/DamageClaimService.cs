@@ -5,7 +5,7 @@ using TaskManagement.DTO.Office.Relation.DamageClaim;
 namespace TaskManagement.CMS.Services;
 
 public class DamageClaimService(DamageClaimClient client, AuthenticationService authenticationService)
-    : AuthenticatedServiceBase(authenticationService)
+    : BaseAuthenticatedService(authenticationService)
 {
     public async Task<List<DamageClaimResponse>> GetByRelationAsync(Guid relationId,
         CancellationToken cancellationToken = default) =>

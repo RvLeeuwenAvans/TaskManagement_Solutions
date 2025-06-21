@@ -1,22 +1,35 @@
-﻿using TaskManagement.Domain.Office.Relation.DamageClaim;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using TaskManagement.Domain.Office.Relation.DamageClaim;
 
 namespace TaskManagement.Infrastructure.Persistence.Seeders;
 
-public static class DamageClaimSeeder
+public class DamageClaimSeeder(TaskManagementDatabaseContext context, ILogger<DamageClaimSeeder> logger)
+    : BaseSeeder(context, logger)
 {
-    public static async Task SeedAsync(TaskManagementDatabaseContext context)
-    {
-        if (!context.DamageClaims.Any())
-        {
-            var relation = context.Relations.First();
-            var damageClaims = new List<DamageClaim>
-            {
-                new() { Type = "Fire", RelationId = relation.Id, Relation = relation },
-                new() { Type = "Flood", RelationId = relation.Id, Relation = relation }
-            };
+    public override int Order => 4;
+    public override string Name => "Damage Claims";
 
-            await context.DamageClaims.AddRangeAsync(damageClaims);
-            await context.SaveChangesAsync();
+    public override async Task SeedAsync()
+    {
+        if (await HasDataAsync<DamageClaim>()) 
+        {
+            Logger.LogInformation("Damage claims already seeded, skipping...");
+            return;
         }
+
+        Logger.LogInformation("Seeding damage claims...");
+
+        var relation = await Context.Relations.FirstAsync(r => r.FirstName == "Henk");
+        var damageClaims = new List<DamageClaim>
+        {
+            new() { Type = "Auto ongeluk", RelationId = relation.Id, Relation = relation },
+            new() { Type = "Waterschade", RelationId = relation.Id, Relation = relation },
+        };
+
+        await Context.DamageClaims.AddRangeAsync(damageClaims);
+        await Context.SaveChangesAsync();
+        
+        Logger.LogInformation("Seeded {Count} damage claims", damageClaims.Count);
     }
 }

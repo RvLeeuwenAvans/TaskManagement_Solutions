@@ -2,17 +2,20 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 using TaskManagement.API.Plumbing;
+using TaskManagement.Infrastructure.Persistence.Seeders;
+using TaskManagement.Infrastructure.Plumbing;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.ConfigureDefaultServices(
-    builder.Configuration,
-    builder.Environment.IsDevelopment()
+    builder.Configuration
 );
+
+// Add database seeders
+builder.Services.AddDatabaseSeeders();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(options =>
@@ -33,6 +36,16 @@ if (app.Environment.IsDevelopment())
         {
             await Task.Run(() => context.Response.Redirect("./swagger/index.html", permanent: false));
         });
+
+    // Seed database in development
+    await app.SeedDatabaseAsync();
+}
+
+// > dotnet run --seed
+if (args.Contains("--seed"))
+{
+    await app.SeedDatabaseAsync();
+    return;
 }
 
 app.UseHttpsRedirection();

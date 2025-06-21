@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Domain.Office.User;
 using TaskManagement.DTO.Office.User;
+using UserRole = TaskManagement.Domain.Office.User.UserRole;
 
 namespace TaskManagement.Application.Services;
 
@@ -14,11 +15,11 @@ public class UserService(
     IValidator<UpdateUser> updateValidator,
     IPasswordHasher<User> passwordHasher)
 {
-  public Task<List<UserResponse>> GetUsersFromOffice(Guid officeId)
+    public Task<List<UserResponse>> GetUsersFromOffice(Guid officeId)
     {
         var users = userRepository
             .GetAll()
-            .Where(u => u.OfficeId == officeId)
+            .Where(u => u.OfficeId == officeId && u.Role != UserRole.Admin)
             .ToList();
 
         var response = mapper.Map<List<UserResponse>>(users);
@@ -84,7 +85,7 @@ public class UserService(
     {
         return passwordHasher.HashPassword(user, password);
     }
-    
+
     internal Task<User?> GetUserByEmail(string email)
     {
         var user = userRepository.GetAll().FirstOrDefault(u => u.Email == email);

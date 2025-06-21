@@ -12,8 +12,8 @@ using TaskManagement.Infrastructure.Persistence;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementDatabaseContext))]
-    [Migration("20250621111731_remove_MaxLength_fromHashField")]
-    partial class remove_MaxLength_fromHashField
+    [Migration("20250621173605_SetupDatabaseMigration")]
+    partial class SetupDatabaseMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

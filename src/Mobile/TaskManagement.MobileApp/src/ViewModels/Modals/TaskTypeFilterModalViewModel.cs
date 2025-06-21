@@ -7,8 +7,7 @@ namespace TaskManagement.MobileApp.ViewModels.Modals;
 
 public partial class TaskTypeFilterModalViewModel(TaskTypeFilter currentFilter) : ObservableObject
 {
-    [ObservableProperty]
-    private TaskTypeFilter _selectedType = currentFilter;
+    [ObservableProperty] private TaskTypeFilter _selectedType = currentFilter;
 
     [RelayCommand]
     private async Task Confirm()

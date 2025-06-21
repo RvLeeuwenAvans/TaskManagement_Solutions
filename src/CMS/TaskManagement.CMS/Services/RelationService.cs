@@ -5,7 +5,7 @@ using TaskManagement.DTO.Office.Relation;
 namespace TaskManagement.CMS.Services;
 
 public class RelationService(RelationClient client, AuthenticationService authenticationService)
-    : AuthenticatedServiceBase(authenticationService)
+    : BaseAuthenticatedService(authenticationService)
 {
     public async Task<List<RelationResponse>> GetByOfficeAsync(Guid officeId,
         CancellationToken cancellationToken = default) =>
