@@ -28,7 +28,7 @@ public static class UserSeeder
                     FirstName = "Jane", 
                     LastName = "Smith", 
                     Email = "jane.smith@example.com",
-                    Password = "hashedpassword23", 
+                        Password = "hashedpassword23", 
                     OfficeId = office.Id,
                     Office = office
                 }

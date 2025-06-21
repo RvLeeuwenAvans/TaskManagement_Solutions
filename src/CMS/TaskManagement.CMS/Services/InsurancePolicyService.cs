@@ -1,45 +1,45 @@
 ﻿using TaskManagement.Client.Clients;
+using TaskManagement.CMS.Services.Authentication;
 using TaskManagement.DTO.Office.Relation.InsurancePolicy;
 
 namespace TaskManagement.CMS.Services;
 
-public class InsurancePolicyService(InsurancePolicyClient client)
+public class InsurancePolicyService(InsurancePolicyClient client, AuthenticationService authenticationService)
+    : AuthenticatedServiceBase(authenticationService)
 {
-    public async Task<List<InsurancePolicyResponse>> GetByRelationAsync(Guid relationId)
-    {
-        var policies = await client.GetPoliciesByRelationAsync(relationId);
-        return policies.ToList();
-    }
+    public async Task<List<InsurancePolicyResponse>> GetByRelationAsync(Guid relationId,
+        CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            client.GetPoliciesByRelationAsync(relationId, cancellationToken)
+                .ContinueWith(t => t.Result.ToList(), cancellationToken));
 
-    public async Task<InsurancePolicyResponse?> GetByIdAsync(Guid id)
-    {
-        return await client.GetPolicyByIdAsync(id);
-    }
+    public async Task<InsurancePolicyResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            client.GetPolicyByIdAsync(id, cancellationToken));
 
-    public async Task CreateAsync(Guid relationId, string type)
-    {
-        var createDto = new CreateInsurancePolicy
+    public async Task CreateAsync(Guid relationId, string type, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
         {
-            RelationId = relationId,
-            Type = type
-        };
+            var createDto = new CreateInsurancePolicy
+            {
+                RelationId = relationId,
+                Type = type
+            };
+            return client.CreatePolicyAsync(createDto, cancellationToken);
+        });
 
-        await client.CreatePolicyAsync(createDto);
-    }
-
-    public async Task UpdateAsync(Guid id, string? type)
-    {
-        var updateDto = new UpdateInsurancePolicy
+    public async Task UpdateAsync(Guid id, string? type, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
         {
-            Id = id,
-            Type = type
-        };
+            var updateDto = new UpdateInsurancePolicy
+            {
+                Id = id,
+                Type = type
+            };
+            return client.UpdatePolicyAsync(id, updateDto, cancellationToken);
+        });
 
-        await client.UpdatePolicyAsync(id, updateDto);
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        await client.DeletePolicyAsync(id);
-    }
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            client.DeletePolicyAsync(id, cancellationToken));
 }

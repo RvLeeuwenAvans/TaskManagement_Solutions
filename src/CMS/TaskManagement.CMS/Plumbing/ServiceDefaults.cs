@@ -17,7 +17,7 @@ public static class ServiceDefaults
         services.RegisterClients();
 
         // Singleton to maintain state across the application
-        services.AddSingleton<AuthenticationService>();
+        services.AddScoped<AuthenticationService>();
         
         services.AddScoped<OfficeService>();
         services.AddScoped<UserService>();

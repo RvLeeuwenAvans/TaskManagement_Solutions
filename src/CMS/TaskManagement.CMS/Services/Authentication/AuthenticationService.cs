@@ -1,12 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Components;
 using TaskManagement.Client.Clients;
 using TaskManagement.DTO.Office.User;
 
 namespace TaskManagement.CMS.Services.Authentication;
 
-public class AuthenticationService(UserAuthenticationClient authenticationClient)
+public class AuthenticationService(UserAuthenticationClient authenticationClient, NavigationManager navigationManager)
 {
     private Timer? _tokenExpirationTimer;
 
@@ -26,35 +27,41 @@ public class AuthenticationService(UserAuthenticationClient authenticationClient
             {
                 throw new Exception("Only administrators are allowed access to the CMS.");
             }
+
             // Logout when token expires
             SetupTokenExpirationTimer(expirationTime);
             IsAuthenticated = true;
             CurrentUserEmail = email;
-            
+
             AuthenticationStateChanged?.Invoke();
-            
+
             return true;
         }
         catch (Exception)
         {
-            await ClearExpirationLogout();
+            await LogoutAsync();
             return false;
         }
     }
 
     public async Task LogoutAsync()
     {
-        try
-        {
-            // unset token from clients
-            authenticationClient.Logout();
-        }
-        finally
-        {
-            await ClearExpirationLogout();
-        }
+        // unset token from clients
+        authenticationClient.Logout();
+
+        if (_tokenExpirationTimer != null) await _tokenExpirationTimer.DisposeAsync();
+        _tokenExpirationTimer = null;
+        IsAuthenticated = false;
+        CurrentUserEmail = null;
+
+        AuthenticationStateChanged?.Invoke();
+        
+        // Navigate to login page
+        navigationManager.NavigateTo("/login");
+        
+        await Task.CompletedTask;
     }
-    
+
     public Task<bool> EnsureAuthenticatedAsync()
     {
         return Task.FromResult(IsAuthenticated);
@@ -71,12 +78,12 @@ public class AuthenticationService(UserAuthenticationClient authenticationClient
         }
         catch (HttpRequestException ex) when (IsUnauthorized(ex))
         {
-            await ClearExpirationLogout();
+            await LogoutAsync();
             throw new UnauthorizedAccessException("Session expired. Please log in again.");
         }
         catch (Exception ex) when (IsUnauthorizedMessage(ex))
         {
-            await ClearExpirationLogout();
+            await LogoutAsync();
             throw new UnauthorizedAccessException("Session expired. Please log in again.");
         }
     }
@@ -92,16 +99,16 @@ public class AuthenticationService(UserAuthenticationClient authenticationClient
         }
         catch (HttpRequestException ex) when (IsUnauthorized(ex))
         {
-            await ClearExpirationLogout();
+            await LogoutAsync();
             throw new UnauthorizedAccessException("Token is invalid.");
         }
         catch (Exception ex) when (IsUnauthorizedMessage(ex))
         {
-            await ClearExpirationLogout();
+            await LogoutAsync();
             throw new UnauthorizedAccessException("Token is invalid.");
         }
     }
-    
+
     private static (string role, DateTime expiration) ParseJwtToken(string jwtToken)
     {
         var handler = new JwtSecurityTokenHandler();
@@ -132,18 +139,18 @@ public class AuthenticationService(UserAuthenticationClient authenticationClient
         // If the token expires in less than 1 minute, logout immediately
         if (timeUntilExpiration.TotalMinutes < 1)
         {
-            _ = Task.Run(async () => await ClearExpirationLogout());
+            _ = Task.Run(async () => await LogoutAsync());
             return;
         }
 
-        // Set the timer to logout 30 seconds before actual expiration
+        // Set the timer to log out 30 seconds before actual expiration
         var timerDuration = timeUntilExpiration.Subtract(TimeSpan.FromSeconds(30));
 
         _tokenExpirationTimer = new Timer(async void (_) =>
             {
                 try
                 {
-                    await ClearExpirationLogout();
+                    await LogoutAsync();
                 }
                 catch (Exception)
                 {
@@ -152,18 +159,7 @@ public class AuthenticationService(UserAuthenticationClient authenticationClient
             }, null, timerDuration,
             Timeout.InfiniteTimeSpan);
     }
-    
-    private async Task ClearExpirationLogout()
-    {
-        if (_tokenExpirationTimer != null) await _tokenExpirationTimer.DisposeAsync();
-        _tokenExpirationTimer = null;
-        IsAuthenticated = false;
-        CurrentUserEmail = null;
 
-        AuthenticationStateChanged?.Invoke();
-        await Task.CompletedTask;
-    }    
-    
     private static bool IsUnauthorized(HttpRequestException ex) =>
         ex.Data["StatusCode"]?.ToString() == nameof(HttpStatusCode.Unauthorized);
 
