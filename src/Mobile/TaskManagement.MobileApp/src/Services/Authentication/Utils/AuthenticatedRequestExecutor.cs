@@ -1,7 +1,6 @@
 ﻿using System.Net;
-using TaskManagement.MobileApp.Services.Authentication.Utils;
 
-namespace TaskManagement.MobileApp.Services.Authentication;
+namespace TaskManagement.MobileApp.Services.Authentication.Utils;
 
 public class AuthenticatedRequestExecutor(SessionManager sessionManager)
 {

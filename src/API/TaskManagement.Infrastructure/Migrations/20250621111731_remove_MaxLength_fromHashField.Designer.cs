@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infrastructure.Persistence;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementDatabaseContext))]
-    partial class TaskManagementDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250621111731_remove_MaxLength_fromHashField")]
+    partial class remove_MaxLength_fromHashField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

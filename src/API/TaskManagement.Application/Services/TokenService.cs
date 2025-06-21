@@ -36,7 +36,8 @@ public class TokenService(UserService userService, IConfiguration configuration)
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName)
+            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
