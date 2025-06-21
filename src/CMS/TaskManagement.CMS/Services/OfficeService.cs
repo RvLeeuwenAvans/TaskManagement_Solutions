@@ -1,35 +1,30 @@
 ﻿using TaskManagement.Client.Clients;
+using TaskManagement.CMS.Services.Authentication;
 using TaskManagement.DTO.Office;
 
 namespace TaskManagement.CMS.Services;
 
-public class OfficeService(OfficeClient officeClient, UserAuthenticationClient authenticationClient)
+public class OfficeService(OfficeClient officeClient, AuthenticationService authenticationService)
+    : AuthenticatedServiceBase(authenticationService)
 {
-    public async Task<List<OfficeResponse>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        await authenticationClient.AuthenticateUserAsync("jane.smith@example.com", "hashedpassword23");
-        return (await officeClient.GetAllOfficesAsync(cancellationToken)).ToList();
-    }
+    public async Task<List<OfficeResponse>> GetAllAsync(CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            officeClient.GetAllOfficesAsync(cancellationToken)
+                .ContinueWith(t => t.Result.ToList(), cancellationToken));
 
-    public async Task<OfficeResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        return await officeClient.GetOfficeByIdAsync(id, cancellationToken);
-    }
+    public async Task<OfficeResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            officeClient.GetOfficeByIdAsync(id, cancellationToken));
 
-    public async Task CreateAsync(string name, CancellationToken cancellationToken = default)
-    {
-        var dto = new CreateOffice { Name = name };
-        await officeClient.CreateOfficeAsync(dto, cancellationToken);
-    }
+    public async Task CreateAsync(string name, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            officeClient.CreateOfficeAsync(new CreateOffice { Name = name }, cancellationToken));
 
-    public async Task UpdateAsync(Guid id, string name, CancellationToken cancellationToken = default)
-    {
-        var dto = new UpdateOffice { Id = id, Name = name };
-        await officeClient.UpdateOfficeAsync(id, dto, cancellationToken);
-    }
+    public async Task UpdateAsync(Guid id, string name, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            officeClient.UpdateOfficeAsync(id, new UpdateOffice { Id = id, Name = name }, cancellationToken));
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        await officeClient.DeleteOfficeAsync(id, cancellationToken);
-    }
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            officeClient.DeleteOfficeAsync(id, cancellationToken));
 }

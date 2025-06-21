@@ -22,11 +22,17 @@ public class User
     public required string LastName { get; set; }
     
     [Required]
+    // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
+    // Im not gonna determine a max length in the DB cause i have no clue how long the hash is going to be.
     public required string Password { get; set; }
     
     [Required]
     [MaxLength(50)]
     public required string Email { get; set; }
+    
+    [Required]
+    [Column(TypeName = "varchar(10)")] 
+    public UserRole Role { get; set; } = UserRole.User;
     
     // Parent Foreign key attributes:
     [Required]

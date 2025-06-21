@@ -1,0 +1,135 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using TaskManagement.CMS.Services.Authentication
+
+@inject AuthenticationService AuthService
+@inject NavigationManager NavManager
+@inject ISnackbar Snackbar
+
+<PageTitle>Login - TaskManagement CMS</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="pa-4">
+    <MudPaper Class="pa-8 mt-8" Elevation="4">
+        <div class="d-flex flex-column align-center mb-6">
+            <MudIcon Icon="Icons.Material.Filled.Lock" Size="Size.Large" Color="Color.Primary" Class="mb-4"/>
+            <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-2"> Office CMS</MudText>
+        </div>
+
+        <EditForm Model="@_loginModel" OnValidSubmit="@HandleLogin">
+            <DataAnnotationsValidator/>
+
+            <MudStack Spacing="4">
+                <MudTextField @bind-Value="_loginModel.Email"
+                              Label="Email"
+                              Variant="Variant.Outlined"
+                              InputType="InputType.Email"
+                              Required="true"
+                              RequiredError="Email is required"
+                              Validation="@(new EmailAddressAttribute { ErrorMessage = "Please enter a valid email address" })"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Email"/>
+
+                <MudTextField @bind-Value="_loginModel.Password"
+                              Label="Password"
+                              Variant="Variant.Outlined"
+                              InputType="@_passwordInput"
+                              Required="true"
+                              RequiredError="Password is required"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@_passwordInputIcon"
+                              OnAdornmentClick="TogglePasswordVisibility"/>
+
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           FullWidth="true"
+                           Disabled="@_isLoading"
+                           Class="mt-4">
+                    @if (_isLoading)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                        <MudText Class="ms-2">Signing in...</MudText>
+                    }
+                    else
+                    {
+                        <MudText>Sign In</MudText>
+                    }
+                </MudButton>
+            </MudStack>
+        </EditForm>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private readonly LoginModel _loginModel = new();
+    private bool _isLoading;
+    private bool _isPasswordVisible;
+
+    private InputType _passwordInput = InputType.Password;
+    private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    protected override Task OnInitializedAsync()
+    {
+        // If user is already authenticated, redirect to home
+        if (AuthService.IsAuthenticated)
+        {
+            NavManager.NavigateTo("/");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task HandleLogin()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            var success = await AuthService.LoginAsync(_loginModel.Email!, _loginModel.Password!);
+
+            if (success)
+            {
+                Snackbar.Add($"Succesfully authenticated, {_loginModel.Email}!", Severity.Success);
+                NavManager.NavigateTo("/");
+            }
+            else
+            {
+                Snackbar.Add("Invalid email or password. Please try again.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Login failed: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        if (_isPasswordVisible)
+        {
+            _isPasswordVisible = false;
+            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            _passwordInput = InputType.Password;
+        }
+        else
+        {
+            _isPasswordVisible = true;
+            _passwordInputIcon = Icons.Material.Filled.Visibility;
+            _passwordInput = InputType.Text;
+        }
+    }
+
+    private class LoginModel
+    {
+        [Required] [EmailAddress] public string? Email { get; set; }
+        [Required] public string? Password { get; set; }
+    }
+
+}

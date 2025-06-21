@@ -1,54 +1,49 @@
 ﻿using TaskManagement.Client.Clients;
+using TaskManagement.CMS.Services.Authentication;
 using TaskManagement.DTO.Office.Relation;
 
 namespace TaskManagement.CMS.Services;
 
-public class RelationService
+public class RelationService(RelationClient client, AuthenticationService authenticationService)
+    : AuthenticatedServiceBase(authenticationService)
 {
-    private readonly RelationClient _client;
+    public async Task<List<RelationResponse>> GetByOfficeAsync(Guid officeId,
+        CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            client.GetRelationsByOfficeAsync(officeId, cancellationToken)
+                .ContinueWith(t => t.Result?.ToList() ?? new List<RelationResponse>(), cancellationToken));
 
-    public RelationService(RelationClient client)
-    {
-        _client = client;
-    }
+    public async Task<RelationResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            client.GetRelationByIdAsync(id, cancellationToken));
 
-    public async Task<List<RelationResponse>> GetByOfficeAsync(Guid officeId)
-    {
-        var relations = await _client.GetRelationsByOfficeAsync(officeId);
-        return relations?.ToList() ?? new List<RelationResponse>();
-    }
-
-    public async Task<RelationResponse?> GetByIdAsync(Guid id)
-    {
-        return await _client.GetRelationByIdAsync(id);
-    }
-
-    public async Task CreateAsync(Guid officeId, string firstName, string lastName)
-    {
-        var createDto = new CreateRelation
+    public async Task CreateAsync(Guid officeId, string firstName, string lastName,
+        CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
         {
-            OfficeId = officeId,
-            FirstName = firstName,
-            LastName = lastName
-        };
+            var createDto = new CreateRelation
+            {
+                OfficeId = officeId,
+                FirstName = firstName,
+                LastName = lastName
+            };
+            return client.CreateRelationAsync(createDto, cancellationToken);
+        });
 
-        await _client.CreateRelationAsync(createDto);
-    }
-
-    public async Task UpdateAsync(Guid id, string firstName, string lastName)
-    {
-        var updateDto = new UpdateRelation
+    public async Task UpdateAsync(Guid id, string firstName, string lastName,
+        CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
         {
-            Id = id,
-            FirstName = firstName,
-            LastName = lastName
-        };
+            var updateDto = new UpdateRelation
+            {
+                Id = id,
+                FirstName = firstName,
+                LastName = lastName
+            };
+            return client.UpdateRelationAsync(id, updateDto, cancellationToken);
+        });
 
-        await _client.UpdateRelationAsync(id, updateDto);
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        await _client.DeleteRelationAsync(id);
-    }
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await ExecuteIfAuthenticatedAsync(() =>
+            client.DeleteRelationAsync(id, cancellationToken));
 }

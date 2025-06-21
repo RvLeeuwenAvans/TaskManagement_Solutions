@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using TaskManagement.DTO.Office.User;
 using TaskManagement.MobileApp.Models.Interfaces;
 using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
@@ -39,6 +40,16 @@ public class AuthenticationService(IUserContext userContext, IAuthRepository aut
 
         if (userIdClaim == null)
             throw new Exception("UserId not found");
+        
+        var roleClaim = jwt.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role);
+        
+        if (roleClaim == null)
+            throw new Exception("Role not found");
+        
+        if (roleClaim.Value == nameof(UserRole.Admin))
+        {
+            throw new Exception("Administrators are only allowed access to the CMS.");
+        }
 
         return Guid.Parse(userIdClaim.Value);
     }
