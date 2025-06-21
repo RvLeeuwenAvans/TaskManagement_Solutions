@@ -1,7 +1,7 @@
 ﻿using TaskManagement.Client.Clients;
 using TaskManagement.MobileApp.Services.Repositories.Interfaces;
 
-namespace TaskManagement.MobileApp.Services.Authentication;
+namespace TaskManagement.MobileApp.Services.Repositories;
 
 public class AuthRepository(UserAuthenticationClient client): IAuthRepository
 {

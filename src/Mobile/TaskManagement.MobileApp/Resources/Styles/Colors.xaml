@@ -23,6 +23,16 @@
     <Color x:Key="DateLabelPastText">#919191</Color>
     <Color x:Key="TextGray">Gray</Color>
     <Color x:Key="PolicyBrown">#723A13</Color>
+    <Color x:Key="TaskDeadlineBadgeBackground">#FFE082</Color>
+    <Color x:Key="TaskDeadlineLabelText">#6D4C00</Color>
+    <Color x:Key="NotesHeaderText">#2E2E2E</Color>
+    <Color x:Key="TaskDescriptionShadow">#55000000</Color>
+    <Color x:Key="NoteCardBackground">White</Color>
+    <Color x:Key="NoteCardBorderStroke">LightGray</Color>
+    <Color x:Key="NoteCardShadowColor">#55000000</Color>
+    <Color x:Key="NoteCardHeaderText">Gray</Color>
+    <Color x:Key="NoteCardContentText">Black</Color>
+    <Color x:Key="NoteCardTimestampText">Gray</Color>
     <!-- end custom -->
     
     <Color x:Key="PrimaryDarkText">#242424</Color>

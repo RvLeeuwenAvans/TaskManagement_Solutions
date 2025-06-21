@@ -30,7 +30,7 @@ public partial class TaskCardViewModel(
     {
         if (await taskService.CloseTaskAsync(Model.Id))
         {
-            WeakReferenceMessenger.Default.Send(new TaskAddedMessage(true));
+            WeakReferenceMessenger.Default.Send(new TaskClosedMessage(true));
             await Shell.Current.Navigation.PopAsync();
         }
     }
@@ -38,6 +38,12 @@ public partial class TaskCardViewModel(
     [RelayCommand]
     private async Task NavigateToUpdateTask()
     {
-        await Shell.Current.GoToAsync($"UpdateTaskPage?taskId={Model.Id}");
+        await Shell.Current.GoToAsync($"task/edit?taskId={Model.Id}");
+    }
+    
+    [RelayCommand]
+    private async Task NavigateToTaskDetails()
+    {
+        await Shell.Current.GoToAsync($"task/details?taskId={Model.Id}");
     }
 }

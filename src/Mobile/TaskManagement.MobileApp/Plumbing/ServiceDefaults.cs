@@ -39,14 +39,15 @@ public static class ServiceDefaults
         services.AddSingleton<IOfficeRepository, OfficeRepository>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<OfficeService>();
-
+        
+        services.AddSingleton<INoteRepository, NoteRepository>();
         services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddSingleton<TaskService>();
 
         services.AddSingleton<ILinkedObjectRepository, LinkedObjectRepository>();
         services.AddSingleton<LinkedObjectService>();
 
-        // Popups; using ContentPages as Model; because the toolkit version is way too unstable on android.
+        // Popups; using ContentPages as Modal; because the toolkit version is way too unstable on android.
         services.AddTransient<TaskTypeFilterModalViewModel>();
         services.AddTransient<TaskTypeFilterModal>();
         

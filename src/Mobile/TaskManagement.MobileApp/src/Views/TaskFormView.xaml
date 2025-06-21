@@ -58,6 +58,8 @@ todo: I need to look at steamlining the eror handling
                 Which i find a bit odd but: https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/picker?view=net-maui-9.0
                 Also this doesnt work on winUI so we only set it on IOS and android. -->
                 <Border Style="{StaticResource PickerBorder}">
+                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved; 
+                    Name binding resolves, just problem with static compiler reflection i think. -->
                     <Picker Style="{StaticResource BasePicker}"
                             Title="{OnPlatform iOS='Geen', Android='Geen'}"
                             ItemsSource="{Binding ManagedObjects}"

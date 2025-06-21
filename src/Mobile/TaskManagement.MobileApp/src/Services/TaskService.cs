@@ -1,4 +1,5 @@
 ﻿using TaskManagement.DTO.Office.User.Task;
+using TaskManagement.DTO.Office.User.Task.Note;
 using TaskManagement.MobileApp.Models;
 using TaskManagement.MobileApp.Models.Collections;
 using TaskManagement.MobileApp.Models.Interfaces;
@@ -10,6 +11,7 @@ namespace TaskManagement.MobileApp.Services;
 public class TaskService(
     IUserContext userContext,
     ITaskRepository taskRepository,
+    INoteRepository noteRepository,
     LinkedObjectService linkedObjectService)
 {
     public async Task<List<UserTaskCardItem>> GetCurrentUserTasksAsync()
@@ -21,6 +23,39 @@ public class TaskService(
     public async Task<UserTaskResponse> GetTaskByIdAsync(Guid taskId)
     {
         return await taskRepository.GetTaskAsync(taskId);
+    }
+
+    public async Task<List<NoteResponse>> GetNotesByTaskIdAsync(Guid taskId)
+    {
+        return await noteRepository.GetNotesAsync(taskId);
+    }
+
+    public async Task<bool> CreateNoteAsync(Guid taskId, string content)
+    {
+        try
+        {
+            await noteRepository.CreateNoteAsync(new CreateNote { TaskId = taskId, Content = content });
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteNoteIdAsync(Guid noteId)
+    {
+        try
+        {
+            await noteRepository.DeleteNoteAsync(noteId);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
     }
 
     public async Task<bool> CreateTaskAsync(UserTask taskToCreate, UserItem taskCreator)
@@ -37,7 +72,7 @@ public class TaskService(
             });
 
             if (taskToCreate.LinkedObject is null) return true;
-            
+
             try
             {
                 await linkedObjectService.CreateLinkedObjectAsync(createdTask, taskToCreate.LinkedObject);
@@ -45,7 +80,8 @@ public class TaskService(
             catch (Exception e)
             {
                 // Task is created, but linked object fails; still return true
-                await Shell.Current.DisplayAlert("Warning", "The task was created, but linking the object failed.", "OK");
+                await Shell.Current.DisplayAlert("Warning", "The task was created, but linking the object failed.",
+                    "OK");
                 Console.WriteLine(e);
             }
 

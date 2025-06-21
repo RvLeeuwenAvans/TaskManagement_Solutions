@@ -1,0 +1,125 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:TaskManagement.MobileApp.Views.Controls"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
+             xmlns:views="clr-namespace:TaskManagement.MobileApp.Views"
+             x:Class="TaskManagement.MobileApp.Views.Pages.TaskDetailsPage"
+             x:DataType="viewModels:TaskDetailsViewModel"
+             BackgroundColor="{StaticResource LightGray}">
+    <Shell.TitleView>
+        <Label Text="Taak:" Style="{StaticResource NavHeaderLabel}" />
+    </Shell.TitleView>
+
+    <Grid RowDefinitions="Auto,*">
+        <StackLayout
+            IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Loading}"
+            Style="{StaticResource StateStack}">
+            <ActivityIndicator IsRunning="True" />
+            <Label Text="Loading tasks..." />
+        </StackLayout>
+        <StackLayout
+            IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Empty}"
+            Style="{StaticResource StateStack}">
+            <Label Text="No task found." />
+        </StackLayout>
+        <StackLayout
+            IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Error}"
+            Style="{StaticResource StateStack}">
+            <Label Text="An error occurred while loading tasks."
+                   Style="{StaticResource ErrorLabel}" />
+        </StackLayout>
+        <Grid
+            IsVisible="{Binding CurrentState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Success}"
+            RowDefinitions="Auto,*">
+            <VerticalStackLayout Grid.Row="0" ZIndex="1">
+                <!-- Task Header Bar -->
+                <Grid Style="{StaticResource TaskHeaderBar}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding TaskTitle}"
+                           Style="{StaticResource SubheaderText}"
+                           Grid.ColumnSpan="2" />
+                    <ImageButton Source="edit_icon_white.png"
+                                 Grid.Column="1"
+                                 BackgroundColor="Transparent"
+                                 WidthRequest="28"
+                                 HeightRequest="28"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="End"
+                                 Scale="0.7"
+                                 Command="{Binding NavigateToUpdateTaskCommand}" />
+                </Grid>
+                <Border BackgroundColor="#E0E0E0"
+                        Padding="0"
+                        StrokeThickness="0"
+                        Shadow="2,2,4, #55000000">
+                    <VerticalStackLayout Spacing="12" Padding="16,16,16,0">
+                        <!-- Deadline Badge -->
+                        <Border Style="{StaticResource DeadlineBadgeBorder}">
+                            <Label Text="{Binding DueDate, StringFormat='Deadline: {0:dd MMM yyyy}'}"
+                                   Style="{StaticResource DeadlineLabel}" />
+                        </Border>
+                        <!-- Description -->
+                        <Border Style="{StaticResource DescriptionBorder}">
+                            <ScrollView>
+                                <VerticalStackLayout Spacing="4" Padding="8">
+                                    <Label Text="Omschrijving:"
+                                           Style="{StaticResource DescriptionHeaderLabel}" />
+                                    <Label Text="{Binding Description}"
+                                           Style="{StaticResource DescriptionTextLabel}" />
+                                </VerticalStackLayout>
+                            </ScrollView>
+                        </Border>
+                        <!-- Linked Object -->
+                        <Grid Margin="0,8,0,0">
+                            <Border Style="{StaticResource LinkedObjectBorder}">
+                                <HorizontalStackLayout Spacing="12">
+                                    <Border Style="{StaticResource CardAvatarBorder}">
+                                        <Label Text="{Binding LinkedObject.Name[0], FallbackValue='X'}"
+                                               Style="{StaticResource CardAvatarInitial}" />
+                                    </Border>
+                                    <VerticalStackLayout VerticalOptions="Center">
+                                        <Label Text="Gerelateerd object:"
+                                               Style="{StaticResource LinkedObjectTitleLabel}" />
+
+                                        <Label
+                                            Text="{Binding LinkedObject.Name, FallbackValue='geen gekoppeld object'}"
+                                            Style="{StaticResource LinkedObjectNameLabel}"
+                                            TextColor="{Binding LinkedObject.Type, Converter={StaticResource TypeToColorConverter}, FallbackValue={StaticResource TextGray}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Border>
+                            <controls:RoundedTopShadowView />
+                        </Grid>
+                        <!-- Notes Header -->
+                        <VerticalStackLayout Padding="0,0,0,4" Spacing="8">
+                            <Grid Style="{StaticResource NotesHeaderGrid}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Notities"
+                                       Grid.ColumnSpan="2"
+                                       Style="{StaticResource NotesHeaderLabel}" />
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource AddNoteButton}"
+                                        Command="{Binding AddNoteCommand}" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+            <!-- Notes List -->
+            <CollectionView Grid.Row="1" ZIndex="0"
+                            ItemsSource="{Binding Notes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:NoteItemViewModel">
+                        <views:NoteCardView />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

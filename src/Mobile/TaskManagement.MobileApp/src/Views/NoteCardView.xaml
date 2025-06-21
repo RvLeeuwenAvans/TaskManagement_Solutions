@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView x:Class="TaskManagement.MobileApp.Views.NoteCardView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TaskManagement.MobileApp.ViewModels"
+             x:DataType="viewModels:NoteItemViewModel">
+    <Border Style="{StaticResource NoteCardBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <!-- Note Content -->
+            <StackLayout Grid.Row="0"
+                         Grid.Column="1"
+                         Grid.RowSpan="2"
+                         Spacing="4"
+                         VerticalOptions="Center">
+                <Label Text="Notitie:"
+                       Style="{StaticResource NoteCardHeaderLabel}" />
+                <Label Text="{Binding Content}"
+                       Style="{StaticResource NoteCardContentLabel}" />
+                <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                       Style="{StaticResource NoteCardTimestampLabel}" />
+            </StackLayout>
+            <!-- Delete Button -->
+            <ImageButton Grid.Row="0"
+                         Grid.Column="2"
+                         Source="delete_icon.png"
+                         Style="{StaticResource NoteCardDeleteButton}"
+                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TaskDetailsViewModel}}, Path=DeleteNoteCommand}"
+                         CommandParameter="{Binding .}"
+                         IsVisible="{Binding CanDelete}" />
+        </Grid>
+    </Border>
+</ContentView>

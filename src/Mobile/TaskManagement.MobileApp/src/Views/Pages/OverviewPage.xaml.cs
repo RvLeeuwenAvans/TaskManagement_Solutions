@@ -8,6 +8,6 @@ public partial class OverviewPage : ContentPage
     public OverviewPage(TaskService taskService, OfficeService officeService, LinkedObjectService linkedObjectService)
     {
         InitializeComponent();
-        BindingContext =  new OverviewPageViewModel(taskService, officeService, linkedObjectService);;
+        BindingContext =  new OverviewViewModel(taskService, officeService, linkedObjectService);;
     }
 }
